@@ -10,24 +10,25 @@ const Navbar: NextComponentType = () => {
                     <Image src="/campin-logo.png" width={100} height={100}/>
                 </div>
             </a></Link>
-            <Link href="/posts"><a>Posts</a></Link>
-            <Link href="/about"><a>About</a></Link>
-            {/* <style jsx>{`
+            <div className="nav-buttons">
+                <Link href="/posts"><a>Posts</a></Link>
+                <Link href="/about"><a>About</a></Link>  
+            </div>
+
+            <style jsx>{`
                 nav {
                     margin: 10px auto 80px;
                     padding: 10px 0;
                     display: flex;
-                    justify-content: flex-end;
-                    align-items: flex-end;
+                    justify-content:space-between;
+                    align-items: center;
                     border-bottom: 1px solid #ddd;
                 }
                 nav a {
                     margin-left: 12px;
+                    margin-right: 18px
                 }
-                nav .logo {
-                    margin-right: auto;
-                }
-            `}</style>   */}
+            `}</style>  
         </nav>
     )
 }

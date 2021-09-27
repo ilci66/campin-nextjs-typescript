@@ -11,8 +11,6 @@ const Home: NextPage = () => {
         <meta name="description" content="A website dedicated to relaxing and liberating activity of camping" />
         <link rel="icon" href="/favicon-c.ico" />
       </Head>
-
-
     </div>
   )
 }
