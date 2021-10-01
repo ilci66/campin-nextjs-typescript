@@ -11,8 +11,10 @@ const Navbar: NextComponentType = () => {
                 </div>
             </a></Link>
             <div className="nav-buttons">
-                <Link href="/posts"><a>Posts</a></Link>
                 <Link href="/about"><a>About</a></Link>  
+                <Link href="/map"><a>Map</a></Link>
+                <Link href="/posts"><a>Posts</a></Link>
+                <Link href="/profile"><a>Your Profile</a></Link>
             </div>
 
             <style jsx>{`
