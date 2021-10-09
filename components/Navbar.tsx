@@ -14,9 +14,8 @@ const Navbar: NextComponentType = () => {
                 <Link href="/about"><a>About</a></Link>  
                 <Link href="/map"><a>Map</a></Link>
                 <Link href="/posts"><a>Posts</a></Link>
-                <Link href="/profile"><a>Your Profile</a></Link>
+                <Link href="/profile"><a>Your Profile/Sign in Modal</a></Link>
             </div>
-
             <style jsx>{`
                 nav {
                     margin: 10px auto 80px;
