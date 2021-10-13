@@ -18,7 +18,7 @@ a {
   font-size: 1.5rem;
   color: inherit;
   text-decoration: none;
-}
+} 
 nav {
   margin: 10px auto 80px;
   padding: 10px 0;
@@ -27,6 +27,7 @@ nav {
   align-items: center;
   border-bottom: 1px solid #ddd;
 }
+
 nav a {
   margin-left: 12px;
   margin-right: 18px
@@ -39,6 +40,11 @@ nav a:hover {
   padding:1rem;
   background-color:white;
   box-shadow: none;
+  border: 0;
+  cursor: pointer;
+}
+.sign-in:hover {
+  color: rgb(0, 105, 131);
 }
 
 .container {
@@ -59,8 +65,26 @@ footer {
   justify-content: center;
   align-items: center;
 }
-.content {
+.content-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
   margin-bottom: 10rem;
+}
+.row {
+  border: 2px solid red;
+  display:flex;
+}
+.content-limiter {
+  width: 90%;
+}
+.content-text {
+  border: 2px solid yellow;
+  width: 40%;
+}
+.row img {
+  width: 40%;
 }
 /* .content h1{
   font-size: 5vw;

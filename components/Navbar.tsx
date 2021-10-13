@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { NextComponentType } from 'next';
+import { useState } from 'react'
 
 const Navbar: NextComponentType = () => {
 
@@ -17,7 +18,7 @@ const Navbar: NextComponentType = () => {
                 <Link href="/map"><a>Map</a></Link>
                 <Link href="/posts"><a>Posts</a></Link>
                 {/* <Link href="/profile"><a>Sign in</a></Link> */}
-                <Link href=""><a className="sign-in">Sign In</a></Link>
+                <button className="sign-in" onClick={() => {alert("wanna sign in")}}>Sign In</button>
             </div>
         </nav>
     )
