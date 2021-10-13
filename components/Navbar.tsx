@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { NextComponentType } from 'next';
 
 const Navbar: NextComponentType = () => {
+
+    
     return (
         <nav>
             <Link href="/"><a>
@@ -14,22 +16,9 @@ const Navbar: NextComponentType = () => {
                 <Link href="/about"><a>About</a></Link>  
                 <Link href="/map"><a>Map</a></Link>
                 <Link href="/posts"><a>Posts</a></Link>
-                <Link href="/profile"><a>Your Profile/Sign in Modal</a></Link>
+                {/* <Link href="/profile"><a>Sign in</a></Link> */}
+                <Link href=""><a className="sign-in">Sign In</a></Link>
             </div>
-            <style jsx>{`
-                nav {
-                    margin: 10px auto 80px;
-                    padding: 10px 0;
-                    display: flex;
-                    justify-content:space-between;
-                    align-items: center;
-                    border-bottom: 1px solid #ddd;
-                }
-                nav a {
-                    margin-left: 12px;
-                    margin-right: 18px
-                }
-            `}</style>  
         </nav>
     )
 }
