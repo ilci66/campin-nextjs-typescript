@@ -10,7 +10,9 @@ body {
   background-size: cover; */
 }
 
-
+img {
+  max-width: 100%
+}
 * {
   box-sizing: border-box;
 }
@@ -20,7 +22,7 @@ a {
   text-decoration: none;
 } 
 nav {
-  margin: 10px auto 80px;
+  /* margin: 10px auto 80px; */
   padding: 10px 0;
   display: flex;
   justify-content:space-between;
@@ -32,20 +34,20 @@ nav a {
   margin-left: 12px;
   margin-right: 18px
 }
-nav a:hover {
+nav a:hover, .sign-in:hover {
   color: rgb(0, 105, 131);
 }
 .sign-in {
   font-size:1.5rem;
   padding:1rem;
   background-color:white;
-  box-shadow: none;
+  /* box-shadow: none; */
   border: 0;
   cursor: pointer;
 }
-.sign-in:hover {
+/* .sign-in:hover {
   color: rgb(0, 105, 131);
-}
+} */
 
 .container {
   position:relative;
@@ -53,37 +55,45 @@ nav a:hover {
   max-width:960px;
   margin: 0 auto;
   min-height: 100vh;
-  height: 100%; 
+  /* height: 100%;  */
 }
 footer {
   margin-top: 10rem;
   position: absolute;
   bottom:0;
-  padding: 1vw;
+  padding: 0.5rem;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .content-container {
+  /* border: 2px solid blue; */
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   flex-direction: column;
   margin-bottom: 10rem;
 }
+/* .content-box{
+} */
 .row {
-  border: 2px solid red;
+  justify-content: space-between;
+  /* border: 2px solid red; */
+  border-bottom: 1px solid rgb(255, 188, 188);
+  padding: 60px 0;
   display:flex;
 }
-.content-limiter {
-  width: 90%;
-}
 .content-text {
+  /* align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; */
   border: 2px solid yellow;
-  width: 40%;
+  width: 55%;
 }
 .row img {
+  align-self: flex-start;
   width: 40%;
 }
 /* .content h1{

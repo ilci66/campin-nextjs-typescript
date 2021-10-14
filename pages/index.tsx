@@ -12,20 +12,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon-c.ico" />
       </Head>
       <div className="content-container">
-        <div className="content-box ">
-          <div className="content-limiter row">
-            <img src='/dear-dawn.jpg' />
-            <div className="content-text">
-              <h1>Some Content Example For Design</h1>
-              <p>
-                Enim dolor ut sint incididunt anim non magna. Id laborum ex amet fugiat eiusmod nulla veniam dolore aliqua dolore velit duis aliquip. Aliquip laboris sit deserunt nulla eiusmod.<br/>
-              </p>
-            </div>
-          </div>
-          
-        </div>
-        <div className="content-box row">
-          
+      <div className="content-box row">
           <img src='/dear-dawn.jpg'/>
           <div className="content-text">
             <h1>Some Content Example For Design</h1>
@@ -33,6 +20,15 @@ const Home: NextPage = () => {
               Enim dolor ut sint incididunt anim non magna. Id laborum ex amet fugiat eiusmod nulla veniam dolore aliqua dolore velit duis aliquip. Aliquip laboris sit deserunt nulla eiusmod.<br/>
             </p>
           </div>
+        </div>
+        <div className="content-box row">
+          <div className="content-text">
+            <h1>Some Content Example For Design</h1>
+            <p>
+              Enim dolor ut sint incididunt anim non magna. Id laborum ex amet fugiat eiusmod nulla veniam dolore aliqua dolore velit duis aliquip. Aliquip laboris sit deserunt nulla eiusmod.<br/>
+            </p>
+          </div>
+          <img src='/dear-dawn.jpg'/>
         </div>
       </div>
         
