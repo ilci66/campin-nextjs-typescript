@@ -11,9 +11,6 @@ const Navbar: NextComponentType = () => {
     // gonna have to take a second look here for properly assigning types later
     
     // const modal: HTMLElement = document.getElementById('my-modal') !;
-    // const navSignIn: HTMLElement = document.getElementById('nav-sign-in')!;
-    // const modalClose: HTMLElement = document.getElementById('modal-close-button')!;
-    // const modalSignIn: HTMLElement = document.getElementById('modal-sign-in')!;
  
     const handleShowModal = () => {
         setShow(true)
@@ -24,31 +21,30 @@ const Navbar: NextComponentType = () => {
         setHide(true)
     }
     useEffect(()=>{
-        if(window){
-            const modal = document.getElementById('my-modal') !;
+        console.log("show ==>", show, "--", "hide ==>", "--", hide)
+        if(window && show === true){
+            const modal: HTMLElement = document.getElementById('my-modal')!;
             window.onclick = (event) => {
                 const { target } = event
-                console.log(target == modal)
-                if (event.target == modal) {
-                    console.log('action on modal')
+                // console.log(target == modal)
+
+                if (target == modal) {
                     modal.style.display = "none";
-                    console.log('should close')
-                }else{console.log('target is not modal')}
+                    setShow(false)
+                    setHide(true)
+                    // console.log('should close')
+                }
             }
         }
     },
-    [])
+    [show, hide])
 
     useEffect(() => {
         const modal = document.getElementById('my-modal') !;
-        // console.log(modal)
-        console.log("display ==> ", modal.style.display)
         if(show && !hide){
             modal.style.display = "block"
-            console.log('supposed to show')
         }else if(!show && hide) {
             modal.style.display = "none"
-            console.log('supposed to hide')
         }
     }, [show, hide])
 
@@ -57,24 +53,28 @@ const Navbar: NextComponentType = () => {
         <div id="my-modal" className="modal">
             <div className="modal-content">
                 <div className="modal-header">
-                    <h2 className="modal-header">This be me modal mon!</h2>
+                    <h2 className="modal-header">Hello Camper!</h2>
                     <button id="modal-close-button" className="modal-close" onClick={handleCloseModal}>
                         Close
                     </button>
                 </div>
                 <div className="modal-body">
                     <form action="" className="modal-form">
+                        <div className="input-box">
+                            <input id="sign-in-email" type="text" autoComplete="email" required />   
+                            <label htmlFor="email">Email</label>
+                        </div>
+                        <div className="input-box">
+                            <input id="sign-in-password" type="password" required />
+                            <label htmlFor="password">Password</label>
+                        </div>
                         <button id="modal-sign-in" className="modal-sign-in">Sign in</button>
                     </form>
 
                 </div>
                 <div className="modal-footer">
                     <p className="modal-footer-text">Don't you have an account?</p>
-                    <button className="modal-sign-up">
-                        <Link href="/sign-up">
-                            <a >Sign Up</a>
-                        </Link>
-                    </button>
+                    <button className="modal-sign-up">Sign Up</button>
                 </div>
             </div>
         </div>
@@ -94,38 +94,7 @@ const Navbar: NextComponentType = () => {
         </nav>
         
         <style jsx>{`
-            .modal-header {
-                padding: 2px 16px;
-                background-color: #5cb85c;
-                color: white;
-            }
-            .modal-footer {
-                padding: 2px 16px;
-                background-color: #5cb85c;
-                color: white;
-            }
-            .modal-body {padding: 2px 16px;}
-            .modal-content {
-                display: flex;
-                flex-direction: column;
-                opacity:1;
-                position: absolute;
-                margin: 3rem 25%;
-                background-color: #fefefe;
-                padding: 0;
-                border: 1px solid #888;
-                z-index: 15;
-                max-width: 950px;
-                min-width: 200px;
-                width: 50%;
-                box-shadow: 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-                animation-name: animatetop;
-                animation-duration: 0.4s
-            }
-            @keyframes animatetop {
-                from {top: -300px; opacity: 0}
-                to {top: 0; opacity: 1}
-            }
+            
         `}</style>
         </>
     )
