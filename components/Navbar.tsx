@@ -5,8 +5,14 @@ import { useState } from 'react'
 
 const Navbar: NextComponentType = () => {
 
+    const [ show, setShow ] = useState(false)
+    const [ hide, setHide ] = useState(true)
     
     return (
+        <>
+        <div className="modal">
+
+        </div>
         <nav>
             <Link href="/"><a>
                 <div className="logo">
@@ -21,6 +27,8 @@ const Navbar: NextComponentType = () => {
                 <button className="sign-in" onClick={() => {alert("wanna sign in")}}>Sign In</button>
             </div>
         </nav>
+        </>
+        
     )
 }
 
