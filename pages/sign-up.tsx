@@ -3,20 +3,69 @@ import Head from 'next/head'
 import React from 'react'
 import { useState, useEffect } from 'react'
 
+export interface ISignUpData {
+    username: string;
+    email: string;
+    password: string;
+    password2: string;
+}
+// gonna use it for database/backend responses
+export interface IRegisterResponse {
+    success: boolean | undefined;
+    message: string;
+}
 
 const SignUp: NextPage = () => {
 
-    // write an interface for this with typescript, after your break
-    
-    const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [password2, setPassword2] = useState("")
+    useEffect(() => {
+        // this should clear the form after reloads
+        const usernameInput = document.getElementById("sign-up-username") as HTMLInputElement;
+        const emailInput = document.getElementById("sign-up-email") as HTMLInputElement;
+        const passwordInput = document.getElementById("sign-up-password") as HTMLInputElement;
+        const passwordInput2 = document.getElementById("sign-up-password-2") as HTMLInputElement;
+
+        
+        if(
+            usernameInput.value !== "" || 
+            emailInput.value !== "" || 
+            passwordInput.value !== "" ||
+            passwordInput2.value !== ""
+        ){
+            usernameInput.value = ""
+            emailInput.value = ""
+            passwordInput.value = ""
+            passwordInput2.value = ""
+        }
+    }, [])
+
+    const [ subRes, setSubRes ] = useState<IRegisterResponse>(
+        {
+            success: undefined,
+            message: ""
+        }
+    )
+
+    const [ submitted, setSubmitted ] = useState<ISignUpData>(
+        {
+            username:"",     
+            email: "",
+            password: "",
+            password2: "",
+        }
+    )
 
 
-    const handleSignUpSubmit = (e: React.FormEvent) => {
+    const handleSignUpSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         console.log("wanna register")
+        console.log("submitted", submitted)
+        if(submitted.password !== submitted.password2){
+            // For some reason subres is showing the inital valueeven after re-setting
+            console.log(submitted.password, submitted.password2, "not matching")
+            await setSubRes({...subRes, success: false, message: "Passwords need the match!"})
+            return console.log(subRes)
+        }
+        
     }
     return(<>
     <Head>
@@ -40,6 +89,7 @@ const SignUp: NextPage = () => {
                                 autoComplete="username" 
                                 placeholder=" "
                                 required 
+                                onChange={(e) => setSubmitted({...submitted, username : e.target.value})}
                             />
                             <div className="cut">   
                                 <label htmlFor="email" className="place">Username</label>
@@ -53,6 +103,7 @@ const SignUp: NextPage = () => {
                                 autoComplete="email" 
                                 placeholder=" "
                                 required 
+                                onChange={(e) => setSubmitted({...submitted, email : e.target.value})}
                             />
                             <div className="cut">   
                                 <label htmlFor="email" className="place">Email</label>
@@ -63,6 +114,7 @@ const SignUp: NextPage = () => {
                                 id="sign-up-password" 
                                 className="input" 
                                 type="password" 
+                                onChange={(e) => setSubmitted({...submitted, password : e.target.value})}
                                 required 
                             />
                             <div className="cut">
@@ -74,6 +126,7 @@ const SignUp: NextPage = () => {
                                 id="sign-up-password-2" 
                                 className="input" 
                                 type="password" 
+                                onChange={(e) => setSubmitted({...submitted, password2 : e.target.value})}
                                 required 
                             />
                             <div className="cut">
