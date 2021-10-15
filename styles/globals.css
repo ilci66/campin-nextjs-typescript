@@ -11,7 +11,7 @@ body {
 }
 
 img {
-  max-width: 100%
+  max-width: 100%;
 }
 * {
   box-sizing: border-box;
@@ -79,18 +79,18 @@ footer {
 /* .content-box{
 } */
 .row {
+  display:flex;
   justify-content: space-between;
   /* border: 2px solid red; */
   border-bottom: 1px solid rgb(255, 188, 188);
   padding: 60px 0;
-  display:flex;
 }
 .content-text {
   /* align-self: flex-start;
   display: flex;
   flex-direction: column;
   align-items: flex-start; */
-  border: 2px solid yellow;
+  /* border: 2px solid yellow; */
   width: 55%;
 }
 .row img {
@@ -113,7 +113,19 @@ footer {
   background-color: rgb(0,0,0); 
   background-color: rgba(0,0,0,0.4);
 }
+.modal-content {
+  position: relative;
+  border-radius: 20px;
+  margin: auto;
+  border: 1px solid #888;
+  width: 50%;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
 .modal-header {
+  border-radius: 20px 20px 0px 0px;
   display: flex;
   justify-content: space-between;
   padding: 2px 16px;
@@ -129,22 +141,71 @@ footer {
 .modal-footer {
   display:flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
   padding: 2px 16px;
   background-color: #5cb85c;
+  border-radius: 0px 0px 20px 20px;
   color: white;
 }
 .modal-body {
   display: flex;
+  position: relative;
   flex-direction: column;
+  background-color: rgb(210, 255, 210);
   min-height: 8rem;
-  padding: 2px 16px;
+  padding: 20px 16px;
+}
+.input-container {
+  height:3.2rem;
+  position:relative;
+  width: 100%;
+}
+.input-1 {
+  margin-top: 1rem;
+  
+  margin-bottom: 2rem;
+}
+.input-2 {
+  margin-top: 0.8rem;
+}
+.input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border: 2px solid #000;
+  outline: none;
+  background: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1.2em;
+}
+
+.cut {
+  position: absolute;
+  top: 14px;
+  left: 20px;
+  font-size: 1em;
+  transition: 0.6s;
+  font-family: sans-serif;
+}
+.input-container input:focus ~ .cut,
+.input-container input:valid ~ .cut {
+  transform: translateX(-13px) translateY(-35px);
+  font-size: 1em;
 }
 .modal-sign-in{
   padding: 0.5rem 1.5rem;
   font-size: 1.5rem;
   color: rgb(12, 22, 16);
-  width:80%;
-  margin:  1rem 10%;
+  width:100%;
+  margin-top: 0.5rem;
+  border-radius: 20px;
+  border:0.7px solid rgb(15, 31, 15);
+}
+.modal-sign-in:hover{
+  background: linear-gradient(45deg, rgb(255, 255, 255), rgb(133, 255, 144));
 }
 .modal-sign-up{
   display:inline-block;
@@ -154,19 +215,7 @@ footer {
   font-size: 1.3rem;
   margin-left: 0.3rem;
 }
-.modal-content {
-  position: relative;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 0;
-  border: 1px solid #888;
-  width: 50%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  -webkit-animation-name: animatetop;
-  -webkit-animation-duration: 0.4s;
-  animation-name: animatetop;
-  animation-duration: 0.4s
-}
+
 @keyframes animatetop {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}

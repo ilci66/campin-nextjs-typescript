@@ -60,13 +60,30 @@ const Navbar: NextComponentType = () => {
                 </div>
                 <div className="modal-body">
                     <form action="" className="modal-form">
-                        <div className="input-box">
-                            <input id="sign-in-email" type="text" autoComplete="email" required />   
-                            <label htmlFor="email">Email</label>
+                        <div className="input-container input-1">
+                            <input 
+                                id="sign-in-email" 
+                                className="input" 
+                                type="text" 
+                                autoComplete="email" 
+                                placeholder=" "
+                                required 
+                            />
+                            <div className="cut cut-short">   
+                                <label htmlFor="email" className="place">Email</label>
+                            </div>
                         </div>
-                        <div className="input-box">
-                            <input id="sign-in-password" type="password" required />
-                            <label htmlFor="password">Password</label>
+                        <div className="input-container input-2">
+                            <input 
+                                id="sign-in-password" 
+                                className="input" 
+                                type="password" 
+                                required 
+                            />
+                            <div className="cut">
+                                <label htmlFor="password" className="placeholder">Password</label>
+                            </div>
+                            
                         </div>
                         <button id="modal-sign-in" className="modal-sign-in">Sign in</button>
                     </form>
