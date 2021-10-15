@@ -81,7 +81,7 @@ const Navbar: NextComponentType = () => {
                                 required 
                             />
                             <div className="cut">
-                                <label htmlFor="password" className="placeholder">Password</label>
+                                <label htmlFor="password" >Password</label>
                             </div>
                             
                         </div>
@@ -109,10 +109,6 @@ const Navbar: NextComponentType = () => {
                 <button id="nav-sign-in" className="sign-in" onClick={handleShowModal}>Sign In</button>
             </div>
         </nav>
-        
-        <style jsx>{`
-            
-        `}</style>
         </>
     )
 }
