@@ -146,13 +146,13 @@ footer {
   padding: 2px 16px;
   background-color: #5cb85c;
   border-radius: 0px 0px 20px 20px;
-  color: white;
+  color: rgb(9, 24, 12);
 }
 .modal-body {
   display: flex;
   position: relative;
   flex-direction: column;
-  background-color: rgb(210, 255, 210);
+  background-color: rgb(225, 252, 225);
   min-height: 8rem;
   padding: 20px 16px;
 }
@@ -202,10 +202,12 @@ footer {
   width:100%;
   margin-top: 0.5rem;
   border-radius: 20px;
+  transition: 0.5s;
   border:0.7px solid rgb(15, 31, 15);
+  margin-bottom: 10px;
 }
 .modal-sign-in:hover{
-  background: linear-gradient(45deg, rgb(255, 255, 255), rgb(133, 255, 144));
+  background-color: rgb(195, 196, 255);
 }
 .modal-sign-up{
   display:inline-block;

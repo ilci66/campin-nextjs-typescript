@@ -91,7 +91,7 @@ const Navbar: NextComponentType = () => {
                 </div>
                 <div className="modal-footer">
                     <p className="modal-footer-text">Don't you have an account?</p>
-                    <button className="modal-sign-up">Sign Up</button>
+                    <Link href="/sign-up"><a className="modal-sign-up">Sign Up</a></Link>
                 </div>
             </div>
         </div>
