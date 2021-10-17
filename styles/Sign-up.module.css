@@ -1,0 +1,151 @@
+.signUpModal{
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 100px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4);
+}
+.inputContainer {
+    height:3.2rem;
+    position:relative;
+    width: 100%;
+  }
+
+  .input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: 2px solid #000;
+    outline: none;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1.2em;
+  }
+  .cut {
+    position: absolute;
+    top: 3px;
+    left: 8px;
+    font-size: 0.8em;
+    transition: 0.6s;
+    font-family: sans-serif;
+  }
+  .inputContainer input:focus ~ .cut,
+  .inputContainer input:valid ~ .cut {
+    transform: translateX(-13px) translateY(-25px);
+    font-size: 1em;
+  }
+.signUpMessageBox {
+    padding:1.2rem;
+    background: var(--secondary-blue-1);
+    position: relative;
+    border-radius: 20px;
+    margin: auto;
+    border: 1px solid #888;
+    max-width:500px;
+    width: 50%;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animate-top;
+    animation-duration: 0.4s
+}
+.signUpMessage {
+    font-size: 1.3rem;
+    color: rgb(10, 7, 7);
+    margin: 0 auto;
+    padding: 10px;
+}
+.signUpSuccessButton{
+    padding: 1.5rem 1.5rem;
+    font-size: 1.9rem;
+    color:var(--main-footer-color); ;
+    background-color: var(--secondary-blue-2);
+    /* z-index: 10; */
+    width:100%;
+    margin-top: 1.5rem;
+    border-radius: 20px;
+    transition: 0.2s;
+    border:0.7px solid rgb(15, 31, 15);
+    margin-bottom: 10px;
+  }
+  .signUpSuccessButton:hover{
+    background-color: var(--secondary-blue-3);
+
+  }
+@keyframes animate-top {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+.messageModalCloseBtn {
+    background-color: var(--secondary-red);
+    padding:5px;
+    color: white;
+    border-radius: 20px;
+    position: absolute;
+    top:0;
+    right:0;
+    border:none;
+    padding:0.6rem;
+    cursor:pointer;
+}
+.signUpContainer{
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    position:relative;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.signUpFormContainer{
+    border-radius: 20px;
+    max-width: 960px;
+    display:flex;
+    position: relative;
+    width:100%;
+    margin: 50px auto;
+    justify-content: space-between;
+}
+.signUpPic {
+    border-radius: 20px;
+    width: 42%;
+}
+.signUpPic img {
+    border-radius: 5%;
+
+}
+.signUpForm {
+    background-color: #e8fecf;
+    padding: 3rem;
+    border-radius: 20px;
+    width: 52%;
+    
+}
+.signUpForm .inputContainer {
+    margin-top: 2rem;
+}
+.signUpSubmitBtn {
+    padding: 1.5rem 1.5rem;
+    font-size: 1.9rem;
+    color:var(--main-footer-color); ;
+    background-color: var(--secondary-blue-2);
+    /* z-index: 10; */
+    width:100%;
+    margin-top: 1.5rem;
+    border-radius: 20px;
+    transition: 0.2s;
+    border:0.7px solid rgb(15, 31, 15);
+    margin-bottom: 10px;
+}
+.signUpSubmitBtn:hover {
+    background-color: var(--secondary-blue-3);
+}

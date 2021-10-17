@@ -1,3 +1,14 @@
+:root{
+  --main-header-color :#379683;
+  --main-text-color: #EDF5E1;
+  --main-footer-color: #05386B;
+  --main-blue-green: #8EE4AF;
+  --secondary-red: #FC4445;
+  --secondary-blue-1: #CAFAFE;
+  --secondary-blue-2: #97CAEF;
+  --secondary-blue-3: #3FEEE6;
+  --secondary-blue-green: #55BCC9;
+}
 html,
 body {
   padding: 0;
@@ -8,7 +19,14 @@ body {
   background: linear-gradient(0deg, rgba(255,26,26,1) 0%, rgba(162,255,234,1) 100%);  */
   background-color: #8EE4AF;
 }
-
+/* .container { */
+  /* max-width: 960px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto; */
+  /* min-height: 100vh; */
+/* } */
 img {
   max-width: 100%;
 }
@@ -22,7 +40,7 @@ a {
 } 
 .navbar-container{
   width: 100%;
-  background-color: #379683;
+  background-color: var(--main-header-color);
 }
 nav {
   /* margin: 10px auto 80px; */
@@ -32,12 +50,14 @@ nav {
   max-width: 960px;
   justify-content:space-between;
   align-items: center;
+  color: var(--main-text-color);
   /* border-bottom: 1px solid #ddd;*/
 }
 
 nav a {
   margin-left: 12px;
-  margin-right: 18px
+  margin-right: 18px;
+  transition: 0.5s;
 }
 nav a:hover, .sign-in:hover {
   color: rgb(0, 105, 131);
@@ -48,7 +68,9 @@ nav a:hover, .sign-in:hover {
   background-color: inherit;
   /* box-shadow: none; */
   border: 0;
+  color:#EDF5E1;
   cursor: pointer;
+  transition: 0.5s;
 }
 /* .sign-in:hover {
   color: rgb(0, 105, 131);
@@ -64,7 +86,8 @@ nav a:hover, .sign-in:hover {
 
 footer {
   /* margin-top: 10rem; */
-  position: absolute;
+  background-color: var(--main-footer-color);
+  color: var(--main-text-color);
   bottom:0;
   padding: 0.5rem;
   width: 100%;
@@ -75,6 +98,9 @@ footer {
 
 .content-container {
   /* border: 2px solid blue; */
+  margin: 0 auto;
+  min-height: 100vh;
+  max-width: 960px;
   display: flex;
   justify-content: space-between;
   /* align-items: center; */
@@ -134,8 +160,8 @@ footer {
   display: flex;
   justify-content: space-between;
   padding: 2px 16px;
-  background-color: #7a94b6;
-  color: rgb(12, 22, 16);
+  background-color: var(--secondary-blue-green);
+  color: var(--main-text-color);
 }
 .modal-close{
   border:none;
@@ -148,16 +174,16 @@ footer {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 2px 16px;
-  background-color: #6b0000;
+  padding: 10px 16px;
+  background-color: var(--secondary-red);
   border-radius: 0px 0px 20px 20px;
-  color: rgb(255, 255, 255);
+  color: var(--main-text-color);
 }
 .modal-body {
   display: flex;
   position: relative;
   flex-direction: column;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--secondary-blue-1);
   min-height: 8rem;
   padding: 20px 16px;
 }
@@ -181,7 +207,7 @@ footer {
   width: 100%;
   border: 2px solid #000;
   outline: none;
-  background: none;
+  background: white;
   padding: 10px;
   border-radius: 10px;
   font-size: 1.2em;
@@ -189,21 +215,22 @@ footer {
 
 .cut {
   position: absolute;
-  top: 14px;
-  left: 20px;
-  font-size: 1em;
+  top: 3px;
+  left: 8px;
+  font-size: 0.8em;
   transition: 0.6s;
   font-family: sans-serif;
 }
 .input-container input:focus ~ .cut,
 .input-container input:valid ~ .cut {
-  transform: translateX(-13px) translateY(-35px);
+  transform: translateX(-13px) translateY(-25px);
   font-size: 1em;
 }
 .modal-sign-in{
   padding: 0.5rem 1.5rem;
   font-size: 1.5rem;
-  color: rgb(12, 22, 16);
+  color:var(--main-footer-color); ;
+  background-color: var(--secondary-blue-2);
   width:100%;
   margin-top: 0.5rem;
   border-radius: 20px;
@@ -212,16 +239,15 @@ footer {
   margin-bottom: 10px;
 }
 .modal-sign-in:hover{
-  color: white;
-  background-color: rgb(7, 36, 0);
+  cursor: pointer;
+  background-color: var(--secondary-blue-3);
 }
 .modal-sign-up-link{
   display:inline-block;
   border:none;
-  background: inherit;
   cursor:pointer;
-  font-size: 1.3rem;
-  margin-left: 0.3rem;
+  font-size: 1.5rem;
+  margin-left: 0.4rem;
 }
 
 @keyframes animatetop {
