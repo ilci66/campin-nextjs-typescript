@@ -95,6 +95,7 @@ const Navbar: NextComponentType = () => {
                 </div>
             </div>
         </div>
+        <div className="navbar-container">
         <nav>
             <Link href="/"><a>
                 <div className="logo">
@@ -109,6 +110,7 @@ const Navbar: NextComponentType = () => {
                 <button id="nav-sign-in" className="sign-in" onClick={handleShowModal}>Sign In</button>
             </div>
         </nav>
+        </div>
         </>
     )
 }

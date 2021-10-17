@@ -4,8 +4,9 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background: rgb(255,26,26);
-  background: linear-gradient(0deg, rgba(255,26,26,1) 0%, rgba(162,255,234,1) 100%); 
+  /* background: rgb(255,26,26);
+  background: linear-gradient(0deg, rgba(255,26,26,1) 0%, rgba(162,255,234,1) 100%);  */
+  background-color: #8EE4AF;
 }
 
 img {
@@ -19,13 +20,19 @@ a {
   color: inherit;
   text-decoration: none;
 } 
+.navbar-container{
+  width: 100%;
+  background-color: #379683;
+}
 nav {
   /* margin: 10px auto 80px; */
   padding: 10px 0;
+  margin: 0 auto;
   display: flex;
+  max-width: 960px;
   justify-content:space-between;
   align-items: center;
-  border-bottom: 1px solid #ddd;
+  /* border-bottom: 1px solid #ddd;*/
 }
 
 nav a {
@@ -47,14 +54,14 @@ nav a:hover, .sign-in:hover {
   color: rgb(0, 105, 131);
 } */
 
-.container {
+/* .container {
   position:relative;
   padding: 0.5rem;
   max-width:960px;
   margin: 0 auto;
   min-height: 100vh;
   /* height: 100%;  */
-}
+
 footer {
   /* margin-top: 10rem; */
   position: absolute;
