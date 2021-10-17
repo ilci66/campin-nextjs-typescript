@@ -4,3 +4,5 @@
 * Right now trying to decide on the general look of the main page 
 * I could use bootstrap for the sign in modal at least but it seems easier I might not learn anything new if I go with bootstrap
 * Instead of going with the sign up page decided to create another modal for sign ups
+* Note to self: Don't forget to use fontawesome later
+* Note to self: Do the database connection now
