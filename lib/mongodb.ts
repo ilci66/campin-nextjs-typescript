@@ -1,50 +1,50 @@
 import { MongoClient } from 'mongodb';
-// for chaching I can go on save these properly in the local storage, 
-// but for now this will do fine
+// // for chaching I can go on save these properly in the local storage, 
+// // but for now this will do fine
 
-const MONGODB_URI = process.env.MONGODB_URI !;
-const MONGODB_DB = process.env.DB_NAME !;
-console.log(MONGODB_URI)
-// check the MongoDB URI
-if (!MONGODB_URI) {
-    throw new Error('Define the MONGODB_URI environmental variable');
-}
+// const MONGODB_URI = process.env.MONGODB_URI !;
+// const MONGODB_DB = process.env.DB_NAME !;
+// console.log(MONGODB_URI)
+// // check the MongoDB URI
+// if (!MONGODB_URI) {
+//     throw new Error('Define the MONGODB_URI environmental variable');
+// }
 
-// check the MongoDB DB
-if (!MONGODB_DB) {
-    throw new Error('Define the MONGODB_DB environmental variable');
-}
+// // check the MongoDB DB
+// if (!MONGODB_DB) {
+//     throw new Error('Define the MONGODB_DB environmental variable');
+// }
 
-let cachedClient :object;
-let cachedDb :object;
+// let cachedClient :object;
+// let cachedDb :object;
 
-export async function connectToDatabase() {
-    // check the cached.
-    if (cachedClient && cachedDb) {
-        // load from cache
-        return {
-            client: cachedClient,
-            db: cachedDb,
-        };
-    }
+// export async function connectToDatabase() {
+//     // check the cached.
+//     if (cachedClient && cachedDb) {
+//         // load from cache
+//         return {
+//             client: cachedClient,
+//             db: cachedDb,
+//         };
+//     }
 
-    // set the connection options
-    const opts: object = {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    };
+//     // set the connection options
+//     const opts: object = {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true,
+//     };
 
-    // Connect to cluster
-    let client = new MongoClient(MONGODB_URI, opts);
-    await client.connect();
-    let db = client.db(MONGODB_DB);
+//     // Connect to cluster
+//     let client = new MongoClient(MONGODB_URI, opts);
+//     await client.connect();
+//     let db = client.db(MONGODB_DB);
 
-    // set cache
-    cachedClient = client ;
-    cachedDb = db ;
+//     // set cache
+//     cachedClient = client ;
+//     cachedDb = db ;
 
-    return {
-        client: cachedClient,
-        db: cachedDb,
-    };
-}
+//     return {
+//         client: cachedClient,
+//         db: cachedDb,
+//     };
+// }
