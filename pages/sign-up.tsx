@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import styles from '../styles/Sign-up.module.css'
 import  validator from 'validator';
+import axios from 'axios';
 
 export interface ISignUpData {
     username: string;
@@ -19,8 +20,10 @@ export interface IRegisterResponse {
 }
 
 
+console.log(process.env.SITE_URL)
 const SignUp: NextPage = () => {
 
+    console.log(process.env.SITE_URL)
     const [show, setShow] = useState(false)
 
     const [ subRes, setSubRes ] = useState<IRegisterResponse>(
@@ -100,6 +103,7 @@ const SignUp: NextPage = () => {
     // }, [subRes.success]);
 
     const handleSignUpSubmit = async (e: React.FormEvent) => {
+
         e.preventDefault()
         console.log("wanna register")
         console.log("submitted", submitted)
@@ -112,9 +116,20 @@ const SignUp: NextPage = () => {
         } else if(!validator.isEmail(submitted.email)) {
             await setSubRes({...subRes, success: false, message: "Please enter a valid email address"})
             return;
+        }else if(
+            submitted.password == "" || 
+            submitted.password2 == "" || 
+            submitted.username == "" ||
+            submitted.email == "") {
+                await setSubRes({...subRes, success: false, message: "Missing required fields"})
+                return;
         }else {
-            await setSubRes({...subRes, success: true, message: "Account Successfuly created!"})
+            const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+            
+            axios.post(`${url}/api/user`, submitted)
+            // await setSubRes({...subRes, success: true, message: "Account Successfuly created!"})
             // await setSubRes({...subRes})
+            console.log("url",url)
             return;
         }
     }
