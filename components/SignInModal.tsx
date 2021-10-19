@@ -1,11 +1,20 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { NextComponentType } from 'next';
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 
+interface ISignIn {
+    handleCloseModal:() => void;
+}
 
-const SignInModal: NextComponentType = ({ handleCloseModal }) => {
+
+const SignInModal = ({ handleCloseModal }: ISignIn) => {
+
+    const handleSignInSubmit = (event: React.FormEvent) => {
+        event.preventDefault()
+        console.log("clicked sign in")
+    }
 
     return (
         <div id="my-modal" className="modal">
@@ -17,7 +26,7 @@ const SignInModal: NextComponentType = ({ handleCloseModal }) => {
                     </button>
                 </div>
                 <div className="modal-body">
-                    <form action="" className="modal-form">
+                    <form action="" onSubmit={handleSignInSubmit} className="modal-form">
                         <div className="input-container input-1">
                             <input 
                                 id="sign-in-email" 
@@ -43,7 +52,7 @@ const SignInModal: NextComponentType = ({ handleCloseModal }) => {
                             </div>
                             
                         </div>
-                        <button id="modal-sign-in" className="modal-sign-in">Sign in</button>
+                        <button type="submit" id="modal-sign-in" className="modal-sign-in">Sign in</button>
                     </form>
                 </div>
                 <div className="modal-footer">
