@@ -2,6 +2,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { NextComponentType } from 'next';
 import { useState, useEffect } from 'react'
+import SignInModal from './SignInModal';
+
+interface testingProps {
+    handleCloseModal:() => any
+}
+
 
 const Navbar: NextComponentType = () => {
 
@@ -30,8 +36,9 @@ const Navbar: NextComponentType = () => {
 
                 if (target == modal) {
                     modal.style.display = "none";
-                    setShow(false)
-                    setHide(true)
+                    handleCloseModal()
+                    // setShow(false)
+                    // setHide(true)
                     // console.log('should close')
                 }
             }
@@ -50,7 +57,7 @@ const Navbar: NextComponentType = () => {
 
     return (
         <>
-        <div id="my-modal" className="modal">
+        {/* <div id="my-modal" className="modal">
             <div className="modal-content">
                 <div className="modal-header">
                     <h2 className="modal-header">Hello Camper!</h2>
@@ -87,14 +94,14 @@ const Navbar: NextComponentType = () => {
                         </div>
                         <button id="modal-sign-in" className="modal-sign-in">Sign in</button>
                     </form>
-
                 </div>
                 <div className="modal-footer">
                     <p className="modal-footer-text">Don't you have an account?</p>
                     <Link href="/sign-up"><a className="modal-sign-up-link" onClick={handleCloseModal}>Sign Up</a></Link>
                 </div>
             </div>
-        </div>
+        </div> */}
+        <SignInModal handleCloseModal={handleCloseModal}/>
         <div className="navbar-container">
         <nav>
             <Link href="/"><a>
