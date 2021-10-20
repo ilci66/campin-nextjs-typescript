@@ -1,6 +1,14 @@
+import { ErrorDescription } from 'mongodb'
+import { NativeError } from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { isNativeError } from 'util/types'
 import { connectToDatabase } from '../../lib/connection'
 import UserModel from '../../models/user'
+//tyring to fix the overwrite error
+// const mongoose = require('mongoose')
+// const UserModel = require('../../models/user')
+
+const bcrypt = require('bcrypt')
 
 type Data = {
   name: string
@@ -12,17 +20,19 @@ export default async function handler(
 ) {
     let connected = await connectToDatabase();
 
-    console.log("request made",req.body)
+    // console.log("request made",req.body)
+
     const { username, email, password } = req.body
     if(connected){
+            console.log("connected to database")
             switch(req.method) {
             case 'GET': {
                 console.log("gonna get the user info here")
             }
             break;
             case 'POST': {
-                console.log("request to a user")
-                UserModel.findOne({email: email}, (err:object, data:object) => {
+                console.log("request to create a user")
+                UserModel.find({email: email}, async (err:object, data:object) => {
                     if(err){
                         console.log("error in database", err)
                         return;
@@ -31,11 +41,37 @@ export default async function handler(
                         return;
                     }else{
                         console.log("Time to create the user")
-                        let newUSer = new UserModel({
-                            username: username,
-                            email: email,
-                            
-                        })
+                        try {
+                            const hash = await bcrypt.hash(password, 10);
+                            let newUser = new UserModel({
+                                username: username,
+                                email: email,
+                                password: hash
+                            })
+                            newUser.save((err: string | undefined, data:object) => {
+                                if(err){ throw new Error(err)}
+                                console.log("saved ==>", data)
+                                return res.status(201);
+                            })
+                            // bcrypt.hash(password, 10, (err:string, hash:string) => {
+                            //     if(err){ throw new Error(err)}
+
+                            //     console.log("no error gonna salt now")
+                                
+                            //     let newUser = new UserModel({
+                            //         username: username,
+                            //         email: email,
+                            //         password: hash
+                            //     })
+                            //     newUser.save((err, data:object) => {
+                            //         console.log("saved ==>", data)
+                            //         res.status(201)
+                            //     })
+                            // });
+                        } catch (error) {
+                            console.log(error)
+                            return;
+                        }
                         return;
                     }
                 })

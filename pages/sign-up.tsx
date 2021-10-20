@@ -20,10 +20,8 @@ export interface IRegisterResponse {
 }
 
 
-console.log(process.env.SITE_URL)
 const SignUp: NextPage = () => {
 
-    console.log(process.env.SITE_URL)
     const [show, setShow] = useState(false)
 
     const [ subRes, setSubRes ] = useState<IRegisterResponse>(
@@ -124,9 +122,14 @@ const SignUp: NextPage = () => {
                 await setSubRes({...subRes, success: false, message: "Missing required fields"})
                 return;
         }else {
+            if(!process.env.NEXT_PUBLIC_SITE_URL){
+                console.log("there's no site url in .env")
+                return;
+            }
             const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
             
             axios.post(`${url}/api/user`, submitted)
+                .then(res => console.log(res))
             // await setSubRes({...subRes, success: true, message: "Account Successfuly created!"})
             // await setSubRes({...subRes})
             console.log("url",url)
