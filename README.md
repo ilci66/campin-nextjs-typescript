@@ -7,3 +7,4 @@
 * Note to self: Don't forget to use fontawesome later
 * Note to self: Gonna have to create a context for the user and update it from the navbar to keep it consistent throughout the website, sign in and sign out is also handled there
 * I feel like typescript it making it harder at this point but everyone seems to love it so gonna stick to it I guess
+* Gonna use next auth for social media sign ins but I wanna also implement the credentials method with jwt and include my database in it as well 
