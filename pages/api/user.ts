@@ -3,8 +3,9 @@ import { NativeError } from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { isNativeError } from 'util/types'
 import { connectToDatabase } from '../../lib/connection'
-import UserModel from '../../models/user'
-//tyring to fix the overwrite error
+const UserModel = require('../../models/user')
+
+//tyring to fix the overwrite error ==> fixed it with the try catch block in model file
 // const mongoose = require('mongoose')
 // const UserModel = require('../../models/user')
 
@@ -36,14 +37,16 @@ export default async function handler(
                     if(err){
                         console.log("error in database", err)
                         return;
-                    }else if(data){
-                        console.log("there's an account with that email address")
-                        return;
-                    }else{
+                    }
+                    // else if(data){
+                    //     console.log(data, "there's an account with that email address")
+                    //     return;
+                    // }
+                    else{
                         console.log("Time to create the user")
                         try {
                             const hash = await bcrypt.hash(password, 10);
-                            let newUser = new UserModel({
+                            let newUser = await new UserModel({
                                 username: username,
                                 email: email,
                                 password: hash
@@ -69,7 +72,7 @@ export default async function handler(
                             //     })
                             // });
                         } catch (error) {
-                            console.log(error)
+                            console.log("error ==>",error)
                             return;
                         }
                         return;

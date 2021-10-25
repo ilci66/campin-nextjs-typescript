@@ -1,5 +1,4 @@
 import { Schema, model, connect } from 'mongoose';
-import mongoose from 'mongoose'
 
 interface User {
     name: string;
@@ -25,12 +24,24 @@ const userSchema = new Schema<User>({
 // const UserModel = mongoose.models.UserModel || model<User>('User', userSchema);
 // console.log(UserModel)
 
-// module.exports = mongoose.models.UserModel || model<User>('User', userSchema);
+// module.exports = model<User>('User', userSchema);
 
-let UserModel
+
+//Wrote this to fix the overwrite error but now it's causing another error
+// let UserModel;
+// try {
+//   UserModel = model<User>('users')
+// } catch (error) {
+//   UserModel = model<User>('users', userSchema)
+// }
+
+
+// export default UserModel
+
+
+
 try {
-  UserModel = model<User>('users')
-} catch (error) {
-  UserModel = model<User>('users', userSchema)
+  module.exports = model<User>('User');
+}catch(error){
+  module.exports = model<User>('User', userSchema); 
 }
-export default UserModel
