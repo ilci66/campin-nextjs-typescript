@@ -38,7 +38,7 @@ export default async function handler(
                     }else if(!data){
                         console.log("Time to create the user")
                         try {
-                            const hash = await bcrypt.hash(password, 10);
+                            const hash = await bcrypt.hash(password, process.env.SALT_NUM);
                             let newUser = await new UserModel({
                                 name: username,
                                 email: email,

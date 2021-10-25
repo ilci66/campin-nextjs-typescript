@@ -4,7 +4,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import styles from '../styles/Sign-up.module.css'
-import  validator from 'validator';
+import validator from 'validator';
 import axios from 'axios';
 
 export interface ISignUpData {

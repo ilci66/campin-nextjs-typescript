@@ -6,6 +6,9 @@ import Adapters from "next-auth/adapters";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
+// Maybe it wasn't a good idea to use credentials method iwht next-auth
+
+
 const options = {
     providers: [   
         // CredentialsProvider({
