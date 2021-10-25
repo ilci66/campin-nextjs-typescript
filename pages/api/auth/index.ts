@@ -55,7 +55,7 @@ export default async function handler(
               try {
                 let match :boolean = await bcrypt.compare(password, data.password);
                 console.log('Passwords matched')
-
+                
               } catch (error) {
                 console.log(error)
                 return;
