@@ -2,6 +2,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { NextComponentType } from 'next';
 import React, { useState, useEffect } from 'react'
+import { signIn, signOut, useSession } from 'next-auth/client';
+import axios from 'axios'
+  
+
+export interface ISignInData {
+    email: string;
+    password: string;
+}
 
 
 interface ISignIn {
@@ -11,9 +19,28 @@ interface ISignIn {
 
 const SignInModal = ({ handleCloseModal }: ISignIn) => {
 
+    const [ credentials, setCredentials ] = useState<ISignInData>(
+        {
+            email: "",
+            password: "",
+        }
+    )
+
+    const [ session, loading ] = useSession();
+
     const handleSignInSubmit = (event: React.FormEvent) => {
         event.preventDefault()
         console.log("clicked sign in")
+        console.log("credentials ==>", credentials)    
+
+        const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+            
+        axios.post(`${url}/api/auth/`, credentials)
+            .then(res => console.log(res))
+        // await setSubRes({...subRes, success: true, message: "Account Successfuly created!"})
+        // await setSubRes({...subRes})
+        console.log("url",url)
+        return;    
     }
 
     return (
@@ -34,6 +61,7 @@ const SignInModal = ({ handleCloseModal }: ISignIn) => {
                                 type="text" 
                                 autoComplete="email" 
                                 placeholder=" "
+                                onChange={(e) => setCredentials({...credentials, email : e.target.value})}
                                 required 
                             />
                             <div className="cut cut-short">   
@@ -45,6 +73,7 @@ const SignInModal = ({ handleCloseModal }: ISignIn) => {
                                 id="sign-in-password" 
                                 className="input" 
                                 type="password" 
+                                onChange={(e) => setCredentials({...credentials, password : e.target.value})}
                                 required 
                             />
                             <div className="cut">
