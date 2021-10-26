@@ -46,6 +46,7 @@ export default async function handler(
   try {
     switch(method){
       case 'POST':
+
         const { email, password } = req.body
 
         if(!validator.isEmail(email)){ 
@@ -87,6 +88,23 @@ export default async function handler(
         //     // result == true
         // });
         }
+        break;
+        case 'GET':
+          // ==> Here will recieve a request automatically at refresh with the token
+
+          // try {
+          //     // here I will handle the get requests for logins mainly 
+          //     // I need to extract the jwt, get the id if it's not expired
+          //     // do a search, get the user info and send back the info
+          //     const pathToKey = path.join(__dirname, '../../../../', 'id_rsa_pub.pem');
+          //     const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
+          //     if(!PUB_KEY){ console.log("there's no public key bro!"); return; }
+
+          //     // jwt.verify(token, secretOrPublicKey, [options, callback])
+          // } catch (error) {
+              
+          // }
+        break;
     }
   } catch (error) {
     

@@ -45,6 +45,11 @@ const SignInModal = ({ handleCloseModal }: ISignIn) => {
         console.log("clicked sign in")
         console.log("credentials ==>", credentials)    
 
+        const logUser = (token:string) => {
+            // this little function will send the token and get the response for me
+            // axios.get()
+        }
+
         const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
             
         axios.post<Succesful|Unsuccessful>(`${url}/api/auth/`, credentials)
