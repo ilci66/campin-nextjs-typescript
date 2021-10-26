@@ -7,14 +7,23 @@ const UserModel = require('../../models/user')
 
 const bcrypt = require('bcrypt')
 
-type Data = {
-  name: string
+// type Data = {
+//     name: string
+// }
+
+type Response = {
+    success: true;
+    email?: string;
+    username?: string;
+    message?: string; 
 }
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse<Response>
 ) {
+
+
     let connected = await connectToDatabase();
 
     const { username, email, password } = req.body
@@ -23,7 +32,8 @@ export default async function handler(
             console.log("connected to database")
             switch(req.method) {
             case 'GET': {
-                console.log("gonna get the user info here")
+                console.log("gonna get the user info here");
+                UserModel
             }
             break;
             case 'POST': {
