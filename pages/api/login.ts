@@ -4,15 +4,15 @@
 import bcrypt from 'bcrypt';
 const jwt = require('jsonwebtoken');
 import validator from 'validator';
-import { connectToDatabase } from '../../../lib/connection';
+import { connectToDatabase } from '../../lib/connection';
 import mongoose from 'mongoose';
 import fs from 'fs'
 import path from 'path';
-const utils = require('../../../lib/utils')
+const utils = require('../../lib/utils')
 //import again cause an error
-const UserModel = require('../../../models/user'); 
-const Cookies = require('js-cookie');
-
+const UserModel = require('../../models/user'); 
+// const Cookies = require('js-cookie');
+const cookie = require("cookie");
 import { NextApiRequest, NextApiResponse } from "next";
 
 const jwtsecret = process.env.JWT_SECRET;
@@ -21,20 +21,20 @@ const jwtsecret = process.env.JWT_SECRET;
 
 if(!jwtsecret) { console.log('there\'s no jwt secret') };
 
-type Succesful = {
-  success: boolean;
-  token: object;
-  expiresIn: number;
+type Response = {
+  success?: boolean;
+  token?: object;
+  message?: string;
+  expiresIn?: number;
 }
-type Unsuccessful = {
-  success: boolean;
-  message: string;
-}
+// type Unsuccessful = {
+//   success?: boolean;
+// }
 
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Succesful | Unsuccessful> 
+  res: NextApiResponse<Response> 
 ) {
   const { method } = req;
 
@@ -71,12 +71,25 @@ export default async function handler(
                 // when there is a match issue the jwt
                 if(match){
                   console.log("it's a match, sending jwt")
+
                   const tokenObject = await utils.issueJWT(data);
 
-                  //trying something here
-                  // Cookies.set('token', tokenObject.token, { sameSite: 'strict' }, { expires: tokenObject.expiresIn }, { domain: process.env.url })
+                  let expInMiliseconds =  tokenObject.expires *1000*360*24;
+                  
+                  res.setHeader(
+                    "Set-Cookie",
+                    cookie.serialize("token", tokenObject.token, {
+                      httpOnly: true,
+                      secure: process.env.NODE_ENV !== "development",
+                      maxAge: expInMiliseconds ,
+                      sameSite: "strict",
+                      path: "/",
+                    })
+                  );
+                  res.statusCode = 200;
+                  res.json({ success: true });
 
-                  res.status(200).json({ success: true, token: tokenObject.token, expiresIn: tokenObject.expires });
+                  // res.status(200).json({ success: true, token: tokenObject.token, expiresIn: tokenObject.expires });
                   return;
                 }
                 
