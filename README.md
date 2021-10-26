@@ -8,6 +8,7 @@
 * I feel like typescript it making it harder at this point but everyone seems to love it so gonna stick to it I guess
 * Gonna use next auth for social media sign ins but I wanna also implement the credentials method with jwt and include my database in it as well 
 * Not actually thinking about making protected routes but I wanna make sure I can implement jwt auth with email adress and a password
+* I could easily save everything into session storage set an expiration date or something but I don't have much practise on cookies, that's why I wanna go deeper
 
 
 * GOT A LITTLE CONFUSED WITH THE ROUTES BUT NECESSARY NOTES FOR FUTURE ADDED
