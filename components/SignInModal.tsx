@@ -52,7 +52,7 @@ const SignInModal = ({ handleCloseModal }: ISignIn) => {
 
         const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
             
-        axios.post<Succesful|Unsuccessful>(`${url}/api/auth/`, credentials)
+        axios.post<Succesful|Unsuccessful>(`${url}/api/login/`, credentials)
             .then(res => {
                 if(res.data.success){
 
