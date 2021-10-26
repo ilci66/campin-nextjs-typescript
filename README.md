@@ -9,4 +9,6 @@
 * Gonna use next auth for social media sign ins but I wanna also implement the credentials method with jwt and include my database in it as well 
 * Not actually thinking about making protected routes but I wanna make sure I can implement jwt auth with email adress and a password
 
+
+* GOT A LITTLE CONFUSED WITH THE ROUTES BUT NECESSARY NOTES FOR FUTURE ADDED
 ## Left at index.ts in api/auth, check for keys, if they don't exist create them, create paylaod, sign jwts, usual stuff (reminder)
