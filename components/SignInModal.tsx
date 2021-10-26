@@ -4,13 +4,25 @@ import { NextComponentType } from 'next';
 import React, { useState, useEffect } from 'react'
 import { signIn, signOut, useSession } from 'next-auth/client';
 import axios from 'axios'
-  
+const Cookies = require('js-cookie');
 
 export interface ISignInData {
     email: string;
     password: string;
 }
 
+export interface Succesful {
+    success: boolean;
+    token: string;
+    expiresIn: string | number;
+}
+export interface Unsuccessful {
+    success: boolean;
+    message: string;
+    token?:string;
+    expiresIn?:string | number;
+
+}
 
 interface ISignIn {
     handleCloseModal:() => void;
@@ -35,10 +47,18 @@ const SignInModal = ({ handleCloseModal }: ISignIn) => {
 
         const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
             
-        axios.post(`${url}/api/auth/`, credentials)
-            .then(res => console.log(res))
-        // await setSubRes({...subRes, success: true, message: "Account Successfuly created!"})
-        // await setSubRes({...subRes})
+        axios.post<Succesful|Unsuccessful>(`${url}/api/auth/`, credentials)
+            .then(res => {
+                if(res.data.success){
+
+                    console.log(res.data)
+
+                    Cookies.set('token', res.data.token, { sameSite: 'strict' }, { expires: res.data.expiresIn }, { domain: url })
+
+                }
+
+            })
+
         console.log("url",url)
         return;    
     }
