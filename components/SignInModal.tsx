@@ -58,7 +58,8 @@ const SignInModal = ({ handleCloseModal }: ISignIn) => {
 
                     console.log(res.data)
 
-                    Cookies.set('token', res.data.token, { sameSite: 'strict' }, { expires: res.data.expiresIn }, { domain: url })
+                    // maybe instead of cookie I should go with session storage
+                    // Cookies.set('token', res.data.token, { sameSite: 'strict' }, { expires: res.data.expiresIn }, { domain: url })
 
                 }
 

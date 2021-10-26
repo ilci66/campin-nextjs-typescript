@@ -11,6 +11,7 @@ import path from 'path';
 const utils = require('../../../lib/utils')
 //import again cause an error
 const UserModel = require('../../../models/user'); 
+const Cookies = require('js-cookie');
 
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -71,6 +72,10 @@ export default async function handler(
                 if(match){
                   console.log("it's a match, sending jwt")
                   const tokenObject = await utils.issueJWT(data);
+
+                  //trying something here
+                  // Cookies.set('token', tokenObject.token, { sameSite: 'strict' }, { expires: tokenObject.expiresIn }, { domain: process.env.url })
+
                   res.status(200).json({ success: true, token: tokenObject.token, expiresIn: tokenObject.expires });
                   return;
                 }
