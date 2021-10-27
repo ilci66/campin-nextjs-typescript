@@ -24,7 +24,7 @@ async function issueJWT(user:{_id: string}) {
   const signedToken = await jwt.sign(payload, PRIV_KEY, { expiresIn: expiresIn, algorithm: 'RS256' });
 
   return {
-    token: "Bearer " + signedToken,
+    token: "Bearer" + " " + signedToken,
     expires: expiresIn
   }
 }

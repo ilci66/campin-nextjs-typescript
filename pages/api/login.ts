@@ -14,6 +14,7 @@ const UserModel = require('../../models/user');
 // const Cookies = require('js-cookie');
 const cookie = require("cookie");
 import { NextApiRequest, NextApiResponse } from "next";
+import { getToken } from 'next-auth/jwt';
 
 const jwtsecret = process.env.JWT_SECRET;
 
@@ -26,6 +27,8 @@ type Response = {
   token?: object;
   message?: string;
   expiresIn?: number;
+  username?: string;
+  email?: string;
 }
 // type Unsuccessful = {
 //   success?: boolean;
@@ -42,7 +45,7 @@ export default async function handler(
 
   if(!SALT_NUM){return console.log("salt number is not available in auth/index")}
 
-  let connected = await connectToDatabase();
+  await connectToDatabase();
 
   try {
     switch(method){
@@ -74,20 +77,27 @@ export default async function handler(
 
                   const tokenObject = await utils.issueJWT(data);
 
-                  let expInMiliseconds =  tokenObject.expires *1000*360*24;
+                  // setting it to a day
+                  let expInMiliseconds =  tokenObject.expires * 24 * 60 *60 ;
                   
                   res.setHeader(
                     "Set-Cookie",
                     cookie.serialize("token", tokenObject.token, {
-                      httpOnly: true,
+                      // httpOnly: true,
+                      // I'm only sending the id in the token no sensitive information
+                      httponly: false,
                       secure: process.env.NODE_ENV !== "development",
+                      //expirateion defaults to session
                       maxAge: expInMiliseconds ,
                       sameSite: "strict",
                       path: "/",
                     })
                   );
                   res.statusCode = 200;
-                  res.json({ success: true });
+                  // res.json({ success: true, username: data.name });
+                  // I will get the name using the token by sending another request from the client side
+                  res.json({ success: true});
+
 
                   // res.status(200).json({ success: true, token: tokenObject.token, expiresIn: tokenObject.expires });
                   return;
@@ -107,22 +117,7 @@ export default async function handler(
         // });
         }
         break;
-        case 'GET':
-          // ==> Here will recieve a request automatically at refresh with the token
-
-          // try {
-          //     // here I will handle the get requests for logins mainly 
-          //     // I need to extract the jwt, get the id if it's not expired
-          //     // do a search, get the user info and send back the info
-          //     const pathToKey = path.join(__dirname, '../../../../', 'id_rsa_pub.pem');
-          //     const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
-          //     if(!PUB_KEY){ console.log("there's no public key bro!"); return; }
-
-          //     // jwt.verify(token, secretOrPublicKey, [options, callback])
-          // } catch (error) {
-              
-          // }
-        break;
+        
     }
   } catch (error) {
     

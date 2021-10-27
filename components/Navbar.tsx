@@ -8,7 +8,11 @@ import {
     signOut,
     useSession
   } from 'next-auth/client';
-  
+
+export interface ISignIn {
+    handleCloseModal:() => void;
+}  
+
 const Navbar: NextComponentType = () => {
 
     const [ session, loading ] = useSession();

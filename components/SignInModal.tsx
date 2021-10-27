@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { NextComponentType } from 'next';
+import { NextComponentType, GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
 import React, { useState, useEffect } from 'react'
 import { signIn, signOut, useSession } from 'next-auth/client';
 import axios from 'axios'
@@ -9,6 +9,9 @@ const Cookies = require('js-cookie');
 export interface ISignInData {
     email: string;
     password: string;
+}
+export interface INameNavBar {
+    username: string;
 }
 
 export interface Succesful {
@@ -24,12 +27,45 @@ export interface Unsuccessful {
 
 }
 
-interface ISignIn {
+export interface IProps {
     handleCloseModal:() => void;
+    token?:string;
 }
 
+// ==> Won't be using this one for this case 
+// export const getServerSideProps = async (
+//     req: NextApiRequest,
+//     res: NextApiResponse
+//     ) => {
+//         return { props: { token: req.cookies.token || "" } };
+//     }
 
-const SignInModal = ({ handleCloseModal }: ISignIn) => {
+// const SignInModal = ({ handleCloseModal }: ISignIn, ) => {
+const SignInModal = ({ handleCloseModal }:IProps ) => {
+
+    const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+
+    const getUserInfo = () => {
+
+        let token = Cookies.get("token");
+
+        axios.get(`${url}/api/user/`, { headers: { Authorization: token } })
+            .then(response => {
+                // If request is good do something with the information
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log('error ' + error);
+            });
+
+    }
+  
+
+
+
+    const [ nameNavBar, setNameNavBar ] = useState<INameNavBar>();
+    // this one will say loading while getting the user info ext.
+    const [ userFetcher, setUserFetcher ] = useState();
 
     const [ credentials, setCredentials ] = useState<ISignInData>(
         {
@@ -45,25 +81,17 @@ const SignInModal = ({ handleCloseModal }: ISignIn) => {
         console.log("clicked sign in")
         console.log("credentials ==>", credentials)    
 
-        const logUser = (token:string) => {
-            // this little function will send the token and get the response for me
-            // axios.get()
-        }
-
+        
+        
         const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
             
         axios.post<Succesful|Unsuccessful>(`${url}/api/login/`, credentials)
             .then(res => {
                 if(res.data.success){
-
                     console.log(res.data)
-
-                    // maybe instead of cookie I should go with session storage
-                    // Cookies.set('token', res.data.token, { sameSite: 'strict' }, { expires: res.data.expiresIn }, { domain: url })
-
+                    getUserInfo();
                 }
-
-            })
+            });
 
         console.log("url",url)
         return;    
