@@ -1,4 +1,4 @@
-import { ErrorDescription } from 'mongodb'
+import { ErrorDescription, ObjectId } from 'mongodb'
 import { NativeError } from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { isNativeError } from 'util/types'
@@ -27,10 +27,14 @@ export default async function handler(
 ) {
 
 
-    let connected = await connectToDatabase();
+    // await connectToDatabase();
+    // const testingPromise = new Promise((resolve, reject) => {
+    //     connectToDatabase()
+    // }).then(() => {
+        
+    // })
 
-
-    if(connected){
+    // if(connected){
         console.log("connected to database")
         switch(req.method) {
         case 'GET': 
@@ -47,8 +51,25 @@ export default async function handler(
                 let verified = jwt.verify(req.headers.authorization!.split(" ")[1], PUB_KEY);
     
                 console.log("verified ==> ", verified);
-                console.log(new Date(verified.iat))
-                console.log(new Date(verified.exp))
+               
+                if(verified.exp <= new Date().getTime()){
+                    console.log("token's expired")
+                    return;
+                }
+                console.log('token not expired')
+                UserModel.findOne({ _id: verified.sub }, (err:object, data:{name:string}) => {
+                    if(err){
+                        console.log("something went wrong while getting user info", err)
+                        return;
+                    }else if(!data){
+                        console.log("there's no data")
+                        return;
+                    }
+                    console.log("send the necessary info from here ==>",data)
+                    res.status(200).json({ username: data.name})
+
+                })
+
 
     
             }else{
@@ -89,8 +110,8 @@ export default async function handler(
                 }
             })
             break;
-        }
+        // }
     }
-    console.log("not connected")
+    // console.log("not connected")
 //   res.status(200).json({ name: 'John Doe' })
 }

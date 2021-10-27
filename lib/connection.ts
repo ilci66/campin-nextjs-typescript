@@ -3,7 +3,10 @@ import mongoose from 'mongoose';
 
 const uri: string = process.env.MONGODB_URI !;
 
+if(!uri){console.log("there's no uri string")}
+
 export const connectToDatabase = async () => {
+
     let connection:boolean = false;
     
     if(!connection){

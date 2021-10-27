@@ -4,28 +4,31 @@ import { NextComponentType, GetServerSideProps, NextApiRequest, NextApiResponse 
 import React, { useState, useEffect } from 'react'
 import { signIn, signOut, useSession } from 'next-auth/client';
 import axios from 'axios'
+import Navbar from './Navbar';
 const Cookies = require('js-cookie');
 
 export interface ISignInData {
     email: string;
     password: string;
 }
-export interface INameNavBar {
-    username: string;
-}
+// export interface INameNavBar {
+//     username?: string;
+// }
 
-export interface Succesful {
+export interface IResponse {
     success: boolean;
-    token: string;
+    token?: string;
     expiresIn: string | number;
-}
-export interface Unsuccessful {
-    success: boolean;
+    username?:string;
     message: string;
-    token?:string;
-    expiresIn?:string | number;
 
 }
+// export interface Unsuccessful {
+//     success: boolean;
+//     token?:string;
+//     expiresIn?:string | number;
+
+// }
 
 export interface IProps {
     handleCloseModal:() => void;
@@ -45,14 +48,22 @@ const SignInModal = ({ handleCloseModal }:IProps ) => {
 
     const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
 
+    // the name will replace the sign in and sign up buttons in the Navbar, 
+    const [ nameNavbar, setNameNavbar ] = useState<string>();
+
+    // this one will say loading while getting the user info ext.
+    const [ isFetching, setIsFetching ] = useState(false);
+
     const getUserInfo = () => {
+        setIsFetching(true);
 
         let token = Cookies.get("token");
-
-        axios.get(`${url}/api/user/`, { headers: { Authorization: token } })
-            .then(response => {
-                // If request is good do something with the information
-                console.log(response);
+        axios.get<IResponse>(`${url}/api/user/`, { headers: { Authorization: token } })
+            .then(res => {
+                if(res.statusText ==="OK" ){
+                    console.log("getting user", res.data);
+                    setNameNavbar(res.data.username)
+                }
             })
             .catch((error) => {
                 console.log('error ' + error);
@@ -60,12 +71,6 @@ const SignInModal = ({ handleCloseModal }:IProps ) => {
 
     }
   
-
-
-
-    const [ nameNavBar, setNameNavBar ] = useState<INameNavBar>();
-    // this one will say loading while getting the user info ext.
-    const [ userFetcher, setUserFetcher ] = useState();
 
     const [ credentials, setCredentials ] = useState<ISignInData>(
         {
@@ -85,7 +90,7 @@ const SignInModal = ({ handleCloseModal }:IProps ) => {
         
         const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
             
-        axios.post<Succesful|Unsuccessful>(`${url}/api/login/`, credentials)
+        axios.post<IResponse>(`${url}/api/login/`, credentials)
             .then(res => {
                 if(res.data.success){
                     console.log(res.data)
