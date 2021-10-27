@@ -9,11 +9,14 @@ import {
     useSession
   } from 'next-auth/client';
 
-export interface ISignIn {
-    handleCloseModal:() => void;
-}  
+// export interface ISignIn {
+//     handleCloseModal:() => void;
+// }  
 
 const Navbar: NextComponentType = () => {
+
+    const [ isFetching, setIsFetching ] = useState(false);
+    const [ nameNavbar, setNameNavbar ] = useState<string>();
 
     const [ session, loading ] = useSession();
 
@@ -54,7 +57,11 @@ const Navbar: NextComponentType = () => {
     }, [show, hide])
 
     return (<>
-        <SignInModal handleCloseModal={handleCloseModal}/>
+        <SignInModal 
+            handleCloseModal={handleCloseModal} 
+            setIsFetching={setIsFetching} 
+            setNameNavbar={setNameNavbar}
+        />
         <div className="navbar-container">
             <nav>
                 <Link href="/"><a>
@@ -71,9 +78,13 @@ const Navbar: NextComponentType = () => {
                         <h1>You are not signed in</h1> <br/>
                         <button onClick={signIn}>Sign in</button>
                     </>} */}
+                    
+                    {/* ok now getting the name to use it in the navbar 
+                    {nameNavbar && <><p>{nameNavbar}</p></>} */}
+
                     {session && <>
                         <p className="user-name">{session.user!.name}</p> 
-                        <button id="nav-sign-in" className="sign-out" onClick={() => {signOut}}>Sign out</button></> 
+                        <button id="nav-sign-out" className="sign-out" onClick={() => {signOut}}>Sign out</button></> 
                     }
                     {!session && 
                         <button id="nav-sign-in" className="sign-in" onClick={handleShowModal}>Sign In</button>

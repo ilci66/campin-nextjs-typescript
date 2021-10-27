@@ -15,7 +15,7 @@ const bcrypt = require('bcrypt')
 // }
 
 type Response = {
-    success?: true;
+    success?: boolean;
     email?: string;
     username?: string;
     message?: string; 
@@ -66,7 +66,7 @@ export default async function handler(
                         return;
                     }
                     console.log("send the necessary info from here ==>",data)
-                    res.status(200).json({ username: data.name})
+                    res.status(200).json({ success: true, username: data.name})
 
                 })
 

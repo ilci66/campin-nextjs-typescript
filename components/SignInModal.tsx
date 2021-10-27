@@ -11,9 +11,7 @@ export interface ISignInData {
     email: string;
     password: string;
 }
-// export interface INameNavBar {
-//     username?: string;
-// }
+
 
 export interface IResponse {
     success: boolean;
@@ -23,36 +21,19 @@ export interface IResponse {
     message: string;
 
 }
-// export interface Unsuccessful {
-//     success: boolean;
-//     token?:string;
-//     expiresIn?:string | number;
-
-// }
 
 export interface IProps {
     handleCloseModal:() => void;
     token?:string;
+    setIsFetching:(arg0:boolean) => void
+    setNameNavbar:(arg0:string) => void
+    
 }
 
-// ==> Won't be using this one for this case 
-// export const getServerSideProps = async (
-//     req: NextApiRequest,
-//     res: NextApiResponse
-//     ) => {
-//         return { props: { token: req.cookies.token || "" } };
-//     }
 
-// const SignInModal = ({ handleCloseModal }: ISignIn, ) => {
-const SignInModal = ({ handleCloseModal }:IProps ) => {
+const SignInModal = ({ handleCloseModal, setIsFetching, setNameNavbar }:IProps ) => {
 
     const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
-
-    // the name will replace the sign in and sign up buttons in the Navbar, 
-    const [ nameNavbar, setNameNavbar ] = useState<string>();
-
-    // this one will say loading while getting the user info ext.
-    const [ isFetching, setIsFetching ] = useState(false);
 
     const getUserInfo = () => {
         setIsFetching(true);
@@ -62,7 +43,8 @@ const SignInModal = ({ handleCloseModal }:IProps ) => {
             .then(res => {
                 if(res.statusText ==="OK" ){
                     console.log("getting user", res.data);
-                    setNameNavbar(res.data.username)
+                    setNameNavbar(res.data.username!)
+                    setIsFetching(false);
                 }
             })
             .catch((error) => {
