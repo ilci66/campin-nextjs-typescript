@@ -12,5 +12,4 @@
 
 
 * GOT A LITTLE CONFUSED WITH THE ROUTES BUT NECESSARY NOTES FOR FUTURE ADDED
-## Left at index.ts in api/auth, check for keys, if they don't exist create them, create paylaod, sign jwts, usual stuff (reminder)
-## Gotta do some deeper reading on http headers cookies and storage
+## Now working on the loading message while fetching all the necessary infromation, the message will be replaced by the name of the user in the navbar
