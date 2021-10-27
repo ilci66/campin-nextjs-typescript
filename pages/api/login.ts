@@ -78,7 +78,7 @@ export default async function handler(
                   const tokenObject = await utils.issueJWT(data);
 
                   // setting it to a day
-                  let expInMiliseconds =  tokenObject.expires * 24 * 60 *60 ;
+                  let expInMiliseconds =  tokenObject.expires/1000  ;
                   
                   res.setHeader(
                     "Set-Cookie",

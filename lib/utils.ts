@@ -14,7 +14,7 @@ async function issueJWT(user:{_id: string}) {
   const _id = user._id;
   
   // in days
-  const expiresIn = 1;
+  const expiresIn = 1*1000*60*60*24;
 
   const payload = await {
     sub: _id,

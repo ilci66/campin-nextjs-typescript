@@ -47,6 +47,9 @@ export default async function handler(
                 let verified = jwt.verify(req.headers.authorization!.split(" ")[1], PUB_KEY);
     
                 console.log("verified ==> ", verified);
+                console.log(new Date(verified.iat))
+                console.log(new Date(verified.exp))
+
     
             }else{
                 res.status(400).json({ message: "something went wrong" })
