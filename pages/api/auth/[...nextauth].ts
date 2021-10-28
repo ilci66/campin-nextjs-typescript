@@ -22,64 +22,31 @@ const options = {
                 email: { label: "Email", type: "text", placeholder: "example@gmail.com" },     
                 password: {  label: "Password", type: "password" }    
             },
-            async authorize(credentials, req) {      
+            async authorize(credentials) {      
                 // console.log("req in next auth",req)
 
                 const connected = await connectToDatabase();
 
                 if(!connected){ console.log("not connected to the server") }
-                try{
-                    // Add logic here to look up the user from the credentials supplied    
-                    // gonna do the database call here  
-                    console.log('credentials ==>', credentials)
 
-                    // const user = await UserModel.findOne({ email: credentials.email }) 
-                    let user: {email: string, name: string} = {name:"", email:""};
+                console.log('credentials ==>', credentials)
 
-                    // =====>>>>>>><   gonna look back at this after my break <<<<< ====
-                    await UserModel.findOne({ email: credentials.email }, async (err:object, data:{email:string, name: string, password:string}) => {
-                        if(err){
-                            // console.log(err)
-                            throw new Error("There was an error on finding the user in database"); 
-                            // return null;
-                        }else if(!data){
-                            throw new Error("There is no user with that email adress"); 
-                            // return null;
-                        }else {
-                            console.log("this is the data ==>", data)
+                let user: {email: string, name: string} = {name:"", email:""};
 
-                            let comparison = await bcrypt.compare(credentials.password, data.password)
+                const userData = await UserModel.findOne({ email: credentials.email }).clone();
+                if(!userData){ console.log("there's no user with that email"); return;}
 
-                            console.log("comparison ==> ", comparison)
+                let comparison = await bcrypt.compare(credentials.password, userData.password) 
+                if(comparison){
+                    console.log("comparison is true ")
+                    user.email = userData.email;
+                    user.name = userData.name
 
-                            if(comparison){
-                                console.log("comparison is true ")
-                                user.email = data.email;
-                                user.name = data.name
-
-                                console.log("User ==> ", user)
-
-                                return user
-                            }
-                            
-                        }   
-                    
-                    })
-                    console.log("jumps here")
-
-                    // console.log(" ==> ", user)
-                    // const user = { id: 1, username: 'JSmith', email: 'jsmith@example.com' }
-                    // if (user) {
-                    //     return user     
-                    // } else {
-                    //     return null
-                    // } 
-                } catch(error) {
-                    console.log(error)
-                    throw new Error("There was an error on user authentication"); 
+                    console.log("User ==> ", user)
+                    return user
                 }
-        
-            return null;      
+                console.log("gonna return null")
+                return null;      
             }    
         })
     ],
