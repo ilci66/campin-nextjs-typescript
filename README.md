@@ -1,5 +1,7 @@
 ## A I implemeted my method with my database now gonna use the credential along with couple of social media auth methods of next-auth, looks cleaner, implementing these auth methods on next-auth branch
 
+## having trouble including my database for now, currently working on that 
+
 * There will be posts about camping and camping related topics
 * Planning on adding a map with the camping hotspots
 * Decided to do the styling using css only
