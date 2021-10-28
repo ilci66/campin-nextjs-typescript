@@ -12,3 +12,5 @@
 * GOT A LITTLE CONFUSED WITH THE ROUTES BUT NECESSARY NOTES FOR FUTURE ADDED
 ## Now working on the loading message while fetching all the necessary infromation, the message will be replaced by the name of the user in the navbar
 ## The name in the navbar thing is going to have to wait until I figure out how to work with next-auth 
+
+## A I implemeted my method with my database now gonna use the credential along with couple of social media auth methods of next-auth, looks cleaner 
