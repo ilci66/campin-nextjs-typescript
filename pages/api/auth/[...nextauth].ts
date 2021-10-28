@@ -6,7 +6,7 @@ import Adapters from "next-auth/adapters";
 const UserModel = require('../../../models/user')
 import { NextApiRequest, NextApiResponse } from "next";
 
-// Maybe it wasn't a good idea to use credentials method iwht next-auth
+// Now going to be using next-auth methods to handlle authentication na dmaybe autharization as well 
 
 
 const options = {
