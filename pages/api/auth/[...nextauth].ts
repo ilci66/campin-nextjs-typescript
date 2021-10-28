@@ -3,7 +3,7 @@ import Providers from "next-auth/providers";
 import Adapters from "next-auth/adapters";
 // in the documents this is shown but throws an error
 // import CredentialsProvider from `next-auth/providers/credentials`
-import axios from "axios";
+const UserModel = require('../../../models/user')
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Maybe it wasn't a good idea to use credentials method iwht next-auth
@@ -22,6 +22,9 @@ const options = {
                 try{
                     // Add logic here to look up the user from the credentials supplied    
                     // gonna do the database call here  
+
+                    console.log('credentials ==>', credentials)
+
                     const user = { id: 1, username: 'JSmith', email: 'jsmith@example.com' }
                     if (user) {
                         return user     
