@@ -1,5 +1,8 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
+// import GoogleProvider from 'next-auth/providers/google'
+import GoogleProvider from 'next-auth/providers/google';
+
 import Adapters from "next-auth/adapters";
 // in the documents this is shown but throws an error
 // import CredentialsProvider from `next-auth/providers/credentials`
@@ -19,8 +22,16 @@ export default NextAuth({
 
 // const options = {
     providers: [   
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            // well I'm not using a database for now and this is suggested by the documentation
+            authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
+          }),
+
+
         // CredentialsProvider({
-            Providers.Credentials({
+        Providers.Credentials({
             name: 'Custom Provider',
             credentials: {      
                 email: { label: "Email", type: "text", placeholder: "example@gmail.com" },     
@@ -77,9 +88,9 @@ export default NextAuth({
             }    
         })
     ],
-    session: {
-        jwt: true,
-    },
+    // session: {
+    //     jwt: true,
+    // },
     // Any changes to the jwt causes a type error gonna look back into it later
     // jwt: {
     //     secret: process.env.JWT_SECRET
@@ -91,14 +102,29 @@ export default NextAuth({
     //       algorithms: ["HS256"]
     //     }
     // }
-// }
+    // }    
+    // callbacks: {
+    //     session: async (session, user) => {
+    //         session.id = user.id
+    //         return Promise.resolve(session)
+    //     }
+    // }
+    session: {
+        jwt: true,
+    },
 
-    callbacks: {
-        session: async (session, user) => {
-            session.id = user.id
-            return Promise.resolve(session)
-        }
-    }
+    // jwt: {
+    //     encryption: true
+    // },
+    // secret: process.env.JWT_SECRET,
+
+    // callbacks: {
+    //     session: async (session, user) => {
+    //         session.id = user.id
+    //         return Promise.resolve(session)
+    //     }
+    // },
+
 })
 
 
