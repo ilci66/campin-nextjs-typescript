@@ -11,6 +11,8 @@ import bcrypt from 'bcrypt';
 
 console.log("in nextauth")
 
+// it doen't look necessary to include database here
+
 
 export default NextAuth({
 
@@ -39,29 +41,30 @@ export default NextAuth({
             //       // throw '/path/to/redirect'        // Redirect to a URL
             //     }
             //   }
-            async authorize(credentials, req) {      
-                // console.log("req in next auth",req)
+            async authorize(credentials) {      
                 try {
                     const connected = await connectToDatabase();
 
                     if(!connected){ console.log("not connected to the server") }
 
                     console.log('credentials ==>', credentials)
-
-                    // This didn't fix it either
-                    // let user: {email: string, name: string} | string | undefined | null = {name:"", email:""} ;
-
                     
                     let user: {email: string, name: string} = {name:"", email:""} ;
 
                     const userData = await UserModel.findOne({ email: credentials.email }).clone();
-                    if(!userData){ console.log("there's no user with that email"); return;}
+
+                    // fixed the authorize error by addingg the return null here, typescript really works I guess
+                    if(!userData){ console.log("there's no user with that email"); return null;}
 
                     let comparison = await bcrypt.compare(credentials.password, userData.password) 
+
                     if(comparison){
                         console.log("comparison is true ")
-                        user.email = userData.email;
+                        // user.email = userData.email;
+                        // user.name = userData.name
+                        console.log("id ==>",typeof userData.id)
                         user.name = userData.name
+                        user.email= userData.email
 
                         console.log("User ==> ", user)
                         return user
@@ -71,7 +74,6 @@ export default NextAuth({
                 } catch (error) {
                     throw new Error("There was an error on user authentication");  
                 }
-                
             }    
         })
     ],
@@ -91,7 +93,12 @@ export default NextAuth({
     // }
 // }
 
-
+    callbacks: {
+        session: async (session, user) => {
+            session.id = user.id
+            return Promise.resolve(session)
+        }
+    }
 })
 
 

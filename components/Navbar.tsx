@@ -20,6 +20,10 @@ const Navbar: NextComponentType = () => {
 
     const [ session, loading ] = useSession();
 
+    if(session){
+        console.log("this is the session", session)
+    }
+
     const [ show, setShow ] = useState(false)
     const [ hide, setHide ] = useState(true)
     
