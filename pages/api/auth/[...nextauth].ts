@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 // import GoogleProvider from 'next-auth/providers/google'
 import GoogleProvider from 'next-auth/providers/google';
+import FacebookProvider from 'next-auth/providers/facebook';
 
 import Adapters from "next-auth/adapters";
 // in the documents this is shown but throws an error
@@ -16,18 +17,20 @@ console.log("in nextauth")
 
 // it doen't look necessary to include database here
 
-
 export default NextAuth({
-
 
 // const options = {
     providers: [   
+        FacebookProvider({
+            clientId: process.env.FB_ID,
+            clientSecret: process.env.FB_SECRET
+        }),
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             // well I'm not using a database for now and this is suggested by the documentation
             authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
-          }),
+        }),
 
 
         // CredentialsProvider({
