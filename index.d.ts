@@ -2,3 +2,4 @@
 
 
 declare module 'next-auth/providers/google'
+declare module 'next-auth/providers/facebook'
