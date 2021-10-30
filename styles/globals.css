@@ -11,6 +11,7 @@
 }
 html,
 body {
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -33,11 +34,6 @@ img {
 * {
   box-sizing: border-box;
 }
-a {
-  font-size: 1.5rem;
-  color: inherit;
-  text-decoration: none;
-} 
 .navbar-container{
   width: 100%;
   background-color: var(--main-header-color);
@@ -54,7 +50,7 @@ nav {
   /* border-bottom: 1px solid #ddd;*/
 }
 .nav-buttons{
-  border: 2px solid red;
+  /* border: 2px solid red; */
   display:flex;
   flex-direction: row;
   align-items: center;
@@ -64,11 +60,39 @@ nav {
 }
 .nav-buttons>* {
   margin: .7rem;
+  font-size: 1.5rem;
+  color: var(--main-text-color);
+  text-decoration: none;
 }
 nav a {
-  /* margin-left: 12px;
-  margin-right: 18px;
-  transition: 0.5s; */
+  /* font-size: 1.5rem;
+  color: var(--main-text-color);
+  text-decoration: none; */
+}
+.sign-in {
+  background: inherit;
+  border: none;
+}
+.sign-in:hover {
+  cursor: pointer;
+}
+.sign-up {
+  text-decoration: none; 
+  background: inherit;
+  border:none;
+}
+.sign-up > a{
+  margin-left: -15px;
+  background: rgb(0, 105, 131);
+  border-radius: 20px;
+  padding: 20px;
+  color: var(--main-text-color);
+  text-decoration: none; 
+  transition: 0.2s;
+}
+.sign-up > a:hover{
+  background-color: var(--main-text-color);
+  color: rgb(0, 105, 131);
 }
 nav a:hover, .sign-in:hover {
   color: rgb(0, 105, 131);

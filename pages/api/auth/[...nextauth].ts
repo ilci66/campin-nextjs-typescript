@@ -11,17 +11,21 @@ const UserModel = require('../../../models/user')
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectToDatabase } from '../../../lib/connection';
 import bcrypt from 'bcrypt';
+import { resolve } from "path/posix";
 
 
 console.log("in nextauth")
 
 // it doen't look necessary to include database here
 
-export default NextAuth({
 
-// const options = {
+// it works the same in both ways just wrote here as reminder for future reference
+// export default NextAuth({
+
+const options = {
     providers: [   
-        FacebookProvider({
+        // FacebookProvider({
+        Providers.Facebook({
             clientId: process.env.FB_ID,
             clientSecret: process.env.FB_SECRET
         }),
@@ -35,7 +39,7 @@ export default NextAuth({
 
         // CredentialsProvider({
         Providers.Credentials({
-            name: 'Custom Provider',
+            name: 'Campin Account',
             credentials: {      
                 email: { label: "Email", type: "text", placeholder: "example@gmail.com" },     
                 password: {  label: "Password", type: "password" }    
@@ -70,7 +74,8 @@ export default NextAuth({
                     // fixed the authorize error by addingg the return null here, typescript really works I guess
                     if(!userData){ console.log("there's no user with that email"); return null;}
 
-                    let comparison = await bcrypt.compare(credentials.password, userData.password) 
+                    let comparison = await bcrypt.compare(credentials.password, userData.password)
+
 
                     if(comparison){
                         console.log("comparison is true ")
@@ -127,9 +132,13 @@ export default NextAuth({
     //         return Promise.resolve(session)
     //     }
     // },
+    pages: {    
+        signIn: "/sign-in",
+    },
+}   
 
-})
+// })
 
 
 
-// export default (req:NextApiRequest, res:NextApiResponse) => NextAuth(req, res, options);
+export default (req:NextApiRequest, res:NextApiResponse) => NextAuth(req, res, options);

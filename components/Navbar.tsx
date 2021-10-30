@@ -94,7 +94,11 @@ const Navbar: NextComponentType = () => {
                     {!session && <>
                          {/* <button id="nav-sign-in" className="sign-in" onClick={handleShowModal}>Sign In</button> */}
                             <button id="nav-sign-in" className="sign-in" onClick={(e) =>{ e.preventDefault(); signIn(); }}>Sign In</button>
-                            <button id="nav-sign-up"></button>
+                            <button id="nav-sign-up" className="sign-up">
+                                <Link href="/sign-up">
+                                    <a>Sign Up</a>
+                                </Link>
+                            </button>
                         </>
                     }
                 </div>
