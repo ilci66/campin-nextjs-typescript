@@ -20,48 +20,53 @@ const Navbar: NextComponentType = () => {
 
     const [ session, loading ] = useSession();
 
+    if(session){
+        console.log("this is the session", session)
+    }
+
     const [ show, setShow ] = useState(false)
     const [ hide, setHide ] = useState(true)
     
  
-    const handleShowModal = () => {
-        setShow(true)
-        setHide(false)
-    }
-    const handleCloseModal = () => {
-        setShow(false)
-        setHide(true)
-    }
-    useEffect(()=>{
-        if(window && show === true){
-            const modal: HTMLElement = document.getElementById('my-modal')!;
-            window.onclick = (event) => {
-                const { target } = event
+    // const handleShowModal = () => {
+    //     setShow(true)
+    //     setHide(false)
+    // }
+    // const handleCloseModal = () => {
+    //     setShow(false)
+    //     setHide(true)
+    // }
+    // useEffect(()=>{
+    //     if(window && show === true){
+    //         const modal: HTMLElement = document.getElementById('my-modal')!;
+    //         window.onclick = (event) => {
+    //             const { target } = event
 
-                if (target == modal) {
-                    modal.style.display = "none";
-                    handleCloseModal()
-                }
-            }
-        }
-    },
-    [show, hide])
+    //             if (target == modal) {
+    //                 modal.style.display = "none";
+    //                 handleCloseModal()
+    //             }
+    //         }
+    //     }
+    // },
+    // [show, hide])
 
-    useEffect(() => {
-        const modal = document.getElementById('my-modal') !;
-        if(show && !hide){
-            modal.style.display = "block"
-        }else if(!show && hide) {
-            modal.style.display = "none"
-        }
-    }, [show, hide])
+    // useEffect(() => {
+    //     const modal = document.getElementById('my-modal') !;
+    //     if(show && !hide){
+    //         modal.style.display = "block"
+    //     }else if(!show && hide) {
+    //         modal.style.display = "none"
+    //     }
+    // }, [show, hide])
 
     return (<>
-        <SignInModal 
+        {/* <SignInModal 
+            signIn={signIn}
             handleCloseModal={handleCloseModal} 
             setIsFetching={setIsFetching} 
             setNameNavbar={setNameNavbar}
-        />
+        /> */}
         <div className="navbar-container">
             <nav>
                 <Link href="/"><a>
@@ -84,10 +89,17 @@ const Navbar: NextComponentType = () => {
 
                     {session && <>
                         <p className="user-name">{session.user!.name}</p> 
-                        <button id="nav-sign-out" className="sign-out" onClick={() => {signOut}}>Sign out</button></> 
+                        <button id="nav-sign-out" className="sign-out" onClick={(e) => { e.preventDefault(); signOut();}}>Sign out</button></> 
                     }
-                    {!session && 
-                        <button id="nav-sign-in" className="sign-in" onClick={handleShowModal}>Sign In</button>
+                    {!session && <>
+                         {/* <button id="nav-sign-in" className="sign-in" onClick={handleShowModal}>Sign In</button> */}
+                            <button id="nav-sign-in" className="sign-in" onClick={(e) =>{ e.preventDefault(); signIn(); }}>Sign In</button>
+                            <button id="nav-sign-up" className="sign-up">
+                                <Link href="/sign-up">
+                                    <a>Sign Up</a>
+                                </Link>
+                            </button>
+                        </>
                     }
                 </div>
             </nav>

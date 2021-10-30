@@ -1,94 +1,144 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
+// import GoogleProvider from 'next-auth/providers/google'
+import GoogleProvider from 'next-auth/providers/google';
+import FacebookProvider from 'next-auth/providers/facebook';
+
 import Adapters from "next-auth/adapters";
 // in the documents this is shown but throws an error
 // import CredentialsProvider from `next-auth/providers/credentials`
 const UserModel = require('../../../models/user')
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectToDatabase } from '../../../lib/connection';
-
 import bcrypt from 'bcrypt';
+import { resolve } from "path/posix";
 
 
-// Now going to be using next-auth methods to handlle authentication na dmaybe autharization as well 
 console.log("in nextauth")
+
+// it doen't look necessary to include database here
+
+
+// it works the same in both ways just wrote here as reminder for future reference
+// export default NextAuth({
 
 const options = {
     providers: [   
+        // FacebookProvider({
+        Providers.Facebook({
+            clientId: process.env.FB_ID,
+            clientSecret: process.env.FB_SECRET
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            // well I'm not using a database for now and this is suggested by the documentation
+            authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
+        }),
+
+
         // CredentialsProvider({
-            Providers.Credentials({
-            name: 'Custom Provider',
+        Providers.Credentials({
+            name: 'Campin Account',
             credentials: {      
                 email: { label: "Email", type: "text", placeholder: "example@gmail.com" },     
                 password: {  label: "Password", type: "password" }    
             },
-            async authorize(credentials, req) {      
-                // console.log("req in next auth",req)
+            // async authorize(credentials, req) { 
 
-                const connected = await connectToDatabase();
+            //     const user = { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
+          
+            //     if (user) {
+            //       // Any object returned will be saved in `user` property of the JWT
+            //       return user
+            //     } else {
+            //       // If you return null or false then the credentials will be rejected
+            //       return null
+            //       // You can also Reject this callback with an Error or with a URL:
+            //       // throw new Error('error message') // Redirect to error page
+            //       // throw '/path/to/redirect'        // Redirect to a URL
+            //     }
+            //   }
+            async authorize(credentials) {      
+                try {
+                    const connected = await connectToDatabase();
 
-                if(!connected){ console.log("not connected to the server") }
-                try{
-                    // Add logic here to look up the user from the credentials supplied    
-                    // gonna do the database call here  
+                    if(!connected){ console.log("not connected to the server") }
+
                     console.log('credentials ==>', credentials)
-
-                    // const user = await UserModel.findOne({ email: credentials.email }) 
-                    let user: {email: string, name: string} = {name:"", email:""};
-
-                    // =====>>>>>>><   gonna look back at this after my break <<<<< ====
-                    await UserModel.findOne({ email: credentials.email }, async (err:object, data:{email:string, name: string, password:string}) => {
-                        if(err){
-                            // console.log(err)
-                            throw new Error("There was an error on finding the user in database"); 
-                            // return null;
-                        }else if(!data){
-                            throw new Error("There is no user with that email adress"); 
-                            // return null;
-                        }else {
-                            console.log("this is the data ==>", data)
-
-                            let comparison = await bcrypt.compare(credentials.password, data.password)
-
-                            console.log("comparison ==> ", comparison)
-
-                            if(comparison){
-                                console.log("comparison is true ")
-                                user.email = data.email;
-                                user.name = data.name
-
-                                console.log("User ==> ", user)
-
-                                return user
-                            }
-                            
-                        }   
                     
-                    })
-                    console.log("jumps here")
+                    let user: {email: string, name: string} = {name:"", email:""} ;
 
-                    // console.log(" ==> ", user)
-                    // const user = { id: 1, username: 'JSmith', email: 'jsmith@example.com' }
-                    // if (user) {
-                    //     return user     
-                    // } else {
-                    //     return null
-                    // } 
-                } catch(error) {
-                    console.log(error)
-                    throw new Error("There was an error on user authentication"); 
+                    const userData = await UserModel.findOne({ email: credentials.email }).clone();
+
+                    // fixed the authorize error by addingg the return null here, typescript really works I guess
+                    if(!userData){ console.log("there's no user with that email"); return null;}
+
+                    let comparison = await bcrypt.compare(credentials.password, userData.password)
+
+
+                    if(comparison){
+                        console.log("comparison is true ")
+                        // user.email = userData.email;
+                        // user.name = userData.name
+                        console.log("id ==>",typeof userData.id)
+                        user.name = userData.name
+                        user.email= userData.email
+
+                        console.log("User ==> ", user)
+                        return user
+                    }
+                    console.log("gonna return null")
+                    return null;   
+                } catch (error) {
+                    throw new Error("There was an error on user authentication");  
                 }
-        
-            return null;      
             }    
         })
     ],
+    // session: {
+    //     jwt: true,
+    // },
+    // Any changes to the jwt causes a type error gonna look back into it later
+    // jwt: {
+    //     secret: process.env.JWT_SECRET
+    // }
+    // when I add this I'm getting and error as well
+    // jwt: {
+    //     signingKey: {"kty":"oct","kid":"--","alg":"HS256","k":"--"},
+    //     verificationOptions: {
+    //       algorithms: ["HS256"]
+    //     }
+    // }
+    // }    
+    // callbacks: {
+    //     session: async (session, user) => {
+    //         session.id = user.id
+    //         return Promise.resolve(session)
+    //     }
+    // }
     session: {
         jwt: true,
     },
-    jwt: {
-        secret: process.env.JWT_SECRET
-    }
-}
+
+    // jwt: {
+    //     encryption: true
+    // },
+    // secret: process.env.JWT_SECRET,
+
+    // callbacks: {
+    //     session: async (session, user) => {
+    //         session.id = user.id
+    //         return Promise.resolve(session)
+    //     }
+    // },
+    pages: {    
+        signIn: "/sign-in",
+    },
+}   
+
+// })
+
+
 
 export default (req:NextApiRequest, res:NextApiResponse) => NextAuth(req, res, options);

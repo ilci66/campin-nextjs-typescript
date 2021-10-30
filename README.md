@@ -1,16 +1,7 @@
-## A I implemeted my method with my database now gonna use the credential along with couple of social media auth methods of next-auth, looks cleaner, implementing these auth methods on next-auth branch
+## On this branch I will be implementing the next-auth stuff
+* As it's necessary to delete most of the stuff i did for my own method of user authentication, and it still needs a lot of cleaning up,
+I will be implementing the couple of auth methods as while also including my database
 
-## having trouble including my database for now, currently working on that 
+* now going to change the style and the function of the login process a little so it fits better with the flow of the website
 
-* There will be posts about camping and camping related topics
-* Planning on adding a map with the camping hotspots
-* Decided to do the styling using css only
-* I could use bootstrap for the sign in modal at least but it seems easier I might not learn anything new if I go with bootstrap
-* Note to self: Don't forget to use fontawesome later
-* Note to self: Gonna have to create a context for the user and update it from the navbar to keep it consistent throughout the website, sign in and sign out is also handled there
-* I feel like typescript it making it harder at this point but everyone seems to love it so gonna stick to it I guess
-* Gonna use next auth for social media sign ins but I wanna also implement the credentials method with jwt and include my database in it as well 
-* I could easily save everything into session storage set an expiration date or something but I don't have much practise on cookies, that's why I used jwt and cookies 
-
-
-* GOT A LITTLE CONFUSED WITH THE ROUTES BUT NECESSARY NOTES FOR FUTURE ADDED
+* I couldn't find enough information on how to handle the erros in my custom sign page for sign ins using credentials, instead of in the action I will try to handle it with a fetch request in an event handler 

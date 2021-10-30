@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import Head from 'next/head';
 import { NextComponentType, GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
 import React, { useState, useEffect } from 'react'
 import { signIn, signOut, useSession } from 'next-auth/client';
 import axios from 'axios'
 import Navbar from './Navbar';
+import { sign } from 'crypto';
 const Cookies = require('js-cookie');
 
 export interface ISignInData {
@@ -27,6 +29,7 @@ export interface IProps {
     token?:string;
     setIsFetching:(arg0:boolean) => void
     setNameNavbar:(arg0:string) => void
+    signIn:() => void
     
 }
 
@@ -63,29 +66,42 @@ const SignInModal = ({ handleCloseModal, setIsFetching, setNameNavbar }:IProps )
 
     const [ session, loading ] = useSession();
 
-    const handleSignInSubmit = (event: React.FormEvent) => {
-        event.preventDefault()
-        console.log("clicked sign in")
-        console.log("credentials ==>", credentials)    
-
-        
-        
-        const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
-            
-        axios.post<IResponse>(`${url}/api/login/`, credentials)
-            .then(res => {
-                if(res.data.success){
-                    console.log(res.data)
-                    getUserInfo();
-                }
-            });
-
-        console.log("url",url)
-        return;    
+    const handleSignIn = (e:React.FormEvent) => {
+        console.log("next auth sign in")
+        // e.preventDefault();
+        // signIn("google")
+        console.log("sign in handler ends")
     }
+    // const handleSignInSubmit = (event: React.FormEvent) => {
+    //     event.preventDefault()
+    //     console.log("clicked sign in")
+    //     console.log("credentials ==>", credentials)    
+
+        
+        
+    //     const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+            
+    //     axios.post<IResponse>(`${url}/api/login/`, credentials)
+    //         .then(res => {
+    //             if(res.data.success){
+    //                 console.log(res.data)
+    //                 getUserInfo();
+    //             }
+    //         });
+
+    //     console.log("url",url)
+    //     return;    
+    // }
 
     return (
+        
         <div id="my-modal" className="modal">
+                 <Head>
+        <title>Jobs App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+
             <div className="modal-content">
                 <div className="modal-header">
                     <h2 className="modal-header">Hello Camper!</h2>
@@ -94,8 +110,10 @@ const SignInModal = ({ handleCloseModal, setIsFetching, setNameNavbar }:IProps )
                     </button>
                 </div>
                 <div className="modal-body">
-                    <form action="" onSubmit={handleSignInSubmit} className="modal-form">
-                        <div className="input-container input-1">
+                    <p className="modal-text">You can sign in with your Campin' account or via Google or Facebook</p>
+                    {/* <form action="" onSubmit={handleSignInSubmit} className="modal-form"> */}
+                    <form action=""  onSubmit={handleSignIn} className="modal-form">
+                        {/*<div className="input-container input-1">
                             <input 
                                 id="sign-in-email" 
                                 className="input" 
@@ -121,8 +139,28 @@ const SignInModal = ({ handleCloseModal, setIsFetching, setNameNavbar }:IProps )
                                 <label htmlFor="password" >Password</label>
                             </div>
                             
-                        </div>
-                        <button type="submit" id="modal-sign-in" className="modal-sign-in">Sign in</button>
+                        </div> */}
+                        <button 
+                            type="submit" 
+                            id="modal-sign-in" 
+                            onClick={(e)=> {e.preventDefault(); signIn("google")}} 
+                            className="modal-sign-in">
+                            Google
+                        </button>
+                        <button 
+                            type="submit" 
+                            id="modal-sign-in" 
+                            onClick={(e)=> {e.preventDefault(); signIn("facebook")}} 
+                            className="modal-sign-in">
+                            Facebook
+                        </button>
+                        <button 
+                            type="submit" 
+                            id="modal-sign-in" 
+                            onClick={(e)=> {e.preventDefault(); signIn("credentials")}} 
+                            className="modal-sign-in">
+                            Credentials
+                        </button>
                     </form>
                 </div>
                 <div className="modal-footer">
