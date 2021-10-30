@@ -68,8 +68,8 @@ const SignInModal = ({ handleCloseModal, setIsFetching, setNameNavbar }:IProps )
 
     const handleSignIn = (e:React.FormEvent) => {
         console.log("next auth sign in")
-        e.preventDefault();
-        signIn()
+        // e.preventDefault();
+        // signIn("google")
         console.log("sign in handler ends")
     }
     // const handleSignInSubmit = (event: React.FormEvent) => {
@@ -110,6 +110,7 @@ const SignInModal = ({ handleCloseModal, setIsFetching, setNameNavbar }:IProps )
                     </button>
                 </div>
                 <div className="modal-body">
+                    <p className="modal-text">You can sign in with your Campin' account or via Google or Facebook</p>
                     {/* <form action="" onSubmit={handleSignInSubmit} className="modal-form"> */}
                     <form action=""  onSubmit={handleSignIn} className="modal-form">
                         {/*<div className="input-container input-1">
@@ -139,7 +140,27 @@ const SignInModal = ({ handleCloseModal, setIsFetching, setNameNavbar }:IProps )
                             </div>
                             
                         </div> */}
-                        <button type="submit" id="modal-sign-in" className="modal-sign-in">Sign in</button>
+                        <button 
+                            type="submit" 
+                            id="modal-sign-in" 
+                            onClick={(e)=> {e.preventDefault(); signIn("google")}} 
+                            className="modal-sign-in">
+                            Google
+                        </button>
+                        <button 
+                            type="submit" 
+                            id="modal-sign-in" 
+                            onClick={(e)=> {e.preventDefault(); signIn("facebook")}} 
+                            className="modal-sign-in">
+                            Facebook
+                        </button>
+                        <button 
+                            type="submit" 
+                            id="modal-sign-in" 
+                            onClick={(e)=> {e.preventDefault(); signIn("credentials")}} 
+                            className="modal-sign-in">
+                            Credentials
+                        </button>
                     </form>
                 </div>
                 <div className="modal-footer">
