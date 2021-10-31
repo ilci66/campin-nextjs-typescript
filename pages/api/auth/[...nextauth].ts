@@ -63,25 +63,37 @@ const options = {
                 try {
                     const connected = await connectToDatabase();
 
-                    if(!connected){ console.log("not connected to the server") }
+                    if(!connected){ 
+                        console.log("not connected to the server") 
+                        throw new Error("Not connected to the server")
+                    }
+                    
 
                     console.log('credentials ==>', credentials)
                     
                     let user: {email: string, name: string} = {name:"", email:""} ;
 
                     const userData = await UserModel.findOne({ email: credentials.email }).clone();
+                    
 
                     // fixed the authorize error by addingg the return null here, typescript really works I guess
-                    if(!userData){ console.log("there's no user with that email"); return null;}
+                    if(!userData){ 
+                        console.log("there's no user with that email"); 
+                        throw new Error("There's no user data")
+                        // return null;
+                    }
 
                     let comparison = await bcrypt.compare(credentials.password, userData.password)
-
+                    if(!comparison){
+                        console.log("passwords do not match")
+                        throw new Error("Wrong email address or password")
+                    }
 
                     if(comparison){
                         console.log("comparison is true ")
                         // user.email = userData.email;
                         // user.name = userData.name
-                        console.log("id ==>",typeof userData.id)
+                        // console.log("id ==>",typeof userData.id, typeof userData._id)
                         user.name = userData.name
                         user.email= userData.email
 
@@ -91,12 +103,21 @@ const options = {
                     console.log("gonna return null")
                     return null;   
                 } catch (error:any) {
-                    console.log(error.response.data.message)
-                    throw new Error("There was an error on user authentication");  
+                    const errorMessage = error.response.data.message
+                    // Redirecting to the login page with error message in the URL
+
+                    throw new Error(errorMessage)
+                //     console.log(error.response.data.message)
+                //     throw new Error("There was an error on user authentication");  
                 }
             }    
         })
     ],
+    // callbacks: {
+    //     redirect({ url, baseUrl }) {
+    //       return url.startsWith(baseUrl) ? url : baseUrl
+    //     }
+    //   },
     // session: {
     //     jwt: true,
     // },

@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { providers, signIn, getSession, csrfToken, CtxOrReq } from "next-auth/client";
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 
 // import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
@@ -16,20 +16,38 @@ interface ISingInProps {
 
 const SignIn = ({ providers, csrfToken }: ISingInProps) => {
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("")
 
-  const signintest = (e: React.FormEvent) => {
+  const handleSignInCrendetials = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const data = {
-      csrfToken : csrfToken,
-      email: "test1@gmail.com",
-      password: "test1"
-    }
+    console.log("sign in with =>", email, password);
 
-    axios.post(`/api/auth/callback/credentials`, data)
-      .then(res => {return res;
-        //  console.log(res)
-      })
+    signIn('credentials',
+      {
+        email,
+        password,
+        // The page where you want to redirect to after a 
+        // successful login
+        callbackUrl: `${window.location.origin}/` 
+      }
+    )
+    signIn()
+    
+
+
+    // const data = {
+    //   csrfToken : csrfToken,
+    //   email: "test1@gmail.com",
+    //   password: "test1"
+    // }
+
+    // axios.post(`/api/auth/callback/credentials`, data)
+    //   .then(res => {return res;
+    //     //  console.log(res)
+    //   })
+    
 
 
 
@@ -48,17 +66,17 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         <div className="sign-in-options">
           {Object.values(providers).map((provider) => {if (provider.name === "Campin Account") {
             return(
-              <form method="post" key={provider.name} action="/api/auth/signin/credentials">
-                {/* <form method="post" action="" onSubmit={signintest}>  */}
+              // <form method="post" key={provider.name} action="/api/auth/signin/credentials">
+                <form  onSubmit={handleSignInCrendetials}>
 
                 <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                 <label>
                   Email
-                  <input name="email" type="text" />
+                  <input name="email" onChange={(e) => setEmail(e.target.value)} type="text" />
                 </label>
                 <label>
                   Password
-                  <input name="password" type="password" />
+                  <input name="password" onChange={(e) => setPassword(e.target.value)} type="password" />
                 </label>
                 <button type="submit">Sign in</button>
               </form>
@@ -66,7 +84,7 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
           }
           return (
             <div key={provider.name} className={provider.name + " social-sign-in"} >
-              <button key={provider.name} onClick={() => signIn(provider.id)}>
+              <button key={provider.name} onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/`})}>
                 Sign in with {provider.name}
               </button>
             </div>
