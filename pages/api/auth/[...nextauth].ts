@@ -59,10 +59,12 @@ const options = {
             //       // throw '/path/to/redirect'        // Redirect to a URL
             //     }
             //   }
-            async authorize(credentials) {      
+            async authorize(credentials) {    
+                
+                console.log("in auth ==> credentials")
+
                 try {
                     const connected = await connectToDatabase();
-                    console.log("in auth credentials")
 
                     if(!connected){ 
                         console.log("not connected to the server") 

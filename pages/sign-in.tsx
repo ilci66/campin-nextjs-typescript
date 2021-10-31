@@ -5,17 +5,18 @@ import { providers, signIn, getSession, csrfToken, CtxOrReq } from "next-auth/cl
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
+
 // import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
 
 // got a little lazy with the types here i will take another look after everything else is done
 interface ISingInProps {
   providers: object;
-
   csrfToken: string;
 }
 
 const SignIn = ({ providers, csrfToken }: ISingInProps) => {
+
 
   // const [loginError, setLoginError] = useState('')
   // const router = useRouter()
@@ -35,7 +36,18 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
   const handleSignInCrendetials = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("sign in with =>", email, password);
+    // Ok this method kinda works but it's not the one I should be using 
+    // const data = {
+    //   csrfToken : csrfToken,
+    //   email: "test1@gmail.com",
+    //   password: "test1"
+    // }
+
+    // axios.post(`/api/auth/callback/credentials`, data)
+    //   .then(res => { console.log(res)})
+
+    // ====> This is another method I used before <=====
+    // console.log("sign in with =>", email, password);
 
     signIn('credentials',
       {
@@ -46,10 +58,13 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         // callbackUrl: `${window.location.origin}/` 
       }
     )
-    signIn()
+
+
+    
+    // signIn()
   }
 
-  // This was a method apparently someone'susing to handle error
+  // This was a method apparently someone's using to handle error
   // const res = await signIn('credentials',
   //   {
   //     email,
@@ -87,7 +102,7 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
                   Password
                   <input name="password" onChange={(e) => setPassword(e.target.value)} type="password" />
                 </label>
-                <button type="submit">Sign in</button>
+                <button type="submit">Sign In With {provider.name}</button>
               </form>
             );
           }
