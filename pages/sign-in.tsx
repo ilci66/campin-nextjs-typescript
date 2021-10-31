@@ -27,7 +27,9 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
     }
 
     axios.post(`/api/auth/callback/credentials`, data)
-      .then(res => {return res; console.log(res)})
+      .then(res => {return res;
+        //  console.log(res)
+      })
 
 
 
@@ -46,9 +48,8 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         <div className="sign-in-options">
           {Object.values(providers).map((provider) => {if (provider.name === "Campin Account") {
             return(
-              // <form method="post" key={provider.name} action="/api/auth/signin/credentials">
-              // <form method="post" action="/api/auth/callback/credentials">
-               <form method="post" action="" onSubmit={signintest}> 
+              <form method="post" key={provider.name} action="/api/auth/signin/credentials">
+                {/* <form method="post" action="" onSubmit={signintest}>  */}
 
                 <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                 <label>
@@ -97,7 +98,7 @@ SignIn.getInitialProps = async (context: {req: any, res: any}) => {
   // console.log("context ==> ",context)
 
   const { req, res } = context;
-  console.log(res)
+  // console.log(res)
   const session = await getSession({ req });
 
   if (session && res && session.accessToken) {

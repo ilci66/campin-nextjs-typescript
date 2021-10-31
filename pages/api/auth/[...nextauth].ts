@@ -90,7 +90,8 @@ const options = {
                     }
                     console.log("gonna return null")
                     return null;   
-                } catch (error) {
+                } catch (error:any) {
+                    console.log(error.response.data.message)
                     throw new Error("There was an error on user authentication");  
                 }
             }    
