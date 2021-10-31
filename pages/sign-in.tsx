@@ -1,8 +1,9 @@
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router';
 import Head from 'next/head'
 import { providers, signIn, getSession, csrfToken, CtxOrReq } from "next-auth/client";
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
@@ -15,6 +16,18 @@ interface ISingInProps {
 }
 
 const SignIn = ({ providers, csrfToken }: ISingInProps) => {
+
+  // const [loginError, setLoginError] = useState('')
+  // const router = useRouter()
+  // useEffect(() => {
+  //   // Getting the error details from URL
+  //   if (router.query.error) {
+  //     setLoginError(router.query.error) // Shown below the input field in my example
+  //     setEmail(router.query.email) // To prefill the email after redirect
+  //   } 
+  // }, [router])
+
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
@@ -30,31 +43,27 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         password,
         // The page where you want to redirect to after a 
         // successful login
-        callbackUrl: `${window.location.origin}/` 
+        // callbackUrl: `${window.location.origin}/` 
       }
     )
     signIn()
-    
-
-
-    // const data = {
-    //   csrfToken : csrfToken,
-    //   email: "test1@gmail.com",
-    //   password: "test1"
-    // }
-
-    // axios.post(`/api/auth/callback/credentials`, data)
-    //   .then(res => {return res;
-    //     //  console.log(res)
-    //   })
-    
-
-
-
   }
 
-  console.log(providers)
-  console.log(csrfToken)
+  // This was a method apparently someone'susing to handle error
+  // const res = await signIn('credentials',
+  //   {
+  //     email,
+  //     password,
+  //     callbackUrl: `${window.location.origin}/account_page` 
+  //     redirect: false,
+  //   }
+  // )
+  // if (res?.error) handleError(res.error)
+  // if (res.url) router.push(res.url);
+
+  // console.log(providers)
+  // console.log(csrfToken)
+  
 
   return (<>
       <Head>
@@ -67,7 +76,7 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
           {Object.values(providers).map((provider) => {if (provider.name === "Campin Account") {
             return(
               // <form method="post" key={provider.name} action="/api/auth/signin/credentials">
-                <form  onSubmit={handleSignInCrendetials}>
+                <form key={provider.name} onSubmit={handleSignInCrendetials}>
 
                 <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                 <label>
