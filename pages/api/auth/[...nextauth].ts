@@ -62,6 +62,7 @@ const options = {
             async authorize(credentials) {      
                 try {
                     const connected = await connectToDatabase();
+                    console.log("in auth credentials")
 
                     if(!connected){ 
                         console.log("not connected to the server") 
@@ -104,6 +105,7 @@ const options = {
                     return null;   
                 } catch (error:any) {
                     const errorMessage = error.response.data.message
+                    console.log("error message", errorMessage)
                     // Redirecting to the login page with error message in the URL
 
                     throw new Error(errorMessage)
