@@ -4,3 +4,4 @@
 
 * I couldn't find enough information on how to handle the erros in my custom sign page for sign ins using credentials, instead of in the action I will try to handle it with a fetch request in an event handler 
 
+* Fixed the error with credentai sign in but still need to handle errors and show error messages to the user, working on it.
