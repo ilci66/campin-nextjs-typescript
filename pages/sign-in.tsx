@@ -17,6 +17,7 @@ interface ISingInProps {
 
 const SignIn = ({ providers, csrfToken }: ISingInProps) => {
 
+  const router = useRouter()
 
   // const [loginError, setLoginError] = useState('')
   // const router = useRouter()
@@ -33,35 +34,27 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
 
-  const handleSignInCrendetials = (e: React.FormEvent) => {
+  const handleSignInCrendetials = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Ok this method kinda works but it's not the one I should be using 
-    // const data = {
-    //   csrfToken : csrfToken,
-    //   email: "test1@gmail.com",
-    //   password: "test1"
-    // }
+    console.log(email, password)
 
-    // axios.post(`/api/auth/callback/credentials`, data)
-    //   .then(res => { console.log(res)})
-
-    // ====> This is another method I used before <=====
-    // console.log("sign in with =>", email, password);
-
-    signIn('credentials',
+    const res = await signIn('credentials',
       {
+        csrfToken,
         email,
         password,
-        // The page where you want to redirect to after a 
-        // successful login
-        // callbackUrl: `${window.location.origin}/` 
+        callbackUrl: `${window.location.origin}/`, 
+        // redirect: false,
       }
     )
 
+    if (res?.error) handleError(res.error)
+    // if (res!.url) router.push(res!.url);
 
-    
-    // signIn()
+  }
+  const handleError = (error: any) => {
+    console.log(error)
   }
 
   // This was a method apparently someone's using to handle error
@@ -90,19 +83,19 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         <div className="sign-in-options">
           {Object.values(providers).map((provider) => {if (provider.name === "Campin Account") {
             return(
-              // <form method="post" key={provider.name} action="/api/auth/signin/credentials">
-                <form key={provider.name} onSubmit={handleSignInCrendetials}>
+              // <form method="post" action="/api/auth/callback/credentials">
+              <form method="post" action="" onSubmit={handleSignInCrendetials}>
 
                 <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                 <label>
                   Email
-                  <input name="email" onChange={(e) => setEmail(e.target.value)} type="text" />
+                  <input onChange={e => setEmail(e.target.value)} name="email" type="text" />
                 </label>
                 <label>
                   Password
-                  <input name="password" onChange={(e) => setPassword(e.target.value)} type="password" />
+                  <input onChange={(e) => setPassword(e.target.value)} name="password" type="password" />
                 </label>
-                <button type="submit">Sign In With {provider.name}</button>
+                <button type="submit">Sign in</button>
               </form>
             );
           }
