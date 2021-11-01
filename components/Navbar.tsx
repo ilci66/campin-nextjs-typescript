@@ -19,6 +19,7 @@ const Navbar: NextComponentType = () => {
     const [ nameNavbar, setNameNavbar ] = useState<string>();
 
     const [ session, loading ] = useSession();
+    
 
     if(session){
         console.log("this is the session", session)

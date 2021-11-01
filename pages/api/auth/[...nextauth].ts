@@ -19,6 +19,7 @@ console.log("in nextauth")
 // it doen't look necessary to include database here
 
 
+
 // it works the same in both ways just wrote here as reminder for future reference
 // export default NextAuth({
 
@@ -82,14 +83,15 @@ const options = {
                     // fixed the authorize error by addingg the return null here, typescript really works I guess
                     if(!userData){ 
                         console.log("there's no user with that email"); 
-                        throw new Error("There's no user data")
-                        // return null;
+                        // throw new Error("There's no user data")
+                        return false;
                     }
 
                     let comparison = await bcrypt.compare(credentials.password, userData.password)
                     if(!comparison){
                         console.log("passwords do not match")
-                        throw new Error("Wrong email address or password")
+                        return false;
+                        // throw new Error("Wrong email address or password")
                     }
 
                     if(comparison){
@@ -104,13 +106,18 @@ const options = {
                         return user
                     }
                     console.log("gonna return null")
+                    
                     return null;   
                 } catch (error:any) {
                     const errorMessage = error.response.data.message
                     console.log("error message", errorMessage)
                     // Redirecting to the login page with error message in the URL
-
-                    throw new Error(errorMessage)
+                    
+                    
+                    return errorMessage
+                    
+                    // throw new Error(errorMessage)
+                    
                 //     console.log(error.response.data.message)
                 //     throw new Error("There was an error on user authentication");  
                 }
