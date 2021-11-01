@@ -27,7 +27,7 @@ interface SignInResponse {
 
 const SignIn = ({ providers, csrfToken }: ISingInProps) => {
 
-  // const router = useRouter()
+  const router = useRouter()
 
   // const [loginError, setLoginError] = useState('')
   // const router = useRouter()
@@ -40,7 +40,7 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
   // }, [router])
 
 
-  const [showError, setShowError] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
 
@@ -59,27 +59,31 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         csrfToken,
         email,
         password,
-        callbackUrl: `${window.location.origin}/`, 
-        // redirect: false,
+        // callbackUrl: `${window.location.origin}/`, 
+        redirect: false,
       }
     )
     console.log("sign in response => ", res)
 
-    if (res?.error) handleError(res.error)
-    // if (res!.url) router.push(res!.url);
+    if (res?.error){ handleError(res.error)}
+    if (res!.ok) router.push(window.location.origin);
+    
 
   }
   const handleError = (error: any) => {
     console.log('there is an error in sign in')
     console.log(error)
-    setEmail("");
-    setPassword("");
-    const emailInput = document.getElementById("cre-email")!;
-    const passwordInput = document.getElementById("cre-password")!;
+    // setEmail("");
+    // setPassword("");
+    // const emailInput = document.getElementById("cre-email")!;
+    // const passwordInput = document.getElementById("cre-password")!;
 
-    emailInput.value = ""
-    passwordInput.value = ""
+    // emailInput.value = ""
+    // passwordInput.value = ""
     alert(error)
+
+    const errCon = document.getElementById("sign-in-error-container");
+    errCon?.classList.add("error-show")
   }
 
   const testing = () => {
@@ -110,9 +114,9 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         <meta name="description" content="Sign In Page of Campin'" />
         <link rel="icon" href="/favicon-c.ico" />
       </Head>
-      <div className="error-container">
+      <div className="error-container" id="sign-in-error-container">
         <div className="error-box">
-          <p className="error-text"></p>
+          <p className="error-text">Wrong email address or password.</p>
         </div>
       </div>
       <div className="sign-in-page-container">
@@ -147,6 +151,16 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
       </div>
     </div>
     <style jsx>{`
+      .error-container{
+        position:absolute;
+        display: grid;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+      }
+      .error-show{
+        display:block;
+      }
       .sign-in-page-container{
         min-height: 100vh;
         border: 2px solid red;
