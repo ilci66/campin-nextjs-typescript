@@ -75,6 +75,45 @@ const Navbar: NextComponentType = () => {
                         <Image src="/campin-logo.png" width={100} height={100}/>
                     </div>
                 </a></Link>
+                <button className="dropdown">Dropdown nav links</button>
+                <div className="mobile-nav-buttons">
+                    <ul className="dropdown-navbar-list">
+                        <li className="dropdown-list-item">
+                            <Link href="/about">
+                                <a className="dropdown-link">ABOUT</a>
+                            </Link>
+                        </li>   
+                        <li className="drowpdown-list-item">
+                            <Link href="/map">
+                                <a className="dropdown-link">MAP</a>
+                            </Link>
+                        </li>
+                        <li className="drowpdown-list-item">
+                            <Link href="/posts">
+                                <a className="dropdown-link">POSTS</a>
+                            </Link>
+                        </li>
+                    </ul>
+                    {session && <>
+                        <p className="user-name">{session.user!.name}</p> 
+                        <button 
+                            id="mobile-nav-sign-out" 
+                            className="mobile-sign-out" 
+                            onClick={(e) => { e.preventDefault(); signOut();}}
+                            >Sign out
+                        </button>
+                    </> }
+                    {!session && <>
+                         {/* <button id="nav-sign-in" className="sign-in" onClick={handleShowModal}>Sign In</button> */}
+                            <button id="nav-sign-in" className="dropdown-sign-in" onClick={(e) =>{ e.preventDefault(); signIn(); }}>Sign In</button>
+                            <button id="nav-sign-up" className="dropdown-sign-up">
+                                <Link href="/sign-up">
+                                    <a className="dropdown-sign-up-link">Sign Up</a>
+                                </Link>
+                            </button>
+                        </>
+                    }
+                </div>
                 <div className="nav-buttons">
                     <Link href="/about"><a>About</a></Link>  
                     <Link href="/map"><a>Map</a></Link>

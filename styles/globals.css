@@ -31,6 +31,9 @@ body {
 img {
   max-width: 100%;
 }
+a{
+  text-decoration: none;
+}
 * {
   box-sizing: border-box;
 }
@@ -64,11 +67,7 @@ nav {
   color: var(--main-text-color);
   text-decoration: none;
 }
-nav a {
-  /* font-size: 1.5rem;
-  color: var(--main-text-color);
-  text-decoration: none; */
-}
+
 .sign-in {
   background: inherit;
   border: none;
@@ -97,28 +96,80 @@ nav a {
 nav a:hover, .sign-in:hover {
   color: rgb(0, 105, 131);
 }
-.sign-in {
-  /* font-size:1.4rem;
-  padding:1rem;
-  background-color: inherit;
-  /* box-shadow: none; 
-  border: 0;
-  color:#EDF5E1;
-  cursor: pointer;
-  transition: 0.5s; */
+.dropdown{
+  margin-right:50px;
+  display:none;
 }
-/* .sign-in:hover {
-  color: rgb(0, 105, 131);
-} */
+.mobile-nav-buttons{
+  display:none;
+  max-width: 400px;
+  min-width: 200px;
+  position:absolute;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top:90px;
+  right:20px;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: var(--secondary-blue-2);
+  font-size: 1.3rem;
+}
+.dropdown-navbar-list{
+  list-style: none;
+  padding:0;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.dropdown-list-item{
+ 
+}
+.dropdown-link{
+  color: black;
+  text-decoration: none;
+}
+.dropdown-sign-in{
+  background: inherit;
+  border-radius: 10px;
+  border:none;
+  padding: 5px;
+  font-size: 1.2rem;
+  transition: 0.2s;
+}
+.dropdown-sign-in:hover{
+  cursor:pointer;
+  color: var(--sec)
+}
+.dropdown-sign-up{
+  margin-top: 10px;
+  border-radius: 10px;
+  border:none;
+  padding: 10px;
+  font-size: 1.5rem;
+  transition: 0.2s;
+  /* background: var(--main-footer-color); */
+  background: inherit;
+}
+.dropdown-sign-up:hover{
+  /* background: var(--main-text-color); */
+}
+.dropdown-sign-up-link{
+  color:var(--main-text-color);
+}
 
-/* .container {
-  position:relative;
-  padding: 0.5rem;
-  max-width:960px;
-  margin: 0 auto;
-  min-height: 100vh;
-  /* height: 100%;  */
-
+@media screen and (max-width: 600px){
+  .nav-buttons{
+    display: none;
+  }
+.mobile-nav-buttons{
+  display: flex;
+  
+}
+.dropdown{
+  display:block;
+}
+}
 footer {
   /* margin-top: 10rem; */
   background-color: var(--main-footer-color);
