@@ -15,18 +15,29 @@ import {
 
 const Navbar: NextComponentType = () => {
 
-    const [ isFetching, setIsFetching ] = useState(false);
-    const [ nameNavbar, setNameNavbar ] = useState<string>();
-
+    // const [ isFetching, setIsFetching ] = useState(false);
+    // const [ nameNavbar, setNameNavbar ] = useState<string>();
+    const [ menuShow, setMenuShow ] = useState(false) 
     const [ session, loading ] = useSession();
     
+    let navMenu;
+
+    useEffect(() => {
+        console.log("menushow ==>", menuShow)
+        navMenu = document.getElementById("dropdown-menu-buttons");
+        if(menuShow){
+            navMenu?.classList.add("menu-show")
+        }else{
+            navMenu?.classList.remove("menu-show")
+        }
+    },[menuShow])
 
     if(session){
         console.log("this is the session", session)
     }
 
-    const [ show, setShow ] = useState(false)
-    const [ hide, setHide ] = useState(true)
+    // const [ show, setShow ] = useState(false)
+    // const [ hide, setHide ] = useState(true)
     
  
     // const handleShowModal = () => {
@@ -75,25 +86,26 @@ const Navbar: NextComponentType = () => {
                         <Image src="/campin-logo.png" width={100} height={100}/>
                     </div>
                 </a></Link>
-                <button className="dropdown">Dropdown nav links</button>
-                <div className="mobile-nav-buttons">
+                <button onClick={() => setMenuShow(!menuShow)}className="dropdown">MENU</button>
+                <div id="dropdown-menu-buttons" className="mobile-nav-buttons">
                     <ul className="dropdown-navbar-list">
                         <li className="dropdown-list-item">
                             <Link href="/about">
                                 <a className="dropdown-link">ABOUT</a>
                             </Link>
                         </li>   
-                        <li className="drowpdown-list-item">
+                        <li className="dropdown-list-item">
                             <Link href="/map">
                                 <a className="dropdown-link">MAP</a>
                             </Link>
                         </li>
-                        <li className="drowpdown-list-item">
+                        <li className="dropdown-list-item">
                             <Link href="/posts">
                                 <a className="dropdown-link">POSTS</a>
                             </Link>
                         </li>
                     </ul>
+                    <div className="dropdown-navbar-footer">
                     {session && <>
                         <p className="user-name">{session.user!.name}</p> 
                         <button 
@@ -113,6 +125,9 @@ const Navbar: NextComponentType = () => {
                             </button>
                         </>
                     }
+                    </div>
+                    
+                    <button onClick={() => setMenuShow(false)} className="dropdown-menu-close">Close</button>
                 </div>
                 <div className="nav-buttons">
                     <Link href="/about"><a>About</a></Link>  
