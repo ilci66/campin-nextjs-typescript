@@ -6,54 +6,31 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 
-// import Image from 'next/image'
-// import styles from '../styles/Home.module.css'
-
-// got a little lazy with the types here i will take another look after everything else is done
 interface ISingInProps {
   providers: object;
   csrfToken: string;
 }
 
 
-interface SignInResponse {
-  /** The reason for why the login process has stopped */
-  error: string | null
-  /** @see https://developer.mozilla.org/en-US/docs/Web/API/Response/status */
-  status: number
-  /** @see https://developer.mozilla.org/en-US/docs/Web/API/Response/ok */
-  ok: boolean
-}
-
 const SignIn = ({ providers, csrfToken }: ISingInProps) => {
 
   const router = useRouter()
 
-  // const [loginError, setLoginError] = useState('')
-  // const router = useRouter()
-  // useEffect(() => {
-  //   // Getting the error details from URL
-  //   if (router.query.error) {
-  //     setLoginError(router.query.error) // Shown below the input field in my example
-  //     setEmail(router.query.email) // To prefill the email after redirect
-  //   } 
-  // }, [router])
-
-
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
+  const [show, setShow] = useState(false);
+  
+  let errCon: EventTarget | null;
+  
+  useEffect(() => {
+    errCon = document.getElementById("sign-in-error-container");
+  })
 
   const handleSignInCrendetials = async (e: React.FormEvent) => {
     e.preventDefault();
 
     console.log("signing up with ==> ",email, password)
 
-    // const response = await signIn("credentials", { csrfToken, email, password, redirect: false })
-
-    // console.log("response", response)
-
-    // gonna try something 
     const res = await signIn('credentials',
       {
         csrfToken,
@@ -73,40 +50,46 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
   const handleError = (error: any) => {
     console.log('there is an error in sign in')
     console.log(error)
-    // setEmail("");
-    // setPassword("");
-    // const emailInput = document.getElementById("cre-email")!;
-    // const passwordInput = document.getElementById("cre-password")!;
 
-    // emailInput.value = ""
-    // passwordInput.value = ""
-    alert(error)
-
-    const errCon = document.getElementById("sign-in-error-container");
-    errCon?.classList.add("error-show")
+    setShow(true);
+    // const errCon = document.getElementById("sign-in-error-container");
+    // errCon?.classList.add("error-show")
   }
 
-  const testing = () => {
-
-    console.log("test test")
-    // e.preventDefault(); 
+  const hideError = () => {
+    // const errCon = document.getElementById("sign-in-error-container");
+    setShow(false);
+    // errCon?.classList.remove("error-show")
   }
 
-  // This was a method apparently someone's using to handle error
-  // const res = await signIn('credentials',
-  //   {
-  //     email,
-  //     password,
-  //     callbackUrl: `${window.location.origin}/account_page` 
-  //     redirect: false,
-  //   }
-  // )
-  // if (res?.error) handleError(res.error)
-  // if (res.url) router.push(res.url);
+  useEffect(() => {
+    console.log("in useeffect")
+    // const errCon = document.getElementById("sign-in-error-container"); 
+    if(window && show){
+      console.log("there is window")
+      window.onclick = (event) => {
+        if(event.target == errCon){
+          console.log("yea")
+          setShow(false)
+        }
+      } 
+    }
+  }, [show])
 
-  // console.log(providers)
-  // console.log(csrfToken)
-  
+  useEffect(()=>{
+
+    console.log("show ==>", show)
+
+    if(show){
+      
+      errCon?.classList.remove("error-hide")
+    }else{
+      errCon?.classList.add("error-hide")
+    }
+    
+    
+  }, [show])
+
 
   return (<>
       <Head>
@@ -117,14 +100,13 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
       <div className="error-container" id="sign-in-error-container">
         <div className="error-box">
           <p className="error-text">Wrong email address or password.</p>
+          <button className="error-close" onClick={hideError}>Close</button>
         </div>
       </div>
       <div className="sign-in-page-container">
         <div className="sign-in-options">
-          <button onClick={testing}>testing</button>
           {Object.values(providers).map((provider) => {if (provider.name === "Campin Account") {
             return(
-              // <form method="post" action="/api/auth/callback/credentials">
               <form key={provider.id} action="" onSubmit={handleSignInCrendetials}>
 
                 <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
@@ -153,10 +135,47 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
     <style jsx>{`
       .error-container{
         position:absolute;
-        display: grid;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,0.7);
+        background: rgba(0,0,0,0.6);
+        
+      }
+      .error-hide{
+        display:none
+      }
+
+      .error-box{
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+        position:relative;
+        margin: 0 auto;
+        margin-top:110px;
+        border: 0.6px solid var(--main-blue-green);
+        max-width: 300px;
+        background-color: var(--main-header-color);
+        padding:20px;
+        border-radius: 20px;
+      }
+      @keyframes animatetop {
+        from {top: -300px; opacity: 0};
+        to {top: 0; opacity: 1};
+      }
+      .error-text{
+        
+        color: var(--main-text-color);
+      }
+      .error-close{
+        position:absolute;
+        top:0;
+        right:0;
+        margin:4px;
+        padding:5px;
+        background: var(--secondary-red);
+        color: var(--main-text-color);
+        border:none;
+        border-radius: 20px;
       }
       .error-show{
         display:block;
