@@ -6,4 +6,4 @@
 
 * Fixed the error with credentai sign in but still need to handle errors and show error messages to the user, working on it.
 
-* Working on a modal to show the error message on sign ins with credentials
+## I should definitely consider the design, colours and the overall structure before I jump in, I wasted so much time 
