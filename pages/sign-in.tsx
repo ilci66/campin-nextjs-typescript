@@ -112,26 +112,26 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
               <form key={provider.id} action="" onSubmit={handleSignInCrendetials}>    
               <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                 <div className="sign-in-input-field">
-                  <div className="label-container">
-                    <label>Email: </label>
-                  </div>
                     <input 
                     onChange={e => setEmail(e.target.value)} 
                     id="cre-email" 
                     required
                     name="email" 
                     type="text" />
+                     {/* <div className="label-container"> */}
+                     <label className="label-container">Email: </label>
+                  {/* </div> */}
                 </div>
                 <div className="sign-in-input-field">
-                  <div className="label-container">
-                    <label>Password: </label>
-                  </div>
                     <input 
                     onChange={(e) => setPassword(e.target.value)} 
                     id="cre-password" 
                     name="password" 
                     required
                     type="password" />
+                    {/* <div className="label-container"> */}
+                      <label className="label-container">Password: </label>
+                    {/* </div> */}
                 </div>
                
                 <button 
@@ -204,7 +204,9 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
       }
       .sign-in-page-container{
         min-height: 100vh;
-        border: 2px solid red;
+        // border: 2px solid red;
+        border:none;
+        background: white;
         padding:50px;
         max-width:960px;
         margin: 0 auto;
@@ -249,12 +251,21 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         font-family: sans-serif;
       }
       
-      .sign-in-input-field:hover .label-container,
-      .sign-in-input-field:focus .label-container,
-      .sign-in-input-field:valid .label-container{
+      // .sign-in-input-field:hover .label-container,
+      .sign-in-input-field input:focus ~ .label-container,
+      .sign-in-input-field input:valid ~ .label-container{
         transform: translateY(-20px);
         font-size:1rem;
       }
+
+      // .sign-in-input-field input:focus {
+      //   width:100%;
+      //   font-size: 2rem;
+      //   padding: 20px
+      // }      
+      // .sign-in-input-field:hover .label-container{
+      //   // font-size: 2rem;
+      // }
 
       // .inputContainer input:focus ~ .cut,
       // .inputContainer input:valid ~ .cut {
