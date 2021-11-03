@@ -107,7 +107,7 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         <div className="sign-in-options">
           {Object.values(providers).map((provider) => {if (provider.name === "Campin Account") {
             return(
-              <div className="sign-in-credentials">
+              <div key={provider.name} className="sign-in-credentials">
                 <p className="credential-title">Sign in Campin' account</p>
               <form key={provider.id} action="" onSubmit={handleSignInCrendetials}>    
               <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
@@ -122,7 +122,7 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
                     name="email" 
                     type="text" />
                 </div>
-                <div className="input-field">
+                <div className="sign-in-input-field">
                   <div className="label-container">
                     <label>Password: </label>
                   </div>
@@ -134,7 +134,11 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
                     type="password" />
                 </div>
                
-                <button >Sign in</button>
+                <button 
+                  className="credenial-sign-in-button">
+                  <img className="credential-logo" src="/campin-logo.png" alt="" />
+                  Sign in with Campin'
+                  </button>
               </form>
               </div>
             ); 
@@ -229,9 +233,34 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         position: relative;
         margin-bottom: 15px;
       }
+      .sign-in-input-field>input{
+        width:100%;
+        margin: 10px 0;
+        border-radius: 5px;
+        border:none;
+        padding:15px;
+      }
       .label-container {
         position: absolute;
+        top: 10px;
+        left: 4px;
+        font-size: 0.8em;
+        transition: 0.6s;
+        font-family: sans-serif;
       }
+      
+      .sign-in-input-field:hover .label-container,
+      .sign-in-input-field:focus .label-container,
+      .sign-in-input-field:valid .label-container{
+        transform: translateY(-20px);
+        font-size:1rem;
+      }
+
+      // .inputContainer input:focus ~ .cut,
+      // .inputContainer input:valid ~ .cut {
+      //   transform: translateX(-13px) translateY(-25px);
+      //   font-size: 1em;
+      // }
       .social-sign-in{
         background: var(--main-text-color);
         padding:5px;
@@ -246,6 +275,10 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         float:left;
         width: 40px
       }
+      .credential-logo{
+        float:left;
+        width: 80px;
+      }
       .provider-sign-in-button{
         width:100%;
         display: grid;
@@ -257,7 +290,25 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
       }
       .provider-sign-in-button:hover{
         cursor:pointer;
-
+      }
+      .credenial-sign-in-button{
+        width:100%;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        color: var(--main-text-color);
+        align-items:center;
+        font-size: 1.4rem;
+        padding:5px;
+        border:none;
+        border-radius: 5px;
+        border: 1px solid var(--main-footer-color);
+        background: var(--main-footer-color);
+        transition: 0.2s;
+      }
+      .credenial-sign-in-button:hover{
+        cursor:pointer;
+        background: var(--main-text-color);
+        color: var(--main-footer-color);
       }
       .Facebook-button{
         background-color: var(--facebook-color)
