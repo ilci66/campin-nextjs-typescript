@@ -6,4 +6,6 @@
 
 * Fixed the error with credentai sign in but still need to handle errors and show error messages to the user, working on it.
 
+* In the sign in form the label is moving away on hover but on nothing else, trying to figure out why
+
 ## I should definitely consider the design, colours and the overall structure before I jump in, I wasted so much time 
