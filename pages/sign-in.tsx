@@ -306,20 +306,20 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         width:100%;
         display: grid;
         grid-template-columns: auto 1fr;
-        color: var(--main-text-color);
+        color: var(--main-footer-color);
         align-items:center;
         font-size: 1.4rem;
         padding:5px;
         border:none;
         border-radius: 5px;
-        border: 1px solid var(--main-footer-color);
-        background: var(--main-footer-color);
+        border: 2px solid var(--main-footer-color);
+        background: var(--main-blue-green);
         transition: 0.2s;
       }
       .credenial-sign-in-button:hover{
         cursor:pointer;
-        background: var(--main-text-color);
-        color: var(--main-footer-color);
+        background: var(--main-footer-color);
+        color: var(--main-text-color);
       }
       .Facebook-button{
         background-color: var(--facebook-color)

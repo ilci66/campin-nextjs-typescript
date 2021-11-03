@@ -22,6 +22,9 @@ body {
   background: linear-gradient(0deg, rgba(255,26,26,1) 0%, rgba(162,255,234,1) 100%);  */
   background-color: #f3fdf7;
 }
+*, *::before,*::after{
+  box-sizing: inherit;
+}
 /* .container { */
   /* max-width: 960px;
   display: flex;
