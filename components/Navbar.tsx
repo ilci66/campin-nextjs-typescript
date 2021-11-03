@@ -107,7 +107,7 @@ const Navbar: NextComponentType = () => {
                     </ul>
                     <div className="dropdown-navbar-footer">
                     {session && <>
-                        <p className="user-name">{session.user!.name}</p> 
+                        <p className="menu-user-name">{session.user!.name}</p> 
                         <button 
                             id="mobile-nav-sign-out" 
                             className="mobile-sign-out" 

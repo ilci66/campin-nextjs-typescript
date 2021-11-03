@@ -1,4 +1,6 @@
 :root{
+  --facebook-color: rgb(66 103 178);
+  --google-color: rgb(120, 0, 36);
   --main-header-color :#379683;
   --main-text-color: #EDF5E1;
   --main-footer-color: #05386B;
@@ -29,7 +31,7 @@ body {
   /* min-height: 100vh; */
 /* } */
 img {
-  max-width: 100%;
+  width: 100%;
 }
 a{
   text-decoration: none;
@@ -164,9 +166,21 @@ nav a:hover, .sign-in:hover {
   width:100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 10px;
   border-radius: 5px;
   background-color: var(--main-footer-color);
+}
+.mobile-sign-out{
+  border:none;
+  border-bottom: var(--main-text-color) 1px solid;
+  font-size: 1.4rem;
+  background-color: inherit;
+  color:var(--main-text-color);
+  margin-bottom: 20px;
+}
+.mobile-sign-out:hover{
+  cursor:pointer;
 }
 .dropdown-sign-up{
   margin-top: 10px;
@@ -209,6 +223,11 @@ nav a:hover, .sign-in:hover {
 
   .dropdown{
     display:block;
+  }
+  .input-field{
+    display: grid;
+    grid-template-columns: none;
+    grid-template-rows: 1fr 1fr;
   }
 }
 @media screen and (min-width: 600px){

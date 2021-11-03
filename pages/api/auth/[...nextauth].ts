@@ -108,6 +108,7 @@ const options = {
     pages: {    
         signIn: "/sign-in",
     },
+    secret: process.env.JWT_SECRET
 }   
 
 // })

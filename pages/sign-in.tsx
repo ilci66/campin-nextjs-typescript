@@ -107,24 +107,43 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         <div className="sign-in-options">
           {Object.values(providers).map((provider) => {if (provider.name === "Campin Account") {
             return(
-              <form key={provider.id} action="" onSubmit={handleSignInCrendetials}>
-
-                <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-                <label>
-                  Email
-                  <input onChange={e => setEmail(e.target.value)} id="cre-email" name="email" type="text" />
-                </label>
-                <label>
-                  Password
-                  <input onChange={(e) => setPassword(e.target.value)} id="cre-password" name="password" type="password" />
-                </label>
+              <div className="sign-in-credentials">
+                <p className="credential-title">Sign in Campin' account</p>
+              <form key={provider.id} action="" onSubmit={handleSignInCrendetials}>    
+              <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+                <div className="sign-in-input-field">
+                  <div className="label-container">
+                    <label>Email: </label>
+                  </div>
+                    <input 
+                    onChange={e => setEmail(e.target.value)} 
+                    id="cre-email" 
+                    required
+                    name="email" 
+                    type="text" />
+                </div>
+                <div className="input-field">
+                  <div className="label-container">
+                    <label>Password: </label>
+                  </div>
+                    <input 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    id="cre-password" 
+                    name="password" 
+                    required
+                    type="password" />
+                </div>
+               
                 <button >Sign in</button>
               </form>
+              </div>
             ); 
           }
+          
           return (
             <div key={provider.name} className={provider.name + " social-sign-in"} >
-              <button key={provider.name} onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/`})}>
+              <button key={provider.name} className={`provider-sign-in-button ${provider.name}-button`}onClick={() => signIn(provider.id, {callbackUrl: `${window.location.origin}/`})}>
+                <img className="provider-logo" src={`${provider.name}.png`} alt="" />
                 Sign in with {provider.name}
               </button>
             </div>
@@ -163,7 +182,6 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         to {top: 0; opacity: 1};
       }
       .error-text{
-        
         color: var(--main-text-color);
       }
       .error-close{
@@ -183,16 +201,69 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
       .sign-in-page-container{
         min-height: 100vh;
         border: 2px solid red;
+        padding:50px;
         max-width:960px;
         margin: 0 auto;
       }
       .sign-in-options{
-        border: 2px solid black;
-        min-width:50%;
+        background-color: var(--secondary-blue-green);
+        border-radius: 20px;
+        margin:0 auto;
+        padding:50px 20px;
+        min-width:200px;
         max-width:80%;
       }
+      .sign-in-credentials{
+        border-radius: 0 0 5px 5px;
+        padding:10px 20px 30px 20px;
+        border-top: 4px solid var(--main-footer-color);
+        background-color: var(--main-text-color);
+        display: grid;
+      }
+      .credential-title{
+        margin-bottom:30px;
+        font-size:1.2rem;
+        border-bottom: 2px solid var(--main-footer-color);
+      }
+      .sign-in-input-field{
+        position: relative;
+        margin-bottom: 15px;
+      }
+      .label-container {
+        position: absolute;
+      }
       .social-sign-in{
+        background: var(--main-text-color);
+        padding:5px;
         border: 2px solid yellow;
+        margin: 10px 0;
+        border-radius:5px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
+      .provider-logo{
+        float:left;
+        width: 40px
+      }
+      .provider-sign-in-button{
+        width:100%;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        color: var(--main-text-color);
+        align-items:center;
+        font-size: 1.4rem;
+        padding:5px;
+      }
+      .provider-sign-in-button:hover{
+        cursor:pointer;
+
+      }
+      .Facebook-button{
+        background-color: var(--facebook-color)
+      }
+      .Google-button {
+        background-color: var(--google-color)
       }
     `}</style>
     </>)
