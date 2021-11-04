@@ -33,7 +33,9 @@ const Map: NextPage = () => {
         </div>
         <style jsx>{`
             .map-page-container{
-              height:100vh;   
+              height:100vh;  
+              max-width:960px;
+              margin: 0 auto; 
             }
                
             

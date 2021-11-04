@@ -1,21 +1,25 @@
-import { NextComponentType } from 'next';
+
 import React, { useRef, useState, useEffect } from 'react';
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker
+} from "react-google-maps";
 
+const MapComponent:NextComponentType = (p) => {
 
-const MapComponent:NextComponentType = () => {
+  return(<>
+    Map stuff
+  </>)
 
-  const ref = React.useRef<HTMLDivElement>(null);
-  // const [map, setMap] = React.useState<google.maps.Map>();
-  const [map, setMap] = React.useState();
-
-
-  React.useEffect(() => {
-    if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {}));
-    }
-  }, [ref, map]);
-
-  return <div ref={ref} />
 }
 
 export default MapComponent;
+
+
+
+
+
+
+import { NextComponentType } from 'next';
