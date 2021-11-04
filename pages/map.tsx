@@ -1,8 +1,44 @@
 import type { NextPage } from 'next'
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import MapComponent from '../components/Map-component'
+import Head from 'next/head'
+
 
 const Map: NextPage = () => {
-    return(
-        <div>this page will contain a map; campers will be able to warn eachother about wild animals by marking where they saw the aniaml and mark on the map the camping spots they wanna share</div>
-    )
+
+    // let apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY!
+    // console.log("apiKey", apiKey)
+
+    const render = (status: Status) => {
+        return <h1>{status}</h1>;
+    };
+
+    return(<>
+        <Head>
+            <title>Map | Campin'</title>
+            <meta name="description" content="Cool Map App" />
+            <link rel="icon" href="/favicon-c.ico" />
+        </Head>
+        <div className="map-page-container">
+           <h2 className="map-page-title">The title of this page</h2>
+            
+            <div className="map-component-container">
+                <Wrapper 
+                    apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY!} 
+                    render={render}
+                    >
+                        <MapComponent/>
+                </Wrapper>
+            </div>
+        </div>
+        <style jsx>{`
+            .map-page-container{
+              height:100vh;   
+            }
+               
+            
+            
+        `}</style>
+    </>)
 }
 export default Map
