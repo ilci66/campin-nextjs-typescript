@@ -143,8 +143,11 @@ const Navbar: NextComponentType = () => {
                     {nameNavbar && <><p>{nameNavbar}</p></>} */}
 
                     {session && <>
-                        <p className="user-name">{session.user!.name}</p> 
-                        <button id="nav-sign-out" className="sign-out" onClick={(e) => { e.preventDefault(); signOut();}}>Sign out</button></> 
+                    <div className="user-name-container">
+                        <p className="user-name">{session.user!.name}</p> <button id="nav-sign-out" className="sign-out" onClick={(e) => { e.preventDefault(); signOut();}}>Sign out</button>
+                    </div>
+                        
+                        </> 
                     }
                     {!session && <>
                          {/* <button id="nav-sign-in" className="sign-in" onClick={handleShowModal}>Sign In</button> */}
