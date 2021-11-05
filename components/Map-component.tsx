@@ -8,7 +8,7 @@ import React, { useRef, useState, useEffect } from 'react';
 //   Marker
 // } from "react-google-maps";
 import mapboxgl from 'mapbox-gl'; 
-// import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!;
@@ -32,17 +32,7 @@ const geojson = {
     }
   ]
 };
-const Marker = ({ onClick, children, feature }) => {
-  const _onClick = (e) => {
-    onClick(feature.properties.description);
-  };
 
-  return (
-    <button onClick={_onClick} className="marker">
-      {children}
-    </button>
-  );
-};
 
 const MapComponent:NextComponentType = () => {
 
@@ -51,7 +41,7 @@ const MapComponent:NextComponentType = () => {
 
   const mapContainer = useRef(null);
 
-  const map = useRef<null | Map>(null);
+  const map = useRef(null);
   const [lng, setLng] = useState(30.5037);
   const [lat, setLat] = useState(36.8740);
   const [zoom, setZoom] = useState(1);
@@ -60,6 +50,8 @@ const MapComponent:NextComponentType = () => {
 
     if (map.current) return; // initialize map only once
 
+    console.log("map initialized")
+
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -67,34 +59,25 @@ const MapComponent:NextComponentType = () => {
       zoom: zoom
     });
 
-    geojson.features.forEach((feature) => {
-      // Create a React ref
-      let ref = React.createRef();
-      // Create a new DOM node and save it to the React ref
-      ref.current = document.createElement('div');
-      // Render a Marker Component on our new DOM node
-      ReactDOM.render(
-        <Marker onClick={markerClicked} feature={feature} />,
-        ref.current
-      );
+    let el;
 
-      // Create a Mapbox Marker at our new DOM node
-      new mapboxgl.Marker(ref.current)
-        .setLngLat(feature.geometry.coordinates)
-        .addTo(map.current);
-    });
+     geojson.features.forEach(feature => {
+      console.log("feature ==>", feature)
+      el = document.createElement('div');
+      el.className = 'marker';
+      new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map.current);
+
+     }) 
+      
+      console.log(el)
+    
   });
-  // for (const feature of geojson.features) {
-  //   // create a HTML element for each feature
-  //   const el = document.createElement('div');
-  //   el.className = 'marker';
-  
-  //   // make a marker for each feature and add to the map
-  //   new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
-  // }
+
 
   useEffect(() => {
+
     if (!map.current) return; // wait for map to initialize
+
     map.current.on('move', () => {
       setLng(map.current.getCenter().lng.toFixed(4));
       setLat(map.current.getCenter().lat.toFixed(4));
@@ -129,7 +112,7 @@ const MapComponent:NextComponentType = () => {
         z-index: 1;
         position: absolute;
         top: 100;
-        left: 0;
+        left: 100;
         margin: 12px;
         border-radius: 4px;
       }
