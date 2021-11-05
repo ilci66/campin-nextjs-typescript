@@ -37,6 +37,10 @@ const Map: NextPage = () => {
               max-width:960px;
               margin: 0 auto; 
             }
+            // .map-component-container{
+            //     postion:absolute;
+            //     top:0;
+            // }
                
             
             

@@ -25,14 +25,9 @@ body {
 *, *::before,*::after{
   box-sizing: inherit;
 }
-/* .container { */
-  /* max-width: 960px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin: 0 auto; */
-  /* min-height: 100vh; */
-/* } */
+/* .container { 
+   min-height: 100vh;
+ }  */
 img {
   width: 100%;
 }
@@ -130,6 +125,7 @@ nav a:hover, .sign-in:hover {
 }
 .dropdown{
   padding:20px 60px;
+  z-index: 15;
   background: var(--main-footer-color);
   color: var(--main-text-color);
   border: none;
@@ -144,6 +140,7 @@ nav a:hover, .sign-in:hover {
   color: var(--main-footer-color)
 }
 .mobile-nav-buttons{
+  z-index: 100;
   display:none;
   max-width: 400px;
   min-width: 200px;
@@ -272,6 +269,8 @@ footer {
   bottom:0;
   padding: 0.5rem;
   width: 100%;
+  /* position: absolute; */
+  bottom:0;
   display: flex;
   justify-content: center;
   align-items: center;
