@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import MapComponent from '../components/Map-component'
 import Head from 'next/head'
-
+import TestingMap from '../components/Testing-map';
 
 const Map: NextPage = () => {
 
@@ -23,12 +23,13 @@ const Map: NextPage = () => {
            <h2 className="map-page-title">The title of this page</h2>
             
             <div className="map-component-container">
-                <Wrapper 
+                <TestingMap />
+                {/* <Wrapper 
                     apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY!} 
                     render={render}
                     >
                         <MapComponent/>
-                </Wrapper>
+                </Wrapper> */}
             </div>
         </div>
         <style jsx>{`
@@ -37,10 +38,9 @@ const Map: NextPage = () => {
               max-width:960px;
               margin: 0 auto; 
             }
-            // .map-component-container{
-            //     postion:absolute;
-            //     top:0;
-            // }
+            .map-component-container{
+                postion:relative;
+            }
                
             
             
