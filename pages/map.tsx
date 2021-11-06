@@ -36,7 +36,8 @@ const Map: NextPage = () => {
             .map-page-container{
               height:100vh;  
               max-width:960px;
-              margin: 0 auto; 
+              margin:0 auto;
+              padding: 50px;
             }
             .map-component-container{
                 postion:relative;
