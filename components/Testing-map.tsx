@@ -1,7 +1,8 @@
 import * as React from 'react';
 // nice hook for chaching, i don't wanna cause a re-render my markers on viewport changes 
-import { useState, useMemo, useEffect } from 'react';
-import ReactMapGL, { Marker, SVGOverlay, AttributionControl } from 'react-map-gl';
+import { useState, useMemo, useEffect, useContext } from 'react';
+import ReactMapGL, { Marker, SVGOverlay, AttributionControl, FullscreenControl, GeolocateControl, Layer, Popup, MapContext } from 'react-map-gl';
+// import MapGL from 'react-map-gl';
 
 // gonna use another way to name these in the future with my database of course
 const geojson = {
@@ -27,6 +28,31 @@ const attributionStyle= {
   top: 0
 };
 
+const fullscreenControlStyle= {
+  right: 10,
+  top: 10
+};
+
+const geolocateControlStyle= {
+  right: 10,
+  top: 50
+};
+
+// const parkLayer = {
+//   id: 'landuse_park',
+//   type: 'fill',
+//   source: 'mapbox',
+//   'source-layer': 'landuse',
+//   filter: ['==', 'class', 'park']
+// };
+
+// const waterLayer = {
+//   id: 'water',
+//   type: 'fill',
+//   source: 'mapbox',
+//   'source-layer': 'water',
+//   filter: ['==', 'class', 'water']
+// }
 const TestingMap = () => {
 
   const [viewport, setViewport] = useState({
@@ -43,7 +69,19 @@ const TestingMap = () => {
   },[])
   
 
+  // const [parkColor, setParkColor] = React.useState('#8fa');
+  // const [waterColor, setWaterColor] = React.useState('#00ffff');
+  const [showPopup, togglePopup] = React.useState(false);
   
+  useEffect(() => {
+    console.log("show pop up ==> ", showPopup)
+    // window.onclick = (e) => { console.log(e)}
+    // map.on('click', (e) => {
+    //   var coordinates = e.lngLat;
+    //   console.log("coordinates ==>", coordinates)
+    // })
+
+  },[showPopup])
 
   const markers = useMemo(() => geojson.features.map(
     city => (
@@ -60,6 +98,26 @@ const TestingMap = () => {
       </Marker>
     )
   ), [geojson]);
+
+  const CurrentZoomLevel = () => {
+    const context = useContext(MapContext);
+    console.log("context ==>",context)
+    return <div style={{background:"rgb(66, 66, 66)", color:"white",padding:"1px 2px"}}>Center Lat: {context.viewport.latitude.toFixed(3)}<br/> Center Lon: {context.viewport.longitude.toFixed(3)}</div>;
+  }
+
+  const displayPopup = () => {
+    return(
+      <Popup
+          latitude={37.78}
+          longitude={-122.41}
+          closeButton={true}
+          closeOnClick={false}
+          onClose={() => togglePopup(false)}
+          anchor="top" >
+          <div>You are here</div>
+        </Popup>
+    )
+  }
   
   // const goToNYC = () => {
   //   setViewport({
@@ -81,6 +139,7 @@ const TestingMap = () => {
       width="100%" 
       height="400px" 
       onViewportChange={setViewport} 
+      mapStyle="mapbox://styles/mapbox/outdoors-v11"
       mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
       attributionControl={false}
 
@@ -88,10 +147,27 @@ const TestingMap = () => {
       {/* <Marker latitude={57.1} longitude={30} offsetLeft={-20} offsetTop={-10}>
         <div>You are here</div>
       </Marker> */}
+      {/* gonna keep this one */}
+      <FullscreenControl label={"Full Screen"}style={fullscreenControlStyle} />
+      <div style={{position: 'absolute', right: 10, bottom: 10}}>
+        <CurrentZoomLevel />
+      </div>
+      <GeolocateControl
+        style={geolocateControlStyle}
+        positionOptions={{enableHighAccuracy: true}}
+        trackUserLocation={false}
+        auto
+      />
+      {showPopup && displayPopup()}
+      {/* <Layer {...parkLayer} paint={{'fill-color': parkColor}} />
+      <Layer {...waterLayer} paint={{'fill-color': waterColor}} /> */}
+
       {markers}
       {/* <AttributionControl compact={true} style={attributionStyle} /> */}
       {/* <SVGOverlay redraw={redraw} /> */}
     </ReactMapGL>
+    <button onClick={() => togglePopup(!showPopup)}>Toggle pop-up</button>
+
     <div className="map-icon-container">
       <div className="sidebar-map-icons"><img src="wolf.png" alt=""/></div>
       <div className="sidebar-map-icons"><img src="boar.png" alt="" /></div>
