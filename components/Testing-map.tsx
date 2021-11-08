@@ -97,13 +97,13 @@ const TestingMap = () => {
   const markers = useMemo(() => geojson.features.map(
     city => (
       <Marker 
-        offsetTop={-20} 
-        offsetLeft={-20} 
+        offsetTop={-10} 
+        offsetLeft={-10} 
         key={city.id} 
         longitude={city.geometry.coordinates[0]} 
         latitude={city.geometry.coordinates[1]} 
       >
-        <img style={{width:"40px"}} className="map-icons" src="campin-logo.png" />
+        <img style={{width:"20px"}} className="map-icons" src="camp.png" />
       </Marker>
     )
   ), [geojson]);
