@@ -108,18 +108,18 @@ const SignUp: NextPage = () => {
         if(submitted.password !== submitted.password2){
             console.log(submitted.password, submitted.password2, "not matching")
             // Had to set values on eby one otherwise it doesn't show
-            await setSubRes({...subRes, success: false, message: "Passwords need the match!"})
+            setSubRes({ ...subRes, success: false, message: "Passwords need the match!" })
             // await setSubRes({...subRes,)
             return;
         } else if(!validator.isEmail(submitted.email)) {
-            await setSubRes({...subRes, success: false, message: "Please enter a valid email address"})
+            setSubRes({ ...subRes, success: false, message: "Please enter a valid email address" })
             return;
         }else if(
             submitted.password == "" || 
             submitted.password2 == "" || 
             submitted.username == "" ||
             submitted.email == "") {
-                await setSubRes({...subRes, success: false, message: "Missing required fields"})
+                setSubRes({ ...subRes, success: false, message: "Missing required fields" })
                 return;
         }else {
             if(!process.env.NEXT_PUBLIC_SITE_URL){
