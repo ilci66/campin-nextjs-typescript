@@ -3,6 +3,8 @@ import * as React from 'react';
 import { useState, useMemo, useEffect, useContext } from 'react';
 import ReactMapGL, { Marker, SVGOverlay, AttributionControl, FullscreenControl, GeolocateControl, Layer, Popup, MapContext } from 'react-map-gl';
 // import MapGL from 'react-map-gl';
+import { useSession } from 'next-auth/client';
+import Link from 'next/link'
 
 // gonna use another way to name these in the future with my database of course
 const geojson = {
@@ -57,6 +59,7 @@ const TestingMap = () => {
     lat:number
     }>();
   const [markerToAdd, setMarkerToAdd] = useState<{lng:number, lat:number, type:string, description:string}>();
+  const [ session, loading ] = useSession();
 
   useEffect(() => {
     console.log("show pop up ==> ", showPopup)
@@ -65,6 +68,7 @@ const TestingMap = () => {
 
   useEffect(() => {
     console.log("clicked here ==>", clickedPoint)
+    console.log("session ==>", session)
     togglePopup(true);
   }, [clickedPoint])
 
@@ -99,24 +103,37 @@ const TestingMap = () => {
   }
 
   const displayPopup = () => {
-    return(
+    // if(session){ 
+      return(
+     
       <Popup
-          latitude={clickedPoint?.lat!}
-          longitude={clickedPoint?.lng!}
-          closeButton={true}
-          closeOnClick={false}
-          onClose={() => togglePopup(false)}
-          anchor="top" >
-          <div>stuff
-            {/* <form className="add-marker-form" action="" onSubmit={handleAddMarker}>
-              <input 
-              type="text"
+        latitude={clickedPoint ? clickedPoint.lat : 36.78}
+        longitude={clickedPoint ? clickedPoint.lng : 30.521}
+        closeButton={true}
+        closeOnClick={false}
+        onClose={() => togglePopup(false)}
+        anchor="top" >
+        {session ?
+        <div>Create A Marker
+          <form className="add-marker-form" action="" onSubmit={handleAddMarker}>
+          <label htmlFor="markers">Marker Type:</label><br/>
+          <select name="markers" id="marker-selections">
+            <option value="camp">Camp Site</option>
+            <option value="bear">Bear Signting</option>
+            <option value="boar">Boar Sighting</option>
+            <option value="wolf">Wolf Sighting</option>
+          </select><br/>
+          <input 
+            type="text"
+            placeholder="description"
+            maxLength={20}
+            /><br/>
+          </form>
+        </div> : <div><p>Please <Link href="/sign-in"><a>sign in</a></Link> to create markers</p></div>}
 
-               />
-            </form> */}
-          </div>
-        </Popup>
+      </Popup>
     )
+  // } else{ return(<div><p>Please sign in to be able to create markers</p></div>)}
   }
   
   
@@ -130,8 +147,8 @@ const TestingMap = () => {
         {...clickedPoint,
            x:e.center.x,
            y:e.center.y,
-          lng: parseFloat((e.lngLat[0]).toFixed(3)),
-          lat: parseFloat((e.lngLat[1]).toFixed(3))
+          lng: parseFloat((e.lngLat[0]).toFixed(7)),
+          lat: parseFloat((e.lngLat[1]).toFixed(7))
         }) 
       }
       onViewportChange={setViewport} 
