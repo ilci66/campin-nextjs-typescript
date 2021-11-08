@@ -4,7 +4,9 @@ import { useState, useMemo, useEffect, useContext } from 'react';
 import ReactMapGL, { Marker, SVGOverlay, AttributionControl, FullscreenControl, GeolocateControl, Layer, Popup, MapContext } from 'react-map-gl';
 // import MapGL from 'react-map-gl';
 import { useSession } from 'next-auth/client';
-import Link from 'next/link'
+import Link from 'next/link';
+import axios from 'axios';
+
 
 // gonna use another way to name these in the future with my database of course
 const geojson = {
@@ -79,17 +81,18 @@ const TestingMap = () => {
 
   const handleAddMarker = async (e:React.FormEvent) => {
     e.preventDefault();
-    if(clickedPoint){
-      if(clickedPoint.lng && clickedPoint.lat){
-        console.log("they're not undefined", clickedPoint.lng, clickedPoint.lat)
-        setMarkerToAdd({...markerToAdd, lng: clickedPoint!.lng, lat: clickedPoint!.lat})
-        return ;
-      }
-    }else{console.log("clickedPoint is undefined for some reason")}
+    console.log("gonna send this data ==>", markerToAdd)
+    
+    const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+
+    axios.post(`${url}/api/marker`, markerToAdd)
+      .then(console.log)
+
+
   }
-  useEffect(() =>{
-    console.log("marker to add",markerToAdd);
-  }, [markerToAdd])
+  // useEffect(() =>{
+  //   console.log("marker to add",markerToAdd);
+  // }, [markerToAdd])
 
   const markers = useMemo(() => geojson.features.map(
     city => (
@@ -157,13 +160,17 @@ const TestingMap = () => {
       {...viewport} 
       width="100%" 
       height="500px" 
-      onClick={ (e) => setClickedPoint(
-        {...clickedPoint,
-          x:e.center.x,
-          y:e.center.y,
-          lng: parseFloat((e.lngLat[0]).toFixed(7)),
-          lat: parseFloat((e.lngLat[1]).toFixed(7))
-        }) 
+      onClick={ (e) => { 
+        setClickedPoint(
+          {...clickedPoint,
+            x:e.center.x,
+            y:e.center.y,
+            lng: parseFloat((e.lngLat[0]).toFixed(7)),
+            lat: parseFloat((e.lngLat[1]).toFixed(7))
+          }
+        );
+        setMarkerToAdd({...markerToAdd, lng: parseFloat((e.lngLat[0]).toFixed(7)), lat: parseFloat((e.lngLat[1]).toFixed(7))});
+      }
       }
       onViewportChange={setViewport} 
       mapStyle="mapbox://styles/mapbox/outdoors-v11"
