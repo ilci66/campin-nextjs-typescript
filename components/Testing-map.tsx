@@ -34,25 +34,11 @@ const fullscreenControlStyle= {
 };
 
 const geolocateControlStyle= {
+  font:7,
   right: 10,
   top: 50
 };
 
-// const parkLayer = {
-//   id: 'landuse_park',
-//   type: 'fill',
-//   source: 'mapbox',
-//   'source-layer': 'landuse',
-//   filter: ['==', 'class', 'park']
-// };
-
-// const waterLayer = {
-//   id: 'water',
-//   type: 'fill',
-//   source: 'mapbox',
-//   'source-layer': 'water',
-//   filter: ['==', 'class', 'water']
-// }
 const TestingMap = () => {
 
   const [viewport, setViewport] = useState({
@@ -63,25 +49,30 @@ const TestingMap = () => {
     zoom: 1
   });
 
-  useEffect(() =>{
-    const mapbox = document.querySelector("mapboxgl-map")
-    console.log(ReactMapGL)
-  },[])
-  
+  const [showPopup, togglePopup] = useState(false);
+  const [clickedPoint, setClickedPoint] = useState<{
+    x:number,
+    y:number,
+    lng:number
+    lat:number
+    }>();
+  const [markerToAdd, setMarkerToAdd] = useState<{lng:number, lat:number, type:string, description:string}>();
 
-  // const [parkColor, setParkColor] = React.useState('#8fa');
-  // const [waterColor, setWaterColor] = React.useState('#00ffff');
-  const [showPopup, togglePopup] = React.useState(false);
-  
   useEffect(() => {
     console.log("show pop up ==> ", showPopup)
-    // window.onclick = (e) => { console.log(e)}
-    // map.on('click', (e) => {
-    //   var coordinates = e.lngLat;
-    //   console.log("coordinates ==>", coordinates)
-    // })
 
   },[showPopup])
+
+  useEffect(() => {
+    console.log("clicked here ==>", clickedPoint)
+    togglePopup(true);
+  }, [clickedPoint])
+
+  const handleAddMarker = (e:React.FormEvent) => {
+    e.preventDefault();
+
+
+  }
 
   const markers = useMemo(() => geojson.features.map(
     city => (
@@ -89,8 +80,6 @@ const TestingMap = () => {
         offsetTop={-20} 
         offsetLeft={-20} 
         key={city.name} 
-        // captureDoubleClick={true}
-        // draggable={true}
         longitude={city.geometry.coordinates[0]} 
         latitude={city.geometry.coordinates[1]} 
       >
@@ -101,52 +90,56 @@ const TestingMap = () => {
 
   const CurrentZoomLevel = () => {
     const context = useContext(MapContext);
-    console.log("context ==>",context)
-    return <div style={{background:"rgb(66, 66, 66)", color:"white",padding:"1px 2px"}}>Center Lat: {context.viewport.latitude.toFixed(3)}<br/> Center Lon: {context.viewport.longitude.toFixed(3)}</div>;
+    const { longitude, latitude} = context.viewport!;
+
+    return <div style={{background:"rgb(66, 66, 66)", color:"white",padding:"1px 2px"}}>
+      Center Lat: {latitude.toFixed(3)}<br/> 
+      Center Lng: {longitude.toFixed(3)}
+    </div>;
   }
 
   const displayPopup = () => {
     return(
       <Popup
-          latitude={37.78}
-          longitude={-122.41}
+          latitude={clickedPoint?.lat!}
+          longitude={clickedPoint?.lng!}
           closeButton={true}
           closeOnClick={false}
           onClose={() => togglePopup(false)}
           anchor="top" >
-          <div>You are here</div>
+          <div>stuff
+            {/* <form className="add-marker-form" action="" onSubmit={handleAddMarker}>
+              <input 
+              type="text"
+
+               />
+            </form> */}
+          </div>
         </Popup>
     )
   }
   
-  // const goToNYC = () => {
-  //   setViewport({
-  //     ...viewport,
-  //     longitude: -74.1,
-  //     latitude: 40.7,
-  //     zoom: 14,
-  //   });
-  // }
-
-  // function redraw({project}) {
-  //   const [cx, cy] = project([37, 37]);
-  //   return <circle cx={cx} cy={cy} r={4} fill="blue" />;
-  // }
+  
   return (<>
 
     <ReactMapGL 
       {...viewport} 
       width="100%" 
-      height="400px" 
+      height="500px" 
+      onClick={ (e) => setClickedPoint(
+        {...clickedPoint,
+           x:e.center.x,
+           y:e.center.y,
+          lng: parseFloat((e.lngLat[0]).toFixed(3)),
+          lat: parseFloat((e.lngLat[1]).toFixed(3))
+        }) 
+      }
       onViewportChange={setViewport} 
       mapStyle="mapbox://styles/mapbox/outdoors-v11"
       mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
       attributionControl={false}
-
     >
-      {/* <Marker latitude={57.1} longitude={30} offsetLeft={-20} offsetTop={-10}>
-        <div>You are here</div>
-      </Marker> */}
+      
       {/* gonna keep this one */}
       <FullscreenControl label={"Full Screen"}style={fullscreenControlStyle} />
       <div style={{position: 'absolute', right: 10, bottom: 10}}>
@@ -159,12 +152,7 @@ const TestingMap = () => {
         auto
       />
       {showPopup && displayPopup()}
-      {/* <Layer {...parkLayer} paint={{'fill-color': parkColor}} />
-      <Layer {...waterLayer} paint={{'fill-color': waterColor}} /> */}
-
       {markers}
-      {/* <AttributionControl compact={true} style={attributionStyle} /> */}
-      {/* <SVGOverlay redraw={redraw} /> */}
     </ReactMapGL>
     <button onClick={() => togglePopup(!showPopup)}>Toggle pop-up</button>
 
@@ -182,6 +170,9 @@ const TestingMap = () => {
       width: 100px;
       grid-template-columns repeat(4, 1fr);
       grid-gap: 5px;
+    }
+    .map-icon-container>div>div{
+      // position:relative;
     }
     // .sidebar-map-icons{
     //   width: 20px;
