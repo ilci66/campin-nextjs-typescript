@@ -11,15 +11,15 @@ const geojson = {
   type: 'FeatureCollection',
   features: [
     {
-      name: "washington-1", type: 'Feature', geometry: { type: 'Point', coordinates: [-77.032, 38.913] },
+      id: "1", type: 'Feature', geometry: { type: 'Point', coordinates: [-77.032, 38.913] },
       properties: { title: 'Mapbox', description: 'Washington, D.C.' }
     },
     {
-      name:"san-fransisco-1", type: 'Feature', geometry: { type: 'Point', coordinates: [-122.414, 37.776] },
+      id:"2", type: 'Feature', geometry: { type: 'Point', coordinates: [-122.414, 37.776] },
       properties: {title: 'Mapbox', description: 'San Francisco, California' }
     },
     {
-      name: "antalya-1", type: 'Feature', geometry: { type: 'Point', coordinates: [30.5037, 36.8740] },
+      id: "3", type: 'Feature', geometry: { type: 'Point', coordinates: [30.5037, 36.8740] },
       properties: {title: 'Mapbox', description: 'My marker' }
     }
   ]
@@ -58,7 +58,12 @@ const TestingMap = () => {
     lng:number
     lat:number
     }>();
-  const [markerToAdd, setMarkerToAdd] = useState<{lng:number, lat:number, type:string, description:string}>();
+  const [markerToAdd, setMarkerToAdd] = useState<{lng?:number, lat?:number, type?:string, description?:string}>({
+    lng: 35,
+    lat: 35,
+    type: "camp",
+    description: "nice spot"
+  });
   const [ session, loading ] = useSession();
 
   useEffect(() => {
@@ -72,18 +77,26 @@ const TestingMap = () => {
     togglePopup(true);
   }, [clickedPoint])
 
-  const handleAddMarker = (e:React.FormEvent) => {
+  const handleAddMarker = async (e:React.FormEvent) => {
     e.preventDefault();
-
-
+    if(clickedPoint){
+      if(clickedPoint.lng && clickedPoint.lat){
+        console.log("they're not undefined", clickedPoint.lng, clickedPoint.lat)
+        setMarkerToAdd({...markerToAdd, lng: clickedPoint!.lng, lat: clickedPoint!.lat})
+        return ;
+      }
+    }else{console.log("clickedPoint is undefined for some reason")}
   }
+  useEffect(() =>{
+    console.log("marker to add",markerToAdd);
+  }, [markerToAdd])
 
   const markers = useMemo(() => geojson.features.map(
     city => (
       <Marker 
         offsetTop={-20} 
         offsetLeft={-20} 
-        key={city.name} 
+        key={city.id} 
         longitude={city.geometry.coordinates[0]} 
         latitude={city.geometry.coordinates[1]} 
       >
@@ -103,9 +116,7 @@ const TestingMap = () => {
   }
 
   const displayPopup = () => {
-    // if(session){ 
       return(
-     
       <Popup
         latitude={clickedPoint ? clickedPoint.lat : 36.78}
         longitude={clickedPoint ? clickedPoint.lng : 30.521}
@@ -117,17 +128,21 @@ const TestingMap = () => {
         <div>Create A Marker
           <form className="add-marker-form" action="" onSubmit={handleAddMarker}>
           <label htmlFor="markers">Marker Type:</label><br/>
-          <select name="markers" id="marker-selections">
+          <select onChange={e => setMarkerToAdd({...markerToAdd, type: e.target.value})} name="markers" id="marker-selections">
             <option value="camp">Camp Site</option>
             <option value="bear">Bear Signting</option>
             <option value="boar">Boar Sighting</option>
             <option value="wolf">Wolf Sighting</option>
           </select><br/>
+          <label  htmlFor="description">Wanna describe?</label><br/>
           <input 
             type="text"
+            onChange={e => setMarkerToAdd({...markerToAdd, description: e.target.value})}
+            name="description"
             placeholder="description"
             maxLength={20}
             /><br/>
+            <button onSubmit={handleAddMarker}>Submit</button>
           </form>
         </div> : <div><p>Please <Link href="/sign-in"><a>sign in</a></Link> to create markers</p></div>}
 
@@ -138,15 +153,14 @@ const TestingMap = () => {
   
   
   return (<>
-
     <ReactMapGL 
       {...viewport} 
       width="100%" 
       height="500px" 
       onClick={ (e) => setClickedPoint(
         {...clickedPoint,
-           x:e.center.x,
-           y:e.center.y,
+          x:e.center.x,
+          y:e.center.y,
           lng: parseFloat((e.lngLat[0]).toFixed(7)),
           lat: parseFloat((e.lngLat[1]).toFixed(7))
         }) 
