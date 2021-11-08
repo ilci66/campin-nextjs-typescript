@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import MapComponent from '../components/Map-component'
+// import MapComponent from '../components/Map-component'
 import Head from 'next/head'
 import TestingMap from '../components/Testing-map';
 
