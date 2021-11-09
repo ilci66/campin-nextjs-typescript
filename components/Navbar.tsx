@@ -83,7 +83,7 @@ const Navbar: NextComponentType = () => {
             <nav>
                 <Link href="/"><a>
                     <div className="logo">
-                        <Image src="/campin-logo.png" width={100} height={100}/>
+                        <Image src="/campin-logo.png" width={120} height={120}/>
                     </div>
                 </a></Link>
                 <button onClick={() => setMenuShow(!menuShow)}className="dropdown">MENU</button>
