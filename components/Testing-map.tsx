@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useMemo, useEffect, useContext } from 'react';
+import { GetStaticProps } from 'next'
 import ReactMapGL, { Marker, SVGOverlay, AttributionControl, FullscreenControl, GeolocateControl, Layer, Popup, MapContext } from 'react-map-gl';
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
@@ -7,6 +8,36 @@ import axios from 'axios';
 
 
 
+export const getStaticProps: GetStaticProps = async () => {
+
+  console.log("in get static")
+
+  const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+
+  if(!url)console.log("there's no url mate");
+
+  const res = await fetch("https://jsonplaceholder.typicode.com/users/");
+  const {data} = await res.json()
+
+  
+  // // const res = await axios.get(`${url}/api/marker`);
+  // const res = await axios.get("http://localhost:3000/api/marker");
+  // const { data } = res.data
+
+  // if (!allMarkers) {
+  //   console.log("no res data here!")
+  //   // return {
+  //   //   redirect: {
+  //   //     destination: '/',
+  //   //     permanent: false,
+  //   //   },
+  //   // }
+  // }
+
+  return {
+    props: { allMarkers: data }, // will be passed to the page component as props
+  }
+}
 
 
 const geojson = {
@@ -38,9 +69,9 @@ const geolocateControlStyle= {
   top: 50
 };
 
-const TestingMap = () => {
+const TestingMap = ({ allMarkers }) => {
 
-  // console.log("all markers ==>", resData);
+  if(allMarkers) console.log("all markers ==>", allMarkers);
 
   const [viewport, setViewport] = useState({
     // width: "100vw",
@@ -190,7 +221,9 @@ const TestingMap = () => {
       {markers}
     </ReactMapGL>
     <button onClick={() => togglePopup(!showPopup)}>Toggle pop-up</button>
-
+    <button onClick={() => {
+      axios.get(`${process.env.NEXT_PUBLIC_SITE_URL!}/api/marker`).then((res:object) => console.log("all markers from button", res.data.data))
+    }}>Log all markers</button> 
     <div className="map-icon-container">
       <div className="sidebar-map-icons"><img src="wolf.png" alt=""/></div>
       <div className="sidebar-map-icons"><img src="boar.png" alt="" /></div>
@@ -218,36 +251,3 @@ const TestingMap = () => {
 }
 
 export default TestingMap;
-
-// export async function getStaticProps() {
-
-//   console.log("in get static")
-
-//   const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
-//   if(!url)console.log("there's no url mate");
-
-//   // let resData: undefined | object = undefined
-
-//   // let resData = await axios.get(`${url}/api/marker`)
-//   //   // .then(res => resData = res)
-//   // console.log("res Data ==> " ,resData)
-
-//   const res = await fetch(`${url}/api/marker`)
-//   const posts = await res.json()
-
-
-//   if (!posts) {
-//   // if (!resData) {
-//     console.log("no res data here!")
-//     // return {
-//     //   redirect: {
-//     //     destination: '/',
-//     //     permanent: false,
-//     //   },
-//     // }
-//   }
-
-//   return {
-//     props: { posts, }, // will be passed to the page component as props
-//   }
-// }
