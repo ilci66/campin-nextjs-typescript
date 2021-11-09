@@ -34,7 +34,7 @@ export default async function handler(
       console.log("savedData ==>", savedData);
 
       res.status(200).json({message: "yeah!!"})
-    break;
+      break;
     case 'GET':
 
       console.log("get request made");
@@ -43,6 +43,8 @@ export default async function handler(
       console.log(allMarkers)
       if(!allMarkers) { res.status(401).json({ error: "There are no markers here pal!"}); return;}
       res.status(200).json({ data: allMarkers });
-    break;
+      break;
+    default:
+      console.log("default code")
   }
 };
