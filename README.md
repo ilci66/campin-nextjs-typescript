@@ -2,3 +2,4 @@
 ## I should definitely consider the design, colours and the overall structure before I jump in, I wasted so much time 
 * Gonna work on the custom map where users will be able to add custom markers to the map, never done something like this before so doing some reading for now
 * Created Testing-map.tsx component to test some features, mostly react-map-gl stuff
+* Working on database call now to use my data for markers
