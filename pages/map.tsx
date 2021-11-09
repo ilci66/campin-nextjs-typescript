@@ -4,7 +4,23 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import Head from 'next/head'
 import TestingMap from '../components/Testing-map';
 
-const Map: NextPage = () => {
+// interface IMarker  {
+//     description:string;
+//     id:string;
+//     type: string;
+//     lat: number | string;
+//     lng: number | string;
+//     addedBy: string;
+//     createdAt: string;
+// }
+// interface IMapPageProps {
+//     allMarkers: React.ReactNode;
+// }
+
+
+const Map: NextPage =({ allMarkers }) => {
+
+    console.log("all markers in map page==>", allMarkers)
 
     // let apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY!
     // console.log("apiKey", apiKey)
@@ -23,7 +39,7 @@ const Map: NextPage = () => {
            <h2 className="map-page-title">The title of this page</h2>
             
             <div className="map-component-container">
-                <TestingMap />
+                <TestingMap allMarkers={allMarkers} />
                 {/* <Wrapper 
                     apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY!} 
                     render={render}
@@ -49,3 +65,32 @@ const Map: NextPage = () => {
     </>)
 }
 export default Map
+
+export async function getStaticProps() {
+
+  console.log("in get static")
+
+  const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+
+  if(!url)console.log("there's no url mate");
+
+  const res = await fetch(`${url}/api/marker`);
+  const data = await res.json()
+
+  // if (!allMarkers) {
+  //   console.log("no res data here!")
+  //   // return {
+  //   //   redirect: {
+  //   //     destination: '/',
+  //   //     permanent: false,
+  //   //   },
+  //   // }
+  // }
+
+  return {
+    props: { 
+        allMarkers: data.data 
+    }, 
+    revalidate: 10,
+  }
+}

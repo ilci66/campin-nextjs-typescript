@@ -8,37 +8,6 @@ import axios from 'axios';
 
 
 
-export const getStaticProps: GetStaticProps = async () => {
-
-  console.log("in get static")
-
-  const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
-
-  if(!url)console.log("there's no url mate");
-
-  const res = await fetch("https://jsonplaceholder.typicode.com/users/");
-  const {data} = await res.json()
-
-  
-  // // const res = await axios.get(`${url}/api/marker`);
-  // const res = await axios.get("http://localhost:3000/api/marker");
-  // const { data } = res.data
-
-  // if (!allMarkers) {
-  //   console.log("no res data here!")
-  //   // return {
-  //   //   redirect: {
-  //   //     destination: '/',
-  //   //     permanent: false,
-  //   //   },
-  //   // }
-  // }
-
-  return {
-    props: { allMarkers: data }, // will be passed to the page component as props
-  }
-}
-
 
 const geojson = {
   type: 'FeatureCollection',
@@ -69,9 +38,9 @@ const geolocateControlStyle= {
   top: 50
 };
 
-const TestingMap = ({ allMarkers }) => {
+const TestingMap = ({ allMarkers }) =>  {
 
-  if(allMarkers) console.log("all markers ==>", allMarkers);
+  console.log("all markers ==>", allMarkers);
 
   const [viewport, setViewport] = useState({
     // width: "100vw",
@@ -83,7 +52,7 @@ const TestingMap = ({ allMarkers }) => {
 
   const [showPopup, togglePopup] = useState(false);
   const [ session, loading ] = useSession();
-
+  const [showMarkers, setShowMarkers] = useState(true);
   const [clickedPoint, setClickedPoint] = useState<{
     x:number,
     y:number,
@@ -100,8 +69,8 @@ const TestingMap = ({ allMarkers }) => {
   });
 
   useEffect(() => {
-    console.log("clicked here ==>", clickedPoint)
-    console.log("session ==>", session)
+    // console.log("clicked here ==>", clickedPoint)
+    // console.log("session ==>", session)
     togglePopup(true);
   }, [clickedPoint])
 
@@ -124,16 +93,16 @@ const TestingMap = ({ allMarkers }) => {
 
   }
 
-  const markers = useMemo(() => geojson.features.map(
-    city => (
+  const markers = useMemo(() => allMarkers.map(
+    marker => (
       <Marker 
         offsetTop={-10} 
         offsetLeft={-10} 
-        key={city.id} 
-        longitude={city.geometry.coordinates[0]} 
-        latitude={city.geometry.coordinates[1]} 
+        key={marker.id} 
+        longitude={marker.lng} 
+        latitude={marker.lat} 
       >
-        <img style={{width:"20px"}} className="map-icons" src="camp.png" />
+        <img style={{width:"20px"}} className="map-icons" src={`${marker.type}.png`} />
       </Marker>
     )
   ), [geojson]);
@@ -218,12 +187,10 @@ const TestingMap = ({ allMarkers }) => {
         auto
       />
       {showPopup && displayPopup()}
-      {markers}
+      {showMarkers && markers}
     </ReactMapGL>
     <button onClick={() => togglePopup(!showPopup)}>Toggle pop-up</button>
-    <button onClick={() => {
-      axios.get(`${process.env.NEXT_PUBLIC_SITE_URL!}/api/marker`).then((res:object) => console.log("all markers from button", res.data.data))
-    }}>Log all markers</button> 
+    <button onClick={() => setShowMarkers(!showMarkers)}>Show / Hide Markers</button> 
     <div className="map-icon-container">
       <div className="sidebar-map-icons"><img src="wolf.png" alt=""/></div>
       <div className="sidebar-map-icons"><img src="boar.png" alt="" /></div>
@@ -239,6 +206,7 @@ const TestingMap = ({ allMarkers }) => {
       grid-template-columns repeat(4, 1fr);
       grid-gap: 5px;
     }
+
     .map-icon-container>div>div{
       // position:relative;
     }
@@ -251,3 +219,51 @@ const TestingMap = ({ allMarkers }) => {
 }
 
 export default TestingMap;
+
+
+
+// export async function getStaticProps() {
+
+//   console.log("in get static")
+
+//   const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+
+//   if(!url)console.log("there's no url mate");
+
+//   const res = await fetch("https://jsonplaceholder.typicode.com/users/");
+//   const data = await res.json()
+
+  
+//   // // const res = await axios.get(`${url}/api/marker`);
+//   // const res = await axios.get("http://localhost:3000/api/marker");
+//   // const { data } = res.data
+
+//   // if (!allMarkers) {
+//   //   console.log("no res data here!")
+//   //   // return {
+//   //   //   redirect: {
+//   //   //     destination: '/',
+//   //   //     permanent: false,
+//   //   //   },
+//   //   // }
+//   // }
+
+//   return {
+//     props: { allMarkers: data }, // will be passed to the page component as props
+//   }
+// }
+
+// export async function getStaticProps() {
+//   const url = process.env.NEXT_PUBLIC_SITE_URL
+
+//   const response = await fetch(`${url}/api/marker`);
+//   const data = await response.json()
+
+//   console.log(data[0]);
+
+//   return {
+//     props: {
+//       allMarkers: data.data
+//     }
+//   }
+// }

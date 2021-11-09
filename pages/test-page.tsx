@@ -1,8 +1,8 @@
 // For some reason this works here but not on the page that it is supposed to work in
-const UserList = ({ markers }) =>  {
+const UserList = ({ allMarkers }) =>  {
 
-  console.log("markers ==> ", markers)
-
+  console.log( "markers ==> ", allMarkers )
+  
   return (<>
     all markers
 
@@ -23,7 +23,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      markers: data.data
+      allMarkers: data.data
     }
   }
 }

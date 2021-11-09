@@ -33,7 +33,7 @@ const Navbar: NextComponentType = () => {
     },[menuShow])
 
     if(session){
-        console.log("this is the session", session)
+        // console.log("this is the session", session)
     }
 
     // const [ show, setShow ] = useState(false)
