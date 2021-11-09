@@ -60,11 +60,12 @@ const TestingMap = () => {
     lng:number
     lat:number
     }>();
-  const [markerToAdd, setMarkerToAdd] = useState<{lng?:number, lat?:number, type?:string, description?:string}>({
+  const [markerToAdd, setMarkerToAdd] = useState<{lng?:number, lat?:number, type?:string, description?:string, addedBy:string}>({
     lng: 35,
     lat: 35,
     type: "camp",
-    description: "nice spot"
+    description: "nice spot",
+    addedBy:"Happy Camper"
   });
   const [ session, loading ] = useSession();
 
@@ -78,15 +79,23 @@ const TestingMap = () => {
     console.log("session ==>", session)
     togglePopup(true);
   }, [clickedPoint])
+  
+  useEffect(() => {
+    if(session?.user!.name !== ""){
+      setMarkerToAdd({...markerToAdd, addedBy: session?.user?.name!})
+    }else{console.log("no user name here")}
+  },[session?.user]);
 
   const handleAddMarker = async (e:React.FormEvent) => {
     e.preventDefault();
     console.log("gonna send this data ==>", markerToAdd)
     
     const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+    if(!url)console.log("there's no url mate")
+    console.log(url)
 
     axios.post(`${url}/api/marker`, markerToAdd)
-      .then(console.log)
+      .then(res => console.log("here be the res ==>", res))
 
 
   }
