@@ -1,14 +1,14 @@
 import * as React from 'react';
-// nice hook for chaching, i don't wanna cause a re-render my markers on viewport changes 
 import { useState, useMemo, useEffect, useContext } from 'react';
 import ReactMapGL, { Marker, SVGOverlay, AttributionControl, FullscreenControl, GeolocateControl, Layer, Popup, MapContext } from 'react-map-gl';
-// import MapGL from 'react-map-gl';
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
 import axios from 'axios';
 
 
-// gonna use another way to name these in the future with my database of course
+
+
+
 const geojson = {
   type: 'FeatureCollection',
   features: [
@@ -27,11 +27,6 @@ const geojson = {
   ]
 };
 
-const attributionStyle= {
-  right: 0,
-  top: 0
-};
-
 const fullscreenControlStyle= {
   right: 10,
   top: 10
@@ -45,6 +40,8 @@ const geolocateControlStyle= {
 
 const TestingMap = () => {
 
+  // console.log("all markers ==>", resData);
+
   const [viewport, setViewport] = useState({
     // width: "100vw",
     // height: "100vh",
@@ -54,12 +51,15 @@ const TestingMap = () => {
   });
 
   const [showPopup, togglePopup] = useState(false);
+  const [ session, loading ] = useSession();
+
   const [clickedPoint, setClickedPoint] = useState<{
     x:number,
     y:number,
     lng:number
     lat:number
     }>();
+
   const [markerToAdd, setMarkerToAdd] = useState<{lng?:number, lat?:number, type?:string, description?:string, addedBy:string}>({
     lng: 35,
     lat: 35,
@@ -67,19 +67,13 @@ const TestingMap = () => {
     description: "nice spot",
     addedBy:"Happy Camper"
   });
-  const [ session, loading ] = useSession();
-
-  useEffect(() => {
-    console.log("show pop up ==> ", showPopup)
-
-  },[showPopup])
 
   useEffect(() => {
     console.log("clicked here ==>", clickedPoint)
     console.log("session ==>", session)
     togglePopup(true);
   }, [clickedPoint])
-  
+
   useEffect(() => {
     if(session?.user!.name !== ""){
       setMarkerToAdd({...markerToAdd, addedBy: session?.user?.name!})
@@ -97,11 +91,7 @@ const TestingMap = () => {
     axios.post(`${url}/api/marker`, markerToAdd)
       .then(res => console.log("here be the res ==>", res))
 
-
   }
-  // useEffect(() =>{
-  //   console.log("marker to add",markerToAdd);
-  // }, [markerToAdd])
 
   const markers = useMemo(() => geojson.features.map(
     city => (
@@ -157,10 +147,8 @@ const TestingMap = () => {
             <button onSubmit={handleAddMarker}>Submit</button>
           </form>
         </div> : <div><p>Please <Link href="/sign-in"><a>sign in</a></Link> to create markers</p></div>}
-
       </Popup>
     )
-  // } else{ return(<div><p>Please sign in to be able to create markers</p></div>)}
   }
   
   
@@ -230,3 +218,36 @@ const TestingMap = () => {
 }
 
 export default TestingMap;
+
+// export async function getStaticProps() {
+
+//   console.log("in get static")
+
+//   const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+//   if(!url)console.log("there's no url mate");
+
+//   // let resData: undefined | object = undefined
+
+//   // let resData = await axios.get(`${url}/api/marker`)
+//   //   // .then(res => resData = res)
+//   // console.log("res Data ==> " ,resData)
+
+//   const res = await fetch(`${url}/api/marker`)
+//   const posts = await res.json()
+
+
+//   if (!posts) {
+//   // if (!resData) {
+//     console.log("no res data here!")
+//     // return {
+//     //   redirect: {
+//     //     destination: '/',
+//     //     permanent: false,
+//     //   },
+//     // }
+//   }
+
+//   return {
+//     props: { posts, }, // will be passed to the page component as props
+//   }
+// }
