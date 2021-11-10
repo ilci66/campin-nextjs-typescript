@@ -5,3 +5,5 @@
 * Working on database call now to use my data for markers
 * The icons are there, there are couple of issues: Adding an Icon doesn't re-render the map to show the change, I need to prevent users from being able to create multiple icons in the same spot (as adding an icon doesn't cause a re-render, it appears as if it wasn't added)
 * Gonna add info boxes for the markers that are added by users and when it's done gonna move on the posts page
+* Instead of info appearing on the map it will appear in a div just below the map to avoid further cluttering the already small map
+* Working on typescript errors I had been ignoring "successfully" for a while now, tired of seeing red 
