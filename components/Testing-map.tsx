@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useMemo, useEffect, useContext } from 'react';
 import { GetStaticProps } from 'next'
+import { useRouter } from 'next/router'
 import ReactMapGL, { Marker, SVGOverlay, AttributionControl, FullscreenControl, GeolocateControl, Layer, Popup, MapContext } from 'react-map-gl';
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
@@ -56,10 +57,16 @@ const TestingMap = ({ allMarkers }) =>  {
   }, [clickedPoint])
 
   useEffect(() => {
-    const alertDiv = document.querySelector("map-alert-container");
+    console.log(showAlert)
+    const alertDiv = document.querySelector(".map-alert-container");
+    console.log(alertDiv);
     if(showAlert){
       // Gonna return after my break
+      alertDiv!.style!.display = "flex"
+    }else{
+      alertDiv!.style!.display = "none"
     }
+    
   },[showAlert]);
 
 
@@ -81,8 +88,13 @@ const TestingMap = ({ allMarkers }) =>  {
       .then(res => console.log("here be the res ==>", res))
       .catch(error =>{
         setShowAlert(true);
-        alert("Icon already created, please refresh to see the most recent map")
-        console.log(error)})
+        console.log(error.request.status)
+        if(error.request.status){
+          let msg = document.querySelector(".map-alert-message")
+          msg.innerText = "A marker already exists in the same spot. Please reload your page to see the most recent changes. Thanks"
+        }
+        console.log(Object.keys(error))})
+        // console.log(error.Error)
 
   }
 
@@ -134,7 +146,7 @@ const TestingMap = ({ allMarkers }) =>  {
             type="text"
             onChange={e => setMarkerToAdd({...markerToAdd, description: e.target.value})}
             name="description"
-            placeholder="description"
+            placeholder="nice spot"
             maxLength={20}
             /><br/>
             <button onSubmit={handleAddMarker}>Submit</button>
@@ -148,8 +160,13 @@ const TestingMap = ({ allMarkers }) =>  {
   return (<>
     <div className="map-alert-container">
       <div className="map-alert-box">
-        <p className="map-alert-message">This is the alert message</p>
-        <button onClick={() => setShowAlert(false)} className="map-alert-confirm-btn">Confirm</button>
+        <p className="map-alert-message"></p>
+        <button onClick={
+          () => {
+            setShowAlert(false)
+            location.reload();
+          }
+        } className="map-alert-confirm-btn">Confirm & Reload</button>
       </div>
     </div>
     <ReactMapGL 
@@ -223,19 +240,25 @@ const TestingMap = ({ allMarkers }) =>  {
       margin:0 auto;
       z-index: 120;
       padding: 10px;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
     }
     .map-alert-box{
       background: var(--secondary-red);
-      padding: 20px;
+      padding: 10px 20px;
+      width:50%;
+      min-width: 240px;
+      max-width: 500px;
       border-radius: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
 
     }
+    // .map-alert-show{
+    //   display:flex;
+    // }
     .map-alert-message{
       color: var(--main-text-color);
       font-size: 1.2rem;
@@ -246,6 +269,7 @@ const TestingMap = ({ allMarkers }) =>  {
       padding: 10px 15px;
       font-size: 1.2rem;
       border-radius:5px;
+      margin-bottom: 20px;
       background: var(--main-footer-color);
       color: var(--main-text-color);
     }
