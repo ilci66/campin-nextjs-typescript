@@ -25,6 +25,14 @@ export default async function handler(
       if(!isAuth){ res.status(401).json({ error: "Unauthenticated User"}); return; }
 
       console.log("this is the info ==> ",req.body)
+
+      let isAdded = await MarkerModel.find({ lat: lat, lng: lng})
+      if(isAdded[0]) {
+        console.log("there is already a marker there", isAdded)
+        res.status(401).json({ message: "A marker exists in the same spot" });
+        return;
+      }
+
       let newMarker = new MarkerModel({ lat, lng, type, description, addedBy, createdAt: new Date().getTime()});
 
       let savedData = await newMarker.save();
@@ -40,8 +48,11 @@ export default async function handler(
       console.log("get request made");
 
       const allMarkers = await MarkerModel.find({});
-      console.log(allMarkers)
-      if(!allMarkers) { res.status(401).json({ error: "There are no markers here pal!"}); return;}
+      // console.log(allMarkers)
+      if(!allMarkers) { 
+        res.status(401).json({ error: "There are no markers here pal!"}); 
+        return;
+      }
       res.status(200).json({ data: allMarkers });
       break;
     default:

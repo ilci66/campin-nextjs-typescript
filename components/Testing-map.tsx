@@ -6,27 +6,6 @@ import { useSession } from 'next-auth/client';
 import Link from 'next/link';
 import axios from 'axios';
 
-
-
-
-const geojson = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      id: "1", type: 'Feature', geometry: { type: 'Point', coordinates: [-77.032, 38.913] },
-      properties: { title: 'Mapbox', description: 'Washington, D.C.' }
-    },
-    {
-      id:"2", type: 'Feature', geometry: { type: 'Point', coordinates: [-122.414, 37.776] },
-      properties: {title: 'Mapbox', description: 'San Francisco, California' }
-    },
-    {
-      id: "3", type: 'Feature', geometry: { type: 'Point', coordinates: [30.5037, 36.8740] },
-      properties: {title: 'Mapbox', description: 'My marker' }
-    }
-  ]
-};
-
 const fullscreenControlStyle= {
   right: 10,
   top: 10
@@ -40,7 +19,7 @@ const geolocateControlStyle= {
 
 const TestingMap = ({ allMarkers }) =>  {
 
-  console.log("all markers ==>", allMarkers);
+  // console.log("all markers ==>", allMarkers);
 
   const [viewport, setViewport] = useState({
     // width: "100vw",
@@ -53,6 +32,8 @@ const TestingMap = ({ allMarkers }) =>  {
   const [showPopup, togglePopup] = useState(false);
   const [ session, loading ] = useSession();
   const [showMarkers, setShowMarkers] = useState(true);
+  const [count, setCount] = useState(allMarkers.length)
+  const [showAlert, setShowAlert] = useState(false);
   const [clickedPoint, setClickedPoint] = useState<{
     x:number,
     y:number,
@@ -75,6 +56,14 @@ const TestingMap = ({ allMarkers }) =>  {
   }, [clickedPoint])
 
   useEffect(() => {
+    const alertDiv = document.querySelector("map-alert-container");
+    if(showAlert){
+      // Gonna return after my break
+    }
+  },[showAlert]);
+
+
+  useEffect(() => {
     if(session?.user!.name !== ""){
       setMarkerToAdd({...markerToAdd, addedBy: session?.user?.name!})
     }else{console.log("no user name here")}
@@ -82,14 +71,18 @@ const TestingMap = ({ allMarkers }) =>  {
 
   const handleAddMarker = async (e:React.FormEvent) => {
     e.preventDefault();
-    console.log("gonna send this data ==>", markerToAdd)
+    // console.log("gonna send this data ==>", markerToAdd)
     
     const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
     if(!url)console.log("there's no url mate")
-    console.log(url)
+    // console.log(url)
 
     axios.post(`${url}/api/marker`, markerToAdd)
       .then(res => console.log("here be the res ==>", res))
+      .catch(error =>{
+        setShowAlert(true);
+        alert("Icon already created, please refresh to see the most recent map")
+        console.log(error)})
 
   }
 
@@ -105,7 +98,7 @@ const TestingMap = ({ allMarkers }) =>  {
         <img style={{width:"20px"}} className="map-icons" src={`${marker.type}.png`} />
       </Marker>
     )
-  ), [geojson]);
+  ), [allMarkers]);
 
   const CurrentZoomLevel = () => {
     const context = useContext(MapContext);
@@ -153,6 +146,12 @@ const TestingMap = ({ allMarkers }) =>  {
   
   
   return (<>
+    <div className="map-alert-container">
+      <div className="map-alert-box">
+        <p className="map-alert-message">This is the alert message</p>
+        <button onClick={() => setShowAlert(false)} className="map-alert-confirm-btn">Confirm</button>
+      </div>
+    </div>
     <ReactMapGL 
       {...viewport} 
       width="100%" 
@@ -189,6 +188,7 @@ const TestingMap = ({ allMarkers }) =>  {
       {showPopup && displayPopup()}
       {showMarkers && markers}
     </ReactMapGL>
+    <div>Icon count: {count}</div>
     <button onClick={() => togglePopup(!showPopup)}>Toggle pop-up</button>
     <button onClick={() => setShowMarkers(!showMarkers)}>Show / Hide Markers</button> 
     <div className="map-icon-container">
@@ -213,6 +213,45 @@ const TestingMap = ({ allMarkers }) =>  {
     // .sidebar-map-icons{
     //   width: 20px;
     // }
+    .map-alert-container{
+      width: 100%;
+      height: 100vh;
+      background: rgb(66,66,66,0.7); 
+      position: fixed;
+      top: 0;
+      left: 0;
+      margin:0 auto;
+      z-index: 120;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .map-alert-box{
+      background: var(--secondary-red);
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+    }
+    .map-alert-message{
+      color: var(--main-text-color);
+      font-size: 1.2rem;
+    }
+    .map-alert-confirm-btn{
+      max-width: 50%;
+      border: none;
+      padding: 10px 15px;
+      font-size: 1.2rem;
+      border-radius:5px;
+      background: var(--main-footer-color);
+      color: var(--main-text-color);
+    }
+    .map-alert-confirm-btn:hover{
+      cursor:pointer;
+    }
     `}</style>
 
   </>);
