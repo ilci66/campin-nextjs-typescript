@@ -49,7 +49,21 @@ const TestingMap = ({ allMarkers }) =>  {
     description: "nice spot",
     addedBy:"Happy Camper"
   });
+  useEffect(() =>{
+    window.onclick = (event) => { 
+      console.log(event.target.id,"x==>", event.x, "y==>", event.y, "target==>", event.target!.className ==="map-icons") 
+      let infoBox = document.createElement('div')
+      let infoText = document.createElement('p')
+      allMarkers.map((marker: { _id: any; }) => {
+        if(marker._id === event.target.id){
 
+          // ok leaving here, continue after breakfast
+          console.log("fount the marker",marker)
+        }
+      })
+
+    }
+  },[])
   useEffect(() => {
     // console.log("clicked here ==>", clickedPoint)
     // console.log("session ==>", session)
@@ -103,11 +117,11 @@ const TestingMap = ({ allMarkers }) =>  {
       <Marker 
         offsetTop={-10} 
         offsetLeft={-10} 
-        key={marker.id} 
+        key={marker._id} 
         longitude={marker.lng} 
         latitude={marker.lat} 
       >
-        <img style={{width:"20px"}} className="map-icons" src={`${marker.type}.png`} />
+        <img style={{width:"20px"}} id={marker._id} className="map-icons" src={`${marker.type}.png`} />
       </Marker>
     )
   ), [allMarkers]);
