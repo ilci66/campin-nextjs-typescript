@@ -2,23 +2,24 @@ import type { NextPage } from 'next'
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 // import MapComponent from '../components/Map-component'
 import Head from 'next/head'
-import TestingMap from '../components/Testing-map';
+import MapComponent from '../components/Map-component';
 
-// interface IMarker  {
-//     description:string;
-//     id:string;
-//     type: string;
-//     lat: number | string;
-//     lng: number | string;
-//     addedBy: string;
-//     createdAt: string;
-// }
-// interface IMapPageProps {
-//     allMarkers: React.ReactNode;
-// }
+interface IMarker  {
+    description:string;
+    id:string;
+    type: string;
+    lat: number | string;
+    lng: number | string;
+    addedBy: string;
+    createdAt: string;
+}
+interface IMapPageProps {
+    allMarkers?: object[]
+    
+}
 
 
-const Map: NextPage =({ allMarkers }) => {
+const Map: NextPage = ({ allMarkers }:IMapPageProps) => {
 
     console.log("all markers in map page==>", allMarkers)
 
@@ -39,7 +40,7 @@ const Map: NextPage =({ allMarkers }) => {
            <h2 className="map-page-title">The title of this page</h2>
             
             <div className="map-component-container">
-                <TestingMap allMarkers={allMarkers} />
+                <MapComponent allMarkers={allMarkers} />
                 {/* <Wrapper 
                     apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY!} 
                     render={render}
@@ -52,8 +53,9 @@ const Map: NextPage =({ allMarkers }) => {
             .map-page-container{
               height:100vh;  
               max-width:960px;
-              margin:0 auto;
+              margin: 0 auto;
               padding: 50px;
+              margin-bottom: 60px;
             }
             .map-component-container{
                 postion:relative;
@@ -76,7 +78,7 @@ export async function getStaticProps() {
 
   const res = await fetch(`${url}/api/marker`);
   const data = await res.json()
-
+//   let dataData:IMarker[] = data.data
   // if (!allMarkers) {
   //   console.log("no res data here!")
   //   // return {
@@ -89,7 +91,8 @@ export async function getStaticProps() {
 
   return {
     props: { 
-        allMarkers: data.data 
+        allMarkers : data.data
+        // allMarkers: dataData
     }, 
     revalidate: 10,
   }
