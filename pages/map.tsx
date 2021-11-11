@@ -14,14 +14,13 @@ interface IMarker  {
     createdAt: string;
 }
 interface IMapPageProps {
-    allMarkers?: object[]
+    allMarkers: object[]
     
 }
 
-
-const Map: NextPage = ({ allMarkers }:IMapPageProps) => {
-
-    console.log("all markers in map page==>", allMarkers)
+// Well this works and I couldn't figure out the actual type of it
+const Map: NextPage = ({ allMarkers }:any) => {
+    console.log("all markers in map page==>", typeof allMarkers)
 
     // let apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY!
     // console.log("apiKey", apiKey)
