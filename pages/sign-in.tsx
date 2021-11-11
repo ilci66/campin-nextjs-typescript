@@ -20,11 +20,11 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
   const [password, setPassword] = useState("")
   const [show, setShow] = useState(false);
   
-  let errCon: EventTarget | null;
+  let errCon: EventTarget | null | HTMLDivElement ;
   
   useEffect(() => {
     errCon = document.getElementById("sign-in-error-container");
-  })
+  }, [])
 
   const handleSignInCrendetials = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,9 +82,9 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
 
     if(show){
       
-      errCon?.classList.remove("error-hide")
+      (errCon as HTMLDivElement).classList.remove("error-hide")
     }else{
-      errCon?.classList.add("error-hide")
+      (errCon as HTMLDivElement).classList.add("error-hide")
     }
     
     
@@ -293,13 +293,17 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
       .provider-sign-in-button{
         width:100%;
         display: grid;
+        border-radius: 5px;
+        border:none;
         grid-template-columns: auto 1fr;
         color: var(--main-text-color);
         align-items:center;
         font-size: 1.4rem;
+        transition: .2s;
         padding:5px;
       }
       .provider-sign-in-button:hover{
+        opacity: .8;
         cursor:pointer;
       }
       .credenial-sign-in-button{
@@ -349,7 +353,9 @@ SignIn.getInitialProps = async (context: {req: any, res: any}) => {
 
   return {
     session: undefined,
-    providers: await providers(context),
+    // this was causing a typescript error, without the argument it works fine so far
+    // providers: await providers(context),
+    providers: await providers(),
     csrfToken: await csrfToken(context),
   };
 };
