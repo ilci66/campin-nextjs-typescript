@@ -37,6 +37,7 @@ const Map: NextPage = ({ allMarkers }:any) => {
         </Head>
         <div className="map-page-container">
            <h2 className="map-page-title">The title of this page</h2>
+           <p>Added markers will not appear until the page is reloaded, didn't wanna force a reload after adding a marker for couple of reasons.</p>
             
             <div className="map-component-container">
                 <MapComponent allMarkers={allMarkers} />
