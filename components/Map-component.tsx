@@ -20,7 +20,9 @@ const geolocateControlStyle= {
   top: 50
 };
 
-const MapComponent = ({ allMarkers }) =>  {
+
+// ok I got a little lazy with this one but gonna look back in the future
+const MapComponent = ({ allMarkers }:any) =>  {
 
   // console.log("all markers ==>", allMarkers);
 
@@ -36,7 +38,7 @@ const MapComponent = ({ allMarkers }) =>  {
   const [ session, loading ] = useSession();
   const [showMarkers, setShowMarkers] = useState(true);
   const [count, setCount] = useState(allMarkers.length);
-  const [markerDateInfo, setMarkerDateInfo] = useState()
+  const [markerDateInfo, setMarkerDateInfo] = useState<Date| string | number>(new Date())
   const [markerDescriptionInfo, setMarkerDescriptionInfo] = useState()
   const [markerCreatorInfo, setMarkerCreatorInfo] = useState()
   const [showAlert, setShowAlert] = useState(false);
@@ -54,13 +56,17 @@ const MapComponent = ({ allMarkers }) =>  {
     description: "nice spot",
     addedBy:"Happy Camper"
   });
+  // const dateGiver = (givenDate: string | number | Date) => {
+  //   return (<TimeAgo date={givenDate}/>)
+  // }
   useEffect(() =>{
-    window.onclick = (event) => { 
-      console.log(event.target.id,"x==>", event.x, "y==>", event.y, "target==>", event.target!.className ==="map-icons") 
-
-      allMarkers.map((marker) => {
-        if(marker._id === event.target.id){
-          setMarkerDateInfo(<TimeAgo date={marker.createdAt}/>)
+    window.onclick = (event:MouseEvent) => { 
+      // console.log(event.target.id,"x==>", event.x, "y==>", event.y, "target==>", event.target!.className ==="map-icons") 
+      
+      allMarkers.map((marker: { _id: any; createdAt: string | number | Date ; addedBy: React.SetStateAction<undefined>; description: React.SetStateAction<undefined>; }) => {
+        if(marker._id === (event.target as HTMLDivElement).id){
+          // setMarkerDateInfo(<TimeAgo date={marker.createdAt}/>)
+          setMarkerDateInfo(marker.createdAt)
           setMarkerCreatorInfo(marker.addedBy);
           setMarkerDescriptionInfo(marker.description);
 
@@ -79,13 +85,13 @@ const MapComponent = ({ allMarkers }) =>  {
 
   useEffect(() => {
     console.log(showAlert)
-    const alertDiv = document.querySelector(".map-alert-container");
+    const alertDiv: HTMLDivElement = document.querySelector(".map-alert-container")!;
     console.log(alertDiv);
     if(showAlert){
       // Gonna return after my break
-      alertDiv!.style!.display = "flex"
+      alertDiv.style!.display = "flex"
     }else{
-      alertDiv!.style!.display = "none"
+      alertDiv.style!.display = "none"
     }
     
   },[showAlert]);
@@ -111,7 +117,7 @@ const MapComponent = ({ allMarkers }) =>  {
         setShowAlert(true);
         console.log(error.request.status)
         if(error.request.status){
-          let msg = document.querySelector(".map-alert-message")
+          let msg: HTMLParagraphElement = document.querySelector(".map-alert-message")!;
           msg.innerText = "A marker already exists in the same spot. Please reload your page to see the most recent changes. Thanks"
         }
         console.log(Object.keys(error))})
@@ -120,7 +126,7 @@ const MapComponent = ({ allMarkers }) =>  {
   }
 
   const markers = useMemo(() => allMarkers.map(
-    marker => (
+    (    marker: { _id: string; lng: number; lat: number; type: any; }) => (
       <Marker 
         offsetTop={-10} 
         offsetLeft={-10} 
@@ -232,7 +238,7 @@ const MapComponent = ({ allMarkers }) =>  {
       <button className="marker-toggler" onClick={() => setShowMarkers(!showMarkers)}>{showMarkers ? "Hide": "Show"} Markers</button> 
     </ReactMapGL>
     <div className="marker-controller">
-      {markerCreatorInfo && <div className="marker-info-box">Marker Date: {markerDateInfo} | Creator: {markerCreatorInfo} | {markerDescriptionInfo}</div>}
+      {markerCreatorInfo && <div className="marker-info-box">Marker Date: <TimeAgo date={markerDateInfo}/> | Creator: {markerCreatorInfo} | {markerDescriptionInfo}</div>}
      
     </div>
     
@@ -331,51 +337,3 @@ const MapComponent = ({ allMarkers }) =>  {
 }
 
 export default MapComponent;
-
-
-
-// export async function getStaticProps() {
-
-//   console.log("in get static")
-
-//   const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
-
-//   if(!url)console.log("there's no url mate");
-
-//   const res = await fetch("https://jsonplaceholder.typicode.com/users/");
-//   const data = await res.json()
-
-  
-//   // // const res = await axios.get(`${url}/api/marker`);
-//   // const res = await axios.get("http://localhost:3000/api/marker");
-//   // const { data } = res.data
-
-//   // if (!allMarkers) {
-//   //   console.log("no res data here!")
-//   //   // return {
-//   //   //   redirect: {
-//   //   //     destination: '/',
-//   //   //     permanent: false,
-//   //   //   },
-//   //   // }
-//   // }
-
-//   return {
-//     props: { allMarkers: data }, // will be passed to the page component as props
-//   }
-// }
-
-// export async function getStaticProps() {
-//   const url = process.env.NEXT_PUBLIC_SITE_URL
-
-//   const response = await fetch(`${url}/api/marker`);
-//   const data = await response.json()
-
-//   console.log(data[0]);
-
-//   return {
-//     props: {
-//       allMarkers: data.data
-//     }
-//   }
-// }
