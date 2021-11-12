@@ -5,19 +5,19 @@ import Head from 'next/head'
 import MapComponent from '../components/Map-component';
 // import useSwr from "swr";
 
-interface IMarker  {
-    description:string;
-    id:string;
-    type: string;
-    lat: number | string;
-    lng: number | string;
-    addedBy: string;
-    createdAt: string;
-}
-interface IMapPageProps {
-    allMarkers: object[]
+// interface IMarker  {
+//     description:string;
+//     id:string;
+//     type: string;
+//     lat: number | string;
+//     lng: number | string;
+//     addedBy: string;
+//     createdAt: string;
+// }
+// interface IMapPageProps {
+//     allMarkers: object[]
     
-}
+// }
 
 // Well this works and I couldn't figure out the actual type of it
 const Map: NextPage = ({ allMarkers }:any) => {
