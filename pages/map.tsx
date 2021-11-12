@@ -3,6 +3,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 // import MapComponent from '../components/Map-component'
 import Head from 'next/head'
 import MapComponent from '../components/Map-component';
+// import useSwr from "swr";
 
 interface IMarker  {
     description:string;
@@ -70,34 +71,34 @@ export default Map
 
 export async function getStaticProps() {
 
-  console.log("in get static")
+    console.log("in get static")
 
-  const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+    const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
 
-  if(!url)console.log("there's no url mate");
+    if(!url)console.log("there's no url mate");
 
-  const res = await fetch(`${url}/api/marker`);
-  const data = await res.json();
+      const res = await fetch(`${url}/api/marker`);
+      const data = await res.json();
 
-  const fetcher = async (apiUrl) => {
-    const fetched = await 
-  }
-//   let dataData:IMarker[] = data.data
-  // if (!allMarkers) {
-  //   console.log("no res data here!")
-  //   // return {
-  //   //   redirect: {
-  //   //     destination: '/',
-  //   //     permanent: false,
-  //   //   },
-  //   // }
-  // }
+    // Well swr caused an error, apparently can't be used this way
+    // const fetcher: (fetchFrom:string) => object = async (fetchFrom) => fetch(fetchFrom).then(response => response.json())
+    // const { data, error } = useSwr(`${url}/api/marker`, fetcher);
 
-  return {
-    props: { 
-        allMarkers : data.data
-        // allMarkers: dataData
-    }, 
-    revalidate: 10,
-  }
+    //   let dataData:IMarker[] = data.data
+    // if (!allMarkers) {
+    //   console.log("no res data here!")
+    //   // return {
+    //   //   redirect: {
+    //   //     destination: '/',
+    //   //     permanent: false,
+    //   //   },
+    //   // }
+    // }
+
+    return {
+        props: { 
+            allMarkers : data.data
+        }, 
+        revalidate: 10,
+    }
 }
