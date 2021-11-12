@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 // import MapComponent from '../components/Map-component'
 import Head from 'next/head'
@@ -69,7 +69,7 @@ const Map: NextPage = ({ allMarkers }:any) => {
 }
 export default Map
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
 
     console.log("in get static")
 
