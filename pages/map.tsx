@@ -77,7 +77,11 @@ export async function getStaticProps() {
   if(!url)console.log("there's no url mate");
 
   const res = await fetch(`${url}/api/marker`);
-  const data = await res.json()
+  const data = await res.json();
+
+  const fetcher = async (apiUrl) => {
+    const fetched = await 
+  }
 //   let dataData:IMarker[] = data.data
   // if (!allMarkers) {
   //   console.log("no res data here!")
