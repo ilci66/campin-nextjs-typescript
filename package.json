@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.17",
     "@googlemaps/react-wrapper": "^1.1.11",
     "axios": "^0.23.0",
     "bcrypt": "^5.0.1",
