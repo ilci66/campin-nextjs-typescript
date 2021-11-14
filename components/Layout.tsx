@@ -7,13 +7,13 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
 
-    return(
-        <div className="container">
+    return(<>
+         {/* <div className="container"> */}
             <Navbar />
             {children}
             <Footer />     
-        </div>
-    )
+        {/* </div> */}
+    </>)
 }
 
 export default Layout;
