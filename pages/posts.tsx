@@ -2,7 +2,10 @@
 import { GraphQLClient, gql } from "graphql-request";
 import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
-import client from '../lib/apolloClient';
+// import client from '../lib/apolloClient';
+
+// itereate through the colours to create a background for the posts
+const postBGColors = ["var(--secondary-blue-1), var(--secondary-blue-2), var(--secondary-blue-1)"]
 
 // will change the type later
 const Posts: NextPage = ( { blogs }:any ) => {
@@ -13,16 +16,38 @@ const Posts: NextPage = ( { blogs }:any ) => {
         <meta name="description" content="All Posts and Short Descriptions" />
         <link rel="icon" href="/favicon-c.ico" />
     </Head>
-    <div className="posts-container">
-        <h1>this page will contain all of the posts and their short descpitions or at least list of the headers along with the thumbnails</h1>
-        <ul>
-            {blogs.map((blog: {title: string}, i: number | string) => <li key={i}>{blog.title}</li> )}
-        </ul>
+    <div className="posts-page-container">
+        <div className="content-container">
+            <h1 >All the Posts</h1>
+            <div className="blogs-container">
+                {blogs.map((blog: {title: string}, i: number) => {return(
+                    <div 
+
+                        className={`blog-post color-${i%3}`}
+                        key={i}>
+                            {blog.title}
+                    </div>
+                )})} 
+            </div>
+              
+        </div>
+
     </div>
         <style jsx>{`
-            .posts-container {
+            .posts-page-container {
                 min-height: 100vh;
             }
+            .content-container{
+                max-width: 960px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content:center;
+            }
+            .color-0{background: var(--secondary-blue-1);}
+            .color-1{background: var(--secondary-blue-2);}
+            .color-2{background: var(--secondary-blue-3);}
+
         `}</style>
     </>)
 }
@@ -30,9 +55,7 @@ export default Posts;
 
 
 export const getStaticProps: GetStaticProps = async () => {
-    console.log("graphcms url", process.env.NEXT_PUBLIC_GRAPHCMS_URL)
     const client = new GraphQLClient(process.env.NEXT_PUBLIC_GRAPHCMS_URL!);
-    console.log("client ==>", client)
     
     const query = gql`
         query BlogPost{
@@ -64,24 +87,4 @@ export const getStaticProps: GetStaticProps = async () => {
     return {
         props: { blogs: data.blogPosts },
     };
-    // return { props: { blogs:  [{title : "test"}]}}
-    // This looks strange and I wouldn't be able to remember in a million years so gonna use another module
-    // const { data: blogs } = await client.query({
-    //     query : gql`
-    //     query blogPosts{
-    //         title
-    //         wideThumbnail
-    //         slug
-    //         description
-    //         date
-    //         inPostImages
-    //         richText
-    //         }
-    //     ` 
-    // })
-        
-    // console.log(blogs);
-
-
-    
 }
