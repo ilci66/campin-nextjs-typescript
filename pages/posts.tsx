@@ -5,7 +5,17 @@ import Head from 'next/head'
 // import client from '../lib/apolloClient';
 
 // itereate through the colours to create a background for the posts
-const postBGColors = ["var(--secondary-blue-1), var(--secondary-blue-2), var(--secondary-blue-1)"]
+// const postBGColors = ["var(--secondary-blue-1), var(--secondary-blue-2), var(--secondary-blue-1)"]
+
+interface IBlog{
+    wideThumbnail: any;
+    title:string;
+    wideThumnail: object;
+    slug:string;
+    date: Date | string;
+    description: string;
+    richText: object;
+}
 
 // will change the type later
 const Posts: NextPage = ( { blogs }:any ) => {
@@ -17,15 +27,16 @@ const Posts: NextPage = ( { blogs }:any ) => {
         <link rel="icon" href="/favicon-c.ico" />
     </Head>
     <div className="posts-page-container">
+        <h1 className="posts-page-title">All the Posts</h1>
         <div className="content-container">
-            <h1 >All the Posts</h1>
             <div className="blogs-container">
-                {blogs.map((blog: {title: string}, i: number) => {return(
-                    <div 
-
-                        className={`blog-post color-${i%3}`}
-                        key={i}>
-                            {blog.title}
+                {blogs.map((blog: IBlog, i: number) => {return(
+                    <div className={`blog-post color-${i%3}`}key={i}>
+                            <img src={`${blog.wideThumbnail.url}`} alt="" className="blog-post-thumbnail" />
+                            <div className="blog-post-info">
+                                <h2>{blog.title}</h2>
+                                <p>{blog.description}</p>   
+                            </div>
                     </div>
                 )})} 
             </div>
@@ -35,18 +46,35 @@ const Posts: NextPage = ( { blogs }:any ) => {
     </div>
         <style jsx>{`
             .posts-page-container {
-                min-height: 100vh;
+                // min-height: 100vh;
+            }
+            .posts-page-title{
+               padding: 20px;
             }
             .content-container{
                 max-width: 960px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content:center;
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(auto-fit,minmax(50px, 1fr));
+                grid-gap: 50px;
+                // align-items: center;
+                // justify-items:center;
             }
-            .color-0{background: var(--secondary-blue-1);}
-            .color-1{background: var(--secondary-blue-2);}
-            .color-2{background: var(--secondary-blue-3);}
+            .blog-post{
+                padding:20px;
+                display: grid;
+                border-top: 3px solid green;
+                margin-top: 20px;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 20px;
+            }
+            .blog-post-thumbnail{
+                width:100%;
+                object-fit: cover;
+            }
+            .color-0{background: var(--post-bg-1);}
+            .color-1{background: var(--post-bg-2);}
+            .color-2{background: var(--post-bg-3);}
 
         `}</style>
     </>)
@@ -86,5 +114,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
     return {
         props: { blogs: data.blogPosts },
+        //forgot to add this
+        revalidate: 10,
     };
 }
