@@ -16,7 +16,7 @@ const Posts: NextPage = ( { blogs }:any ) => {
     <div className="posts-container">
         <h1>this page will contain all of the posts and their short descpitions or at least list of the headers along with the thumbnails</h1>
         <ul>
-            {/* {blogs.map((blog: {title: string}, i: number | string) => <li key={i}>{blog.title}</li> )} */}
+            {blogs.map((blog: {title: string}, i: number | string) => <li key={i}>{blog.title}</li> )}
         </ul>
     </div>
         <style jsx>{`
@@ -33,11 +33,29 @@ export const getStaticProps: GetStaticProps = async () => {
     console.log("graphcms url", process.env.NEXT_PUBLIC_GRAPHCMS_URL)
     const client = new GraphQLClient(process.env.NEXT_PUBLIC_GRAPHCMS_URL!);
     console.log("client ==>", client)
-    // well the query worked in api playground but still getting the same error, looking into it
+    
     const query = gql`
         query BlogPost{
             blogPosts{
                 title
+                slug
+                date
+                description
+                wideThumbnail{
+                    url
+                    size
+                    width
+                    height
+                    fileName
+                    mimeType
+                }
+                richText{
+                    raw
+                    html
+                    markdown
+                    text
+                }
+
             }
         }
     `;
