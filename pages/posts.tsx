@@ -2,6 +2,7 @@
 import { GraphQLClient, gql } from "graphql-request";
 import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link';
 // import client from '../lib/apolloClient';
 
 // itereate through the colours to create a background for the posts
@@ -19,7 +20,7 @@ interface IBlog{
 
 // will change the type later
 const Posts: NextPage = ( { blogs }:any ) => {
-    console.log("blogs ==>",blogs)
+    // console.log("blogs ==>",blogs)
     return(<>
     <Head>
     <title>Posts | Campin'</title>
@@ -35,7 +36,8 @@ const Posts: NextPage = ( { blogs }:any ) => {
                             <img src={`${blog.wideThumbnail.url}`} alt="" className="blog-post-thumbnail" />
                             <div className="blog-post-info">
                                 <h2>{blog.title}</h2>
-                                <p>{blog.description}</p>   
+                                <p>{blog.description}</p> 
+                                <Link  href={`/posts/${blog.slug}`}><a>See more</a></Link>
                             </div>
                     </div>
                 )})} 
