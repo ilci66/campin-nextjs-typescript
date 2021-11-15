@@ -2,6 +2,7 @@ import { useState } from "react";
 import { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import useSWR from "swr";
 import { GraphQLClient, gql } from "graphql-request";
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 // import { serialize } from "next-mdx-remote/serialize";
 // import { MDXRemote } from "next-mdx-remote";
 
@@ -76,7 +77,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   // console.log("data.blogPost in get staticprops", data.blogPost);
 
-  if (!data.blog) {
+  if (!data.blogPost) {
     return {
       notFound: true,
     };
@@ -93,8 +94,41 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 export default function Blog ({ blog }:IBlog){
 
   console.log("this is the passed down blog ",blog);
-  return(
-    // <div>The blog you wanna read</div>
-    <div>{blog.title}</div>
-  );
+
+  const testHTML = blog.richText[0].html
+
+  return(<>
+    <div className="post-page-container">
+      <h1>{blog.title}</h1>
+      {/* <div>{`${blog.richText[0].html}`}</div> */}
+      <div 
+        className="text-content"
+        // ok ths works
+        dangerouslySetInnerHTML={{__html: testHTML}}
+        >
+          {/* This also works  */}
+          {/* <div>{ ReactHtmlParser(testHTML) }</div> */}
+      </div>
+    </div>
+
+    <style jsx>{`
+      .post-page-container{
+        min-height: 100vh;
+        max-width: 960px;
+        margin:0 auto;
+        display: grid;
+        grid-template-columns: 100px 1fr 100px;
+        grid-template-rows: repeat(auto-fit,minmax(auto, 1fr));
+      }
+      h1{
+        margin: 0 auto;
+        grid-column: 1 /-1;
+      }
+      .text-content{
+        grid-column: 2 / 3; 
+      }
+    `}
+      
+    </style>
+  </>);
 };
