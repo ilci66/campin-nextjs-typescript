@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import useSWR from "swr";
 import { GraphQLClient, gql } from "graphql-request";
@@ -14,7 +14,10 @@ interface IBlog{
     slug:string;
     date: Date | string;
     description: string;
-    richText: object;
+    richText: {
+      html:string;
+      raw:string;
+    };
   }
 }
 
@@ -31,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   `;
   const data = await client.request(query);
 
-  console.log("slugs ==>", data);
+  // console.log("slugs ==>", data);
     
   return {
     paths: data.blogPosts.map((blog: { slug: string; }) => ({ params: { slug: blog.slug } })),
@@ -47,7 +50,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const slug = params.slug as string;
 
-  console.log("slug in getstaticprops ==>", slug)
+  // console.log("slug in getstaticprops ==>", slug)
 
   const query = gql`
   query BlogPost($slug: String!) {
@@ -93,9 +96,19 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 // The steps until this point works  but for some reason not the actual page; still gtting 404 page
 export default function Blog ({ blog }:IBlog){
 
-  console.log("this is the passed down blog ",blog);
+  // console.log("this is the passed down blog ",blog.richText[0].raw);
 
-  const testHTML = blog.richText[0].html
+  const contentText = Array.isArray(blog.richText) ? blog.richText[0].html :  blog.richText.html
+
+  // this one captures the logo too
+  // const imagesInText = document.querySelectorAll('img');
+  useEffect(() => {
+    document.querySelectorAll('.text-content img').forEach(img => img.classList.add("rich-text-image"));
+
+    // console.log(textContent)
+  },[])
+  // console.log("all images ==>", imagesInText) 
+  
 
   return(<>
     <div className="post-page-container">
@@ -104,10 +117,10 @@ export default function Blog ({ blog }:IBlog){
       <div 
         className="text-content"
         // ok ths works
-        dangerouslySetInnerHTML={{__html: testHTML}}
+        dangerouslySetInnerHTML={{__html: contentText}}
         >
           {/* This also works  */}
-          {/* <div>{ ReactHtmlParser(testHTML) }</div> */}
+          {/* <div>{ ReactHtmlParser(contentText) }</div> */}
       </div>
     </div>
 
@@ -118,15 +131,19 @@ export default function Blog ({ blog }:IBlog){
         margin:0 auto;
         display: grid;
         grid-template-columns: 100px 1fr 100px;
-        grid-template-rows: repeat(auto-fit,minmax(auto, 1fr));
+        // grid-template-rows: repeat(auto-fit,minmax(auto, 1fr));
+      }
+      .rich-text-image{
+        width: 5%;
       }
       h1{
         margin: 0 auto;
         grid-column: 1 /-1;
       }
       .text-content{
-        grid-column: 2 / 3; 
+        grid-column: 1 / -1; 
       }
+      
     `}
       
     </style>

@@ -444,3 +444,6 @@ footer {
 .mapboxgl-popup-content{
   z-index: 10;
 }
+.rich-text-image{
+  object-fit:cover;
+}
