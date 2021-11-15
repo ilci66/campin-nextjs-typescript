@@ -4,5 +4,4 @@
 * Created Testing-map.tsx component to test some features, mostly react-map-gl stuff
 * Working on database call now to use my data for markers
 * The icons are there, there are couple of issues: Adding an Icon doesn't re-render the map to show the change, I need to prevent users from being able to create multiple icons in the same spot (as adding an icon doesn't cause a re-render, it appears as if it wasn't added)
-* Need to check my previous projects that I used contentful with for the posts page and the slugs
-* Apparently I cannot use contentful for this project, as I have been using the free tier, so gonna use some other headless cms
+* Explore the rich text options further to be able to style the texts better
