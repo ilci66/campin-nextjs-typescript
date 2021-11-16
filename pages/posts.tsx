@@ -69,8 +69,10 @@ const Posts: NextPage = ( { blogs }:any ) => {
                 margin-top: 20px;
                 grid-template-columns: 1fr 1fr;
                 grid-gap: 20px;
+                justify-content: auto;
             }
             .blog-post-thumbnail{
+                padding: 20px;
                 width:100%;
                 object-fit: cover;
             }

@@ -245,6 +245,12 @@ nav a:hover, .sign-in:hover {
   .nav-buttons{
     display: none;
   }
+  .rich-text-h-1 > h1 {
+    font-size:1.7rem;
+  }
+  .rich-text-h-2 > h2 {
+    font-size:1.4rem;
+  }
   .dropdown-sign-up-link:hover{
     /* border-bottom:1px solid red; */
   
@@ -259,6 +265,9 @@ nav a:hover, .sign-in:hover {
     grid-template-columns: none;
     grid-template-rows: 1fr 1fr;
   }
+  /* .text-content{
+    grid-template-columns: 1fr;
+  } */
 }
 @media screen and (min-width: 601px){
   .mobile-nav-buttons{
@@ -454,6 +463,9 @@ footer {
 .rich-text-p{
   grid-column: span 1;
 }
+.rich-text-p-wide{
+  grid-column: 1 / -1;
+}
 .rich-text-h-2{
   grid-column: 1 /-1;
 }
@@ -461,8 +473,10 @@ footer {
   grid-column: 1 /-1;
 }
 blockquote{
+  padding: 20px;
+  background:rgb(173, 173, 173,0.2);
   border-left: 3px solid #ccc;
-  padding-left: 15px;
+  padding-left: 35px;
 }
 .rich-text-small-img > img {
   width: 100%;
@@ -475,4 +489,13 @@ blockquote{
 .rich-text-large-img > img {
   width: 100%;
   height: auto;
+}
+.rich-text-large-img > p {
+  display: none;
+}
+.rich-text-small-img > p {
+  display: none;
+}
+.text-content > div {
+  padding: 20px;
 }

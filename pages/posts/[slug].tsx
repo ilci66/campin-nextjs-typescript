@@ -127,7 +127,7 @@ export default function Blog ({ blog }:IBlog){
 
   return(<>
     <div className="post-page-container">
-      <h1>{blog.title}</h1>
+      <h1 className="post-page-title">{blog.title}</h1>
       {/* <div>{`${blog.richText[0].html}`}</div> */}
       <div 
         className="text-content"
@@ -151,8 +151,11 @@ export default function Blog ({ blog }:IBlog){
       .rich-text-image{
         width: 5%;
       }
-      h1{
+      .post-page-title{
         margin: 0 auto;
+        padding: 20px;
+        margin-top: 40px;
+        margin-bottom: 30px;
         grid-column: 1 /-1;
       }
       .text-content{
@@ -165,10 +168,17 @@ export default function Blog ({ blog }:IBlog){
         // align-items: center;
         grid-gap: 2rem;
       }
+      // .text-content > div {
+      //   padding: 20px;
+      // }
       .rich-text-h-2{
         grid-column: 1 /-1;
       }
-      
+      @media screen and (max-width: 600px){
+        .text-content{
+          grid-template-columns: 1fr;
+        }
+      }
     `}
       
     </style>
