@@ -13,22 +13,30 @@ const Home: NextPage = () => {
       </Head>
       <div className="content-container">
       <div className="content-box row">
-          <img src='/dear-dawn.jpg'/>
+          <img src='/map-pins.jpg'/>
           <div className="content-text">
-            <h1>Some Content Example For Design</h1>
+            <h1>Check Out The Map!</h1>
             <p>
-              Enim dolor ut sint incididunt anim non magna. Id laborum ex amet fugiat eiusmod nulla veniam dolore aliqua dolore velit duis aliquip. Aliquip laboris sit deserunt nulla eiusmod.<br/>
+              Check out the map to tell other campers about the camping spots you found, rr warn them about a wild animal you have encountered.<br/>
             </p>
           </div>
         </div>
         <div className="content-box row">
           <div className="content-text">
-            <h1>Some Content Example For Design</h1>
-            <p>
-              Enim dolor ut sint incididunt anim non magna. Id laborum ex amet fugiat eiusmod nulla veniam dolore aliqua dolore velit duis aliquip. Aliquip laboris sit deserunt nulla eiusmod.<br/>
+            <h1>Read about interesting and useful camping tips.</h1>
+            <p>There are some blog posts I'm sure you will find interesting. Who knows some of them even can save your life in a tricky situation.<br/>
             </p>
           </div>
           <img src='/dear-dawn.jpg'/>
+        </div>
+        <div className="content-box row">
+          <img src='/table-coffee-laptop.jpg'/>
+          <div className="content-text">
+            <h1>Who Am I?</h1>
+            <p>
+              I create this website for a few reasons. I wanted to be more confortable with next.js, maps, next auth and graphcms. I have had the idea for a website for campers to warn eachother or just let eachother now about the beautiful hidden spots. Now that I can code, here we are! <br/>
+            </p>
+          </div>
         </div>
       </div>
         
