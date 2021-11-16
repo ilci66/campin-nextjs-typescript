@@ -5,3 +5,4 @@
 * Working on database call now to use my data for markers
 * The icons are there, there are couple of issues: Adding an Icon doesn't re-render the map to show the change, I need to prevent users from being able to create multiple icons in the same spot (as adding an icon doesn't cause a re-render, it appears as if it wasn't added)
 * Explore the rich text options further to be able to style the texts better
+* After struggling for so long trying to select and give classes to my texts, saw that I caould give classes to items in graphcms 
