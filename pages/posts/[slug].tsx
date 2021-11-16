@@ -88,7 +88,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: { blog: data.blogPost },
-    revalidate: 60 * 60,
+    revalidate: 10,
   };
 };
 
@@ -100,14 +100,29 @@ export default function Blog ({ blog }:IBlog){
 
   const contentText = Array.isArray(blog.richText) ? blog.richText[0].html :  blog.richText.html
 
+  // console.log(blog.richText[0].raw)
   // this one captures the logo too
   // const imagesInText = document.querySelectorAll('img');
   useEffect(() => {
-    document.querySelectorAll('.text-content img').forEach(img => img.classList.add("rich-text-image"));
-
+    document.querySelectorAll('.text-content img').forEach(img => {
+      console.log("image ==>", parseInt(img.width) <= 490)
+      if(parseInt(img.width) <= 490) {return img.classList.add("rich-text-small-image")}
+      else {img.classList.add("rich-text-large-image")}
+    });
     // console.log(textContent)
   },[])
   // console.log("all images ==>", imagesInText) 
+  useEffect(() => {
+    document.querySelectorAll('.text-content p').forEach(p => {
+      p.classList.add("rich-text-p")
+    })
+    document.querySelectorAll(".text-content h2").forEach(headerTwo => {
+      headerTwo.classList.add("rich-text-header-two")
+    })
+    document.querySelectorAll(".text-content h1").forEach(headerTwo => {
+      headerTwo.classList.add("rich-text-header-one")
+    })
+  }, [])
   
 
   return(<>
@@ -130,7 +145,7 @@ export default function Blog ({ blog }:IBlog){
         max-width: 960px;
         margin:0 auto;
         display: grid;
-        grid-template-columns: 100px 1fr 100px;
+        grid-template-columns: 100px 1fr 1fr 100px;
         // grid-template-rows: repeat(auto-fit,minmax(auto, 1fr));
       }
       .rich-text-image{
@@ -141,8 +156,18 @@ export default function Blog ({ blog }:IBlog){
         grid-column: 1 /-1;
       }
       .text-content{
-        grid-column: 1 / -1; 
+        grid-column: 1 / -1;
+        margin-bottom: 100px; 
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(auto-fit, minmax(auto, 1fr));
+        justify-items: center;
+        // align-items: center;
+        grid-gap: 2rem;
       }
+      // .text-content > h2{
+      //   grid-column: 1 /-1;
+      // }
       
     `}
       

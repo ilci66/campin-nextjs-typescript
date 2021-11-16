@@ -444,6 +444,25 @@ footer {
 .mapboxgl-popup-content{
   z-index: 10;
 }
-.rich-text-image{
-  object-fit:cover;
+.rich-text-large-image{
+  grid-column: span 2;
+}
+.rich-text-small-image{
+  grid-column: span 1;
+  height: auto;
+}
+.rich-text-p{
+  grid-column: span 1;
+}
+.rich-text-header-two{
+  grid-column: 1 /-1;
+  
+}
+.rich-text-header-one{
+  grid-column: 1 /-1;
+  
+}
+blockquote{
+  border-left: 3px solid #ccc;
+  padding-left: 15px;
 }
