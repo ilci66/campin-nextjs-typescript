@@ -37,7 +37,7 @@ const Posts: NextPage = ( { blogs }:any ) => {
                             <div className="blog-post-info">
                                 <h2>{blog.title}</h2>
                                 <p>{blog.description}</p> 
-                                <Link  href={`/posts/${blog.slug}`}><a>See more</a></Link>
+                                <button className="see-more-button"><Link href={`/posts/${blog.slug}`}><a><span className="see-more-text">See More</span></a></Link></button>
                             </div>
                     </div>
                 )})} 
@@ -48,10 +48,12 @@ const Posts: NextPage = ( { blogs }:any ) => {
     </div>
         <style jsx>{`
             .posts-page-container {
-                // min-height: 100vh;
+                display: flex;
+                flex-direction: column;
             }
             .posts-page-title{
                padding: 20px;
+               margin: 0 auto;
             }
             .content-container{
                 max-width: 960px;
@@ -71,10 +73,36 @@ const Posts: NextPage = ( { blogs }:any ) => {
                 grid-gap: 20px;
                 justify-content: auto;
             }
+            @media screen and (max-width: 600px){
+                .blog-post{
+                    grid-template-columns: 1fr;
+                }
+                .blog-post-thumbnail{
+                    padding: 5px;
+                }
+            }
+            .blog-post-info{
+                display: grid;
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
             .blog-post-thumbnail{
                 padding: 20px;
                 width:100%;
                 object-fit: cover;
+            }
+            .see-more-button{
+                font-size:1.4rem;
+                border: none;
+                width: 100%;
+                background: var(--main-footer-color);
+                padding: 10px;
+                margin-top: 20px;
+                padding-bottom: 13px;
+                border-radius: 10px;
+            }
+            .see-more-text{
+                color: var(--main-text-color);
             }
             .color-0{background: var(--post-bg-1);}
             .color-1{background: var(--post-bg-2);}
