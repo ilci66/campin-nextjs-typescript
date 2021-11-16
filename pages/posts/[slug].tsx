@@ -104,24 +104,24 @@ export default function Blog ({ blog }:IBlog){
   // this one captures the logo too
   // const imagesInText = document.querySelectorAll('img');
   useEffect(() => {
-    document.querySelectorAll('.text-content img').forEach(img => {
-      console.log("image ==>", parseInt(img.width) <= 490)
-      if(parseInt(img.width) <= 490) {return img.classList.add("rich-text-small-image")}
-      else {img.classList.add("rich-text-large-image")}
-    });
-    // console.log(textContent)
+    // document.querySelectorAll('.text-content img').forEach(img => {
+    //   console.log("image ==>", parseInt(img.width) <= 490)
+    //   if(parseInt(img.width) <= 490) {return img.classList.add("rich-text-small-image")}
+    //   else {img.classList.add("rich-text-large-image")}
+    // });
+    // // console.log(textContent)
   },[])
   // console.log("all images ==>", imagesInText) 
   useEffect(() => {
-    document.querySelectorAll('.text-content p').forEach(p => {
-      p.classList.add("rich-text-p")
-    })
-    document.querySelectorAll(".text-content h2").forEach(headerTwo => {
-      headerTwo.classList.add("rich-text-header-two")
-    })
-    document.querySelectorAll(".text-content h1").forEach(headerTwo => {
-      headerTwo.classList.add("rich-text-header-one")
-    })
+    // document.querySelectorAll('.text-content p').forEach(p => {
+    //   p.classList.add("rich-text-p")
+    // })
+    // document.querySelectorAll(".text-content h2").forEach(headerTwo => {
+    //   headerTwo.classList.add("rich-text-header-two")
+    // })
+    // document.querySelectorAll(".text-content h1").forEach(headerTwo => {
+    //   headerTwo.classList.add("rich-text-header-one")
+    // })
   }, [])
   
 
@@ -165,9 +165,9 @@ export default function Blog ({ blog }:IBlog){
         // align-items: center;
         grid-gap: 2rem;
       }
-      // .text-content > h2{
-      //   grid-column: 1 /-1;
-      // }
+      .rich-text-h-2{
+        grid-column: 1 /-1;
+      }
       
     `}
       

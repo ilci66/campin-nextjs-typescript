@@ -454,15 +454,25 @@ footer {
 .rich-text-p{
   grid-column: span 1;
 }
-.rich-text-header-two{
+.rich-text-h-2{
   grid-column: 1 /-1;
-  
 }
-.rich-text-header-one{
+.rich-text-h-1{
   grid-column: 1 /-1;
-  
 }
 blockquote{
   border-left: 3px solid #ccc;
   padding-left: 15px;
+}
+.rich-text-small-img > img {
+  width: 100%;
+  height: auto;
+}
+.rich-text-large-img{
+  width: 100%;
+  grid-column: 1 / -1;
+}
+.rich-text-large-img > img {
+  width: 100%;
+  height: auto;
 }
