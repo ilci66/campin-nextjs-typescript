@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import useSWR from "swr";
 import { GraphQLClient, gql } from "graphql-request";
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+// import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import Skeleton from '../../components/Skeleton'
 // import { serialize } from "next-mdx-remote/serialize";
 // import { MDXRemote } from "next-mdx-remote";
 
@@ -48,7 +49,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 
-  const slug = params.slug as string;
+  const slug = params!.slug as string;
 
   // console.log("slug in getstaticprops ==>", slug)
 
@@ -76,18 +77,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
   }
   `;
-  const data: { blog: IBlog | null } = await client.request(query, { slug });
+  const data: {blogPost: {}} | null  = await client.request(query, { slug });
 
   // console.log("data.blogPost in get staticprops", data.blogPost);
 
-  if (!data.blogPost) {
+  if (!data!.blogPost) {
     return {
       notFound: true,
     };
   };
 
   return {
-    props: { blog: data.blogPost },
+    props: { blog: data!.blogPost },
     revalidate: 10,
   };
 };
@@ -128,10 +129,9 @@ export default function Blog ({ blog }:IBlog){
   return(<>
     <div className="post-page-container">
       <h1 className="post-page-title">{blog.title}</h1>
-      {/* <div>{`${blog.richText[0].html}`}</div> */}
+      {!blog && <Skeleton />}
       <div 
         className="text-content"
-        // ok ths works
         dangerouslySetInnerHTML={{__html: contentText}}
         >
           {/* This also works  */}
