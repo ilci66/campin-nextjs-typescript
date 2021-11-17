@@ -43,6 +43,7 @@ a{
 .navbar-container{
   width: 100%;
   background-color: var(--main-header-color);
+  /* border-bottom: 2px solid var(--main-header-color); */
 }
 nav {
   /* margin: 10px auto 80px; */

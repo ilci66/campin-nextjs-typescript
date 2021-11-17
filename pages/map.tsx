@@ -37,7 +37,7 @@ const Map: NextPage = ({ allMarkers }:any) => {
             <link rel="icon" href="/favicon-c.ico" />
         </Head>
         <div className="map-page-container">
-           <h2 className="map-page-title">The title of this page</h2>
+           <h2 className="map-page-title">Discover new camping spots!</h2>
            <p>Added markers will not appear until the page is reloaded, didn't wanna force a reload after adding a marker for couple of reasons.</p>
             
             <div className="map-component-container">

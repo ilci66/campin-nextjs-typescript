@@ -206,13 +206,13 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
         min-height: 100vh;
         // border: 2px solid red;
         border:none;
-        background: white;
+        // background: white;
         padding:50px;
         max-width:960px;
         margin: 0 auto;
       }
       .sign-in-options{
-        background-color: var(--secondary-blue-green);
+        // background-color: var(--secondary-blue-green);
         border-radius: 20px;
         margin:0 auto;
         padding:50px 20px;
@@ -275,7 +275,7 @@ const SignIn = ({ providers, csrfToken }: ISingInProps) => {
       .social-sign-in{
         background: var(--main-text-color);
         padding:5px;
-        border: 2px solid yellow;
+        // border: 2px solid var(--main-footer-color);
         margin: 10px 0;
         border-radius:5px;
         display:flex;
