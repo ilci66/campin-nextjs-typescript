@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 
-const Map: NextPage = () => {
+const About: NextPage = () => {
     return(<>
     <div className="about-container">
             <h1>About The Project</h1>
@@ -17,4 +17,4 @@ const Map: NextPage = () => {
     
     </>)
 }
-export default Map
+export default About
