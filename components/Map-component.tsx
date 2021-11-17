@@ -22,9 +22,10 @@ const geolocateControlStyle= {
 
 
 // ok I got a little lazy with this one but gonna look back in the future
-const MapComponent = ({ allMarkers }:any) =>  {
+const MapComponent = ({ allMarkersState, setRandomKey, renderMarkers }:any) =>  {
+  
 
-  // console.log("all markers ==>", allMarkers);
+  // console.log("all markers ==>", allMarkersState);
 
   const [viewport, setViewport] = useState({
     // width: "100vw",
@@ -37,7 +38,7 @@ const MapComponent = ({ allMarkers }:any) =>  {
   const [showPopup, togglePopup] = useState(false);
   const [ session, loading ] = useSession();
   const [showMarkers, setShowMarkers] = useState(true);
-  const [count, setCount] = useState(allMarkers.length);
+  const [count, setCount] = useState(allMarkersState.length);
   const [markerDateInfo, setMarkerDateInfo] = useState<Date| string | number>(new Date())
   const [markerDescriptionInfo, setMarkerDescriptionInfo] = useState()
   const [markerCreatorInfo, setMarkerCreatorInfo] = useState()
@@ -63,7 +64,7 @@ const MapComponent = ({ allMarkers }:any) =>  {
     window.onclick = (event:MouseEvent) => { 
       // console.log(event.target.id,"x==>", event.x, "y==>", event.y, "target==>", event.target!.className ==="map-icons") 
       
-      allMarkers.map((marker: { _id: any; createdAt: string | number | Date ; addedBy: React.SetStateAction<undefined>; description: React.SetStateAction<undefined>; }) => {
+      allMarkersState.map((marker: { _id: any; createdAt: string | number | Date ; addedBy: React.SetStateAction<undefined>; description: React.SetStateAction<undefined>; }) => {
         if(marker._id === (event.target as HTMLDivElement).id){
           // setMarkerDateInfo(<TimeAgo date={marker.createdAt}/>)
           setMarkerDateInfo(marker.createdAt)
@@ -112,7 +113,12 @@ const MapComponent = ({ allMarkers }:any) =>  {
     // console.log(url)
 
     axios.post(`${url}/api/marker`, markerToAdd)
-      .then(res => console.log("here be the res ==>", res))
+      .then(res => {
+        // re-render doesn't happen with the new information, it's the same map
+        // setRandomKey(Math.random())
+        renderMarkers()
+        console.log("here be the res ==>", res)
+      })
       .catch(error =>{
         setShowAlert(true);
         console.log(error.request.status)
@@ -125,7 +131,7 @@ const MapComponent = ({ allMarkers }:any) =>  {
 
   }
 
-  const markers = useMemo(() => allMarkers.map(
+  const markers = useMemo(() => allMarkersState.map(
     (    marker: { _id: string; lng: number; lat: number; type: any; }) => (
       <Marker 
         offsetTop={-10} 
@@ -137,7 +143,7 @@ const MapComponent = ({ allMarkers }:any) =>  {
         <img style={{width:"20px"}} id={marker._id} className="map-icons" src={`${marker.type}.png`} />
       </Marker>
     )
-  ), [allMarkers]);
+  ), [allMarkersState]);
 
   const CurrentZoomLevel = () => {
     const context = useContext(MapContext);

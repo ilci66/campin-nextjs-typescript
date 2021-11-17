@@ -3,6 +3,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 // import MapComponent from '../components/Map-component'
 import Head from 'next/head'
 import MapComponent from '../components/Map-component';
+import { useState } from 'react';
 // import useSwr from "swr";
 
 // interface IMarker  {
@@ -23,6 +24,18 @@ import MapComponent from '../components/Map-component';
 const Map: NextPage = ({ allMarkers }:any) => {
     console.log("all markers in map page==>", typeof allMarkers)
 
+    const [allMarkersState, setAllMarkersState] = useState(allMarkers)
+    const renderMarkers = async () => {
+        const url:string = process.env.NEXT_PUBLIC_SITE_URL!;
+
+        if(!url)console.log("there's no url mate");
+    
+        const res = await fetch(`${url}/api/marker`);
+        const data = await res.json();
+
+        setAllMarkersState(data.data);
+    }
+    // const [ randomKey, setRandomKey ] = useState(5)
     // let apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY!
     // console.log("apiKey", apiKey)
 
@@ -38,10 +51,15 @@ const Map: NextPage = ({ allMarkers }:any) => {
         </Head>
         <div className="map-page-container">
            <h2 className="map-page-title">Discover new camping spots!</h2>
-           <p>Added markers will not appear until the page is reloaded, didn't wanna force a reload after adding a marker for couple of reasons.</p>
+           <p>You can add your own markers on the map to inform other campers!</p>
             
             <div className="map-component-container">
-                <MapComponent allMarkers={allMarkers} />
+                <MapComponent
+                // tried something
+                //  key={randomKey}  
+                //  setRandomKey={setRandomKey} 
+                renderMarkers={renderMarkers}
+                allMarkersState={allMarkersState} />
                 {/* <Wrapper 
                     apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY!} 
                     render={render}
