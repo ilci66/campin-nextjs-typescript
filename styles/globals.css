@@ -23,7 +23,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   /* background: rgb(255,26,26);
   background: linear-gradient(0deg, rgba(255,26,26,1) 0%, rgba(162,255,234,1) 100%);  */
-  background-color: #f3fdf7;
+  background-color: #f6f7ff;
 }
 *, *::before,*::after{
   box-sizing: inherit;
@@ -39,6 +39,23 @@ a{
 }
 * {
   box-sizing: border-box;
+}
+.not-found-container{
+ background-image: url("/obi-wan-meme-darker.jpg");
+ background-position: center;
+ min-height: 100vh;
+ margin: 0 auto;
+ display: flex;
+ max-width: 960px;
+ align-items: center;
+ background-repeat: no-repeat;
+}
+.not-found-text{
+  color: var(--main-text-color);
+  position:absolute;
+  padding: 20px;
+  max-width: 970px;
+  top: 250px;
 }
 .navbar-container{
   width: 100%;

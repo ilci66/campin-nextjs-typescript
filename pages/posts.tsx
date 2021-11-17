@@ -37,7 +37,7 @@ const Posts: NextPage = ( { blogs }:any ) => {
                             <div className="blog-post-info">
                                 <h2>{blog.title}</h2>
                                 <p>{blog.description}</p> 
-                                <button className="see-more-button"><Link href={`/posts/${blog.slug}`}><a><span className="see-more-text">See More</span></a></Link></button>
+                                <Link href={`/posts/${blog.slug}`}><a className="post-link"><button className="see-more-button"><span className="see-more-text">See More</span></button></a></Link>
                             </div>
                     </div>
                 )})} 
@@ -95,11 +95,17 @@ const Posts: NextPage = ( { blogs }:any ) => {
                 font-size:1.4rem;
                 border: none;
                 width: 100%;
-                background: var(--main-footer-color);
+                background: var(--main-header-color);
                 padding: 10px;
                 margin-top: 20px;
                 padding-bottom: 13px;
                 border-radius: 10px;
+            }
+            .post-link{
+                width:100%;
+            }
+            .see-more-button:hover{
+                cursor: pointer;
             }
             .see-more-text{
                 color: var(--main-text-color);
