@@ -2,7 +2,7 @@
 
 ## Project Description
 A website that allows people to mark camping spots or dangerous animal sightings on map.<br> 
-Users have to sign u to be able to interact with the map. There is also a blog page where <br>
+Users have to sign you to be able to interact with the map. There is also a blog page where <br>
 visitors can read awesome blog posts written by me. Users can delete the markers they added<br> 
 in case of an error.
 
