@@ -10,13 +10,13 @@ in case of an error.
 I wanted to create a reliable website for people who want to plan their next camping trip.
 
 ### Technologies Used:
-*   HTML, CSS, Javascript
-*   Next.js 
-*   GraphCMS and graphQL, for posting or updating blogs blogs
-*   MongoDB Atlas, saving user information and markers positions mostly
-*   Next Auth, for sign ins with social media accouts 
-*   cookies, crypto, bcrypt and jwt, for handling subscriptions
-*   mapbox-gl, for a map that the signed in user can interact with 
+*   **HTML, CSS, Javascript**
+*   **Next.js** 
+*   **GraphCMS** and **graphQL**, for posting or updating blogs blogs
+*   **MongoDB Atlas**, saving user information and markers positions mostly
+*   **Next Auth**, for sign ins with social media accouts 
+*   **cookies, crypto, bcrypt** and **jwt**, for handling subscriptions
+*   **mapbox-gl**, for a map that the signed in user can interact with 
 
 ### Challanges and Improvements
 *   Getting started with Next.js and graphCMS with a project like this 
@@ -27,8 +27,7 @@ I wanted to create a reliable website for people who want to plan their next cam
 
 ### How to Install and Run the Project
 1.  Clone the git repository
-2.  Get the necessary ids, secrets, api keys, access tokens for authentication using social media <br>
-accounts and add them in your .env.local file for:
+2.  Get the necessary ids, secrets, api keys, access tokens for authentication using social media <br> accounts and add them in your .env.local file for:
 
 *   NEXT_PUBLIC_GOOGLE_API_KEY
 *   NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
