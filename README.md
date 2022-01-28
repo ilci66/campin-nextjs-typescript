@@ -1,31 +1,53 @@
-# Merged the branches as it's no longer necessary to go on with another branch 
-## I should definitely consider the design, colours and the overall structure before I jump in, I wasted so much time 
-* Gonna work on the custom map where users will be able to add custom markers to the map, never done something like this before so doing some reading for now
-* Created Testing-map.tsx component to test some features, mostly react-map-gl stuff
-* Working on database call now to use my data for markers
-* The icons are there, there are couple of issues: Adding an Icon doesn't re-render the map to show the change, I need to prevent users from being able to create multiple icons in the same spot (as adding an icon doesn't cause a re-render, it appears as if it wasn't added)
-* Explore the rich text options further to be able to style the texts better
-* After struggling for so long trying to select and give classes to my texts, saw that I caould give classes to items in graphcms 
-* There's a weird glitch with the navbar on mobile, nothing really major but annnoying, probably because of namings of the classes, be more careful with it in the next project
-
-
 # Campin'
 
 ## Project Description
-A website that allows people to mark camping spots or dangerous animal sightings on map. Users have to sign u to be able to interact with the map. There is also a blog page where visitors can read awesome blog posts written by me.
+A website that allows people to mark camping spots or dangerous animal sightings on map.<br> 
+Users have to sign u to be able to interact with the map. There is also a blog page where <br>
+visitors can read awesome blog posts written by me. Users can delete the markers they added<br> 
+in case of an error.
 
 ### Motivation
-
+I wanted to create a reliable website for people who want to plan their next camping trip.
 
 ### Technologies Used:
 *   HTML, CSS, Javascript
 *   Next.js 
-*   GraphCMS and graphql, for posting or updating blogs blogs
+*   GraphCMS and graphQL, for posting or updating blogs blogs
 *   MongoDB Atlas, saving user information and markers positions mostly
+*   Next Auth, for sign ins with social media accouts 
 *   cookies, crypto, bcrypt and jwt, for handling subscriptions
 *   mapbox-gl, for a map that the signed in user can interact with 
 
 ### Challanges and Improvements
 *   Getting started with Next.js and graphCMS with a project like this 
+*   Created Testing-map.tsx component to test some features, mostly react-map-gl stuff
+*   Adding a marker triggers a re-render of the map, looks and feels good 
+*   Interacting with a headless CMS was a new experince but I got the hang of it thanks to the project
+*   Markers need improvement and need a better system for new additions to be as reliable as possible
 
-## 
+### How to Install and Run the Project
+1.  Clone the git repository
+2.  Get the necessary ids, secrets, api keys, access tokens for authentication using social media <br>
+accounts and add them in your .env.local file for:
+
+*   NEXT_PUBLIC_GOOGLE_API_KEY
+*   NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+*   NEXT_PUBLIC_GRAPHCMS_URL
+*   NEXT_PUBLIC_GRAPHCMS_AUTH_TOKEN
+*   GOOGLE_CLIENT_ID
+*   GOOGLE_CLIENT_SECRET
+*   FB_ID
+*   FB_SECRET
+
+3.  Add your mongoDB Uri in .env.local file:
+*   MONGODB_URI
+*   MONGODB   
+
+4.  Salt rounds for password hashing to add in .env.local file:
+*   SALT_NUM
+
+5.  Add The port you have your website is running (3000) .env.local file:
+*   NEXT_PUBLIC_SITE_URL
+*   NEXTAUTH_URL
+
+#### Feel free to use the code however you like 
